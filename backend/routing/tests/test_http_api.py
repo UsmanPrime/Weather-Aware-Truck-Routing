@@ -99,3 +99,14 @@ def test_post_transport_uses_headers_and_sanitizes_provider_limit():
     assert request.get_method() == "POST"
     assert "synthetic-test-key" not in request.full_url
     assert request.get_header("Authorization") == "synthetic-test-key"
+
+
+def test_django_body_limit_exception_uses_structured_413():
+    from django.core.exceptions import RequestDataTooBig
+
+    response = exception_handler(RequestDataTooBig("sensitive detail"), {})
+    assert response.status_code == 413
+    assert response.data["error"]["code"] == "http_413"
+    assert response.data["error"]["request_id"]
+    assert response.data["error"]["retryable"] is False
+    assert "sensitive detail" not in str(response.data)
