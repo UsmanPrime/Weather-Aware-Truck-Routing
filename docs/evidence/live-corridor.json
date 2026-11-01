@@ -1,0 +1,603 @@
+{
+  "kind": "live_open_meteo_corridor",
+  "route_geometry_source": "../docs/evidence/live-plan.json",
+  "anchor_at": "2026-11-01T10:00:00Z",
+  "retrieved_at": "2026-11-01T09:34:34.084039Z",
+  "source": "open_meteo",
+  "grid_cells": 35,
+  "grid_spacing_m": 12000,
+  "frame_count": 49,
+  "api_json_bytes": 154817,
+  "elapsed_s": 2.503,
+  "frames": [
+    {
+      "hour": 0,
+      "valid_at": "2026-11-01T10:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.2485484768949336,
+        3.7903642726477367
+      ],
+      "measurement_digest": "e75e055840438473a263299472282691628e6008757ef9ad114d82ca7b775b74",
+      "sample_wind_valid_at": "2026-11-01T10:00:00Z",
+      "sample_precipitation_end": "2026-11-01T10:00:00Z"
+    },
+    {
+      "hour": 1,
+      "valid_at": "2026-11-01T11:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.4970969537898672,
+        3.8525013918714706
+      ],
+      "measurement_digest": "52f1c949bb7ccd173cf900b8f1d95ff923cccb23dee82b4c74f738b1f16f33fd",
+      "sample_wind_valid_at": "2026-11-01T11:00:00Z",
+      "sample_precipitation_end": "2026-11-01T11:00:00Z"
+    },
+    {
+      "hour": 2,
+      "valid_at": "2026-11-01T12:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.0,
+        3.9767756303189374
+      ],
+      "measurement_digest": "e6bbcbe61ef027475e8bb1b019a79755dddf3b8cb367423b8a18c5610038a968",
+      "sample_wind_valid_at": "2026-11-01T12:00:00Z",
+      "sample_precipitation_end": "2026-11-01T12:00:00Z"
+    },
+    {
+      "hour": 3,
+      "valid_at": "2026-11-01T13:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.4970969537898672,
+        4.598146822556271
+      ],
+      "measurement_digest": "7cdb8ce6e377ebfde6a2de685535c44b28aa079f28b91382e19afeee0d73dc87",
+      "sample_wind_valid_at": "2026-11-01T13:00:00Z",
+      "sample_precipitation_end": "2026-11-01T13:00:00Z"
+    },
+    {
+      "hour": 4,
+      "valid_at": "2026-11-01T14:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.621371192237334,
+        6.027300564702139
+      ],
+      "measurement_digest": "6d4a72d37ec8ab9cd27797fab638495bc6f87005a53affdd77046ac350027bec",
+      "sample_wind_valid_at": "2026-11-01T14:00:00Z",
+      "sample_precipitation_end": "2026-11-01T14:00:00Z"
+    },
+    {
+      "hour": 5,
+      "valid_at": "2026-11-01T15:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        2.112662053606935,
+        5.530203610912272
+      ],
+      "measurement_digest": "942fb35c6df1d344c8595cbfa2e26f12d488502947a36b1f5943046b0b876578",
+      "sample_wind_valid_at": "2026-11-01T15:00:00Z",
+      "sample_precipitation_end": "2026-11-01T15:00:00Z"
+    },
+    {
+      "hour": 6,
+      "valid_at": "2026-11-01T16:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        2.7340332458442695,
+        6.027300564702139
+      ],
+      "measurement_digest": "a2c66cf05b27d7332fe3ee465af6b15e1b2fded9e72a5babd31953ea6fb125b7",
+      "sample_wind_valid_at": "2026-11-01T16:00:00Z",
+      "sample_precipitation_end": "2026-11-01T16:00:00Z"
+    },
+    {
+      "hour": 7,
+      "valid_at": "2026-11-01T17:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.739839338264535,
+        6.462260399268273
+      ],
+      "measurement_digest": "c841115dd02456d0be50e2192b1e7f21cd2f43f2fd5b4454ce362173f9b48806",
+      "sample_wind_valid_at": "2026-11-01T17:00:00Z",
+      "sample_precipitation_end": "2026-11-01T17:00:00Z"
+    },
+    {
+      "hour": 8,
+      "valid_at": "2026-11-01T18:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.8699196691322675,
+        5.405929372464804
+      ],
+      "measurement_digest": "87fdf61246a0c168496b444f7804ccef2bdf17cfdf8118d95c3801a84d99f790",
+      "sample_wind_valid_at": "2026-11-01T18:00:00Z",
+      "sample_precipitation_end": "2026-11-01T18:00:00Z"
+    },
+    {
+      "hour": 9,
+      "valid_at": "2026-11-01T19:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.310685596118667,
+        4.908832418674939
+      ],
+      "measurement_digest": "4aceb43f3be0cf1b0dd8b676ec01cab15966cef995d307fb2221555940658038",
+      "sample_wind_valid_at": "2026-11-01T19:00:00Z",
+      "sample_precipitation_end": "2026-11-01T19:00:00Z"
+    },
+    {
+      "hour": 10,
+      "valid_at": "2026-11-01T20:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.118468146027201,
+        5.219518014793605
+      ],
+      "measurement_digest": "8c9d43349baf5496faea66174ff5000da985f8c4e1829181021e20b72585210d",
+      "sample_wind_valid_at": "2026-11-01T20:00:00Z",
+      "sample_precipitation_end": "2026-11-01T20:00:00Z"
+    },
+    {
+      "hour": 11,
+      "valid_at": "2026-11-01T21:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.6835083114610674,
+        7.145768710729341
+      ],
+      "measurement_digest": "1bbfffdee3af50b82c0ec82aa0a2f62d59e1958a338197d77f75ea450290a1a1",
+      "sample_wind_valid_at": "2026-11-01T21:00:00Z",
+      "sample_precipitation_end": "2026-11-01T21:00:00Z"
+    },
+    {
+      "hour": 12,
+      "valid_at": "2026-11-01T22:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        0.8077825499085342,
+        7.767139902966674
+      ],
+      "measurement_digest": "38c6eb8311126c2a6d06d76e70b7275ceedff7de760ae629ac6940c45afcea9d",
+      "sample_wind_valid_at": "2026-11-01T22:00:00Z",
+      "sample_precipitation_end": "2026-11-01T22:00:00Z"
+    },
+    {
+      "hour": 13,
+      "valid_at": "2026-11-01T23:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.429153742145868,
+        7.642865664519208
+      ],
+      "measurement_digest": "386043d48a8ecca611b6cbdf7f7d8c626f4aac11e107f3f392f2b137b1518f65",
+      "sample_wind_valid_at": "2026-11-01T23:00:00Z",
+      "sample_precipitation_end": "2026-11-01T23:00:00Z"
+    },
+    {
+      "hour": 14,
+      "valid_at": "2026-11-02T00:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.8019764574882684,
+        7.456454306848007
+      ],
+      "measurement_digest": "1ffa8e28d90c3c29261b16d468e79d7f809cb1a093ea64fa1be63cf75059716a",
+      "sample_wind_valid_at": "2026-11-02T00:00:00Z",
+      "sample_precipitation_end": "2026-11-02T00:00:00Z"
+    },
+    {
+      "hour": 15,
+      "valid_at": "2026-11-02T01:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.3670166229221348,
+        6.95935735305814
+      ],
+      "measurement_digest": "1ed8ce3c26e85364ac12b3cd0bddbe65e44daabd6af631c9918a7f68bf0e7aae",
+      "sample_wind_valid_at": "2026-11-02T01:00:00Z",
+      "sample_precipitation_end": "2026-11-02T01:00:00Z"
+    },
+    {
+      "hour": 16,
+      "valid_at": "2026-11-02T02:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        3.7903642726477367,
+        7.456454306848007
+      ],
+      "measurement_digest": "6da49d921da59b38280ad68196b81f79d4447842616e12e3f8a66b373152f9ac",
+      "sample_wind_valid_at": "2026-11-02T02:00:00Z",
+      "sample_precipitation_end": "2026-11-02T02:00:00Z"
+    },
+    {
+      "hour": 17,
+      "valid_at": "2026-11-02T03:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        2.858307484291736,
+        7.767139902966674
+      ],
+      "measurement_digest": "0f12831f705d2a92a3d3bd94ffa43d2ffc2b353c0ab801e7361cfd21e4396acf",
+      "sample_wind_valid_at": "2026-11-02T03:00:00Z",
+      "sample_precipitation_end": "2026-11-02T03:00:00Z"
+    },
+    {
+      "hour": 18,
+      "valid_at": "2026-11-02T04:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.8019764574882684,
+        7.705002783742941
+      ],
+      "measurement_digest": "d24032b3cf9eaa193b78807ebcbb10877472746da236ba61f2f5b0a4c1888553",
+      "sample_wind_valid_at": "2026-11-02T04:00:00Z",
+      "sample_precipitation_end": "2026-11-02T04:00:00Z"
+    },
+    {
+      "hour": 19,
+      "valid_at": "2026-11-02T05:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        2.6718961266205357,
+        7.642865664519208
+      ],
+      "measurement_digest": "2f8a3b0803a490139814319836e2a5c227b5435bd8a04555995de7c5433425ee",
+      "sample_wind_valid_at": "2026-11-02T05:00:00Z",
+      "sample_precipitation_end": "2026-11-02T05:00:00Z"
+    },
+    {
+      "hour": 20,
+      "valid_at": "2026-11-02T06:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        3.603952914976537,
+        8.699196691322674
+      ],
+      "measurement_digest": "0956cfb57f78f7935158005f4b6478a64fa8276945627078e88d6a28de441f57",
+      "sample_wind_valid_at": "2026-11-02T06:00:00Z",
+      "sample_precipitation_end": "2026-11-02T06:00:00Z"
+    },
+    {
+      "hour": 21,
+      "valid_at": "2026-11-02T07:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        3.2311301996341366,
+        9.009882287441341
+      ],
+      "measurement_digest": "640022a309c2981c91f3df8ee315c5f0b0789705c4f368d33c1b7150b040c652",
+      "sample_wind_valid_at": "2026-11-02T07:00:00Z",
+      "sample_precipitation_end": "2026-11-02T07:00:00Z"
+    },
+    {
+      "hour": 22,
+      "valid_at": "2026-11-02T08:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.5534279805933349,
+        8.761333810546407
+      ],
+      "measurement_digest": "b1e9aa5d9c8938699ba720161cfdb1cc397b3cb14d1af7caba183a08736b4d38",
+      "sample_wind_valid_at": "2026-11-02T08:00:00Z",
+      "sample_precipitation_end": "2026-11-02T08:00:00Z"
+    },
+    {
+      "hour": 23,
+      "valid_at": "2026-11-02T09:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        2.6097590073968027,
+        9.87980195657361
+      ],
+      "measurement_digest": "8c7df7afcf4ab5d90081e8bb417aff4d1972a2921b00e5b0fab42cb252fbf56e",
+      "sample_wind_valid_at": "2026-11-02T09:00:00Z",
+      "sample_precipitation_end": "2026-11-02T09:00:00Z"
+    },
+    {
+      "hour": 24,
+      "valid_at": "2026-11-02T10:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        4.349598345661337,
+        11.246818579495745
+      ],
+      "measurement_digest": "e2af7f14ffd49f96999dfdefa61921d538eb138f37a99ba91d615ecd535b43bc",
+      "sample_wind_valid_at": "2026-11-02T10:00:00Z",
+      "sample_precipitation_end": "2026-11-02T10:00:00Z"
+    },
+    {
+      "hour": 25,
+      "valid_at": "2026-11-02T11:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        4.22532410721387,
+        11.308955698719478
+      ],
+      "measurement_digest": "f8287b20f48e182b9e85608298762a156be7cf8785fd84af5567b38a163f38f5",
+      "sample_wind_valid_at": "2026-11-02T11:00:00Z",
+      "sample_precipitation_end": "2026-11-02T11:00:00Z"
+    },
+    {
+      "hour": 26,
+      "valid_at": "2026-11-02T12:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        1.8019764574882684,
+        11.122544341048277
+      ],
+      "measurement_digest": "76cf283db67bd776c2479f18cd37ddbdf7fb0c389ec297c40e4742f1e96e7248",
+      "sample_wind_valid_at": "2026-11-02T12:00:00Z",
+      "sample_precipitation_end": "2026-11-02T12:00:00Z"
+    },
+    {
+      "hour": 27,
+      "valid_at": "2026-11-02T13:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        2.547621888173069,
+        10.749721625705877
+      ],
+      "measurement_digest": "a83ced80fcc36921bb1aca4a4d5079bd2bc8d4f7cb5b45de026499fe096fb4b8",
+      "sample_wind_valid_at": "2026-11-02T13:00:00Z",
+      "sample_precipitation_end": "2026-11-02T13:00:00Z"
+    },
+    {
+      "hour": 28,
+      "valid_at": "2026-11-02T14:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        3.6660900342002702,
+        13.235206394655213
+      ],
+      "measurement_digest": "393880d0ec0655665affd3ebf332ab28f4c3547ca9f5f06f67c1c717310cb2d9",
+      "sample_wind_valid_at": "2026-11-02T14:00:00Z",
+      "sample_precipitation_end": "2026-11-02T14:00:00Z"
+    },
+    {
+      "hour": 29,
+      "valid_at": "2026-11-02T15:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        8.947745168217608,
+        14.85077149447228
+      ],
+      "measurement_digest": "85841e07fb2e9f59a30df51113cf294c6d1a16c0abbb6a94c8a44a2d105e2237",
+      "sample_wind_valid_at": "2026-11-02T15:00:00Z",
+      "sample_precipitation_end": "2026-11-02T15:00:00Z"
+    },
+    {
+      "hour": 30,
+      "valid_at": "2026-11-02T16:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        9.382705002783743,
+        17.025570667302947
+      ],
+      "measurement_digest": "daffc1c91f98ddf72a0d74f0079ec46f0b75ac0e4420b4bca4228e8bad90763e",
+      "sample_wind_valid_at": "2026-11-02T16:00:00Z",
+      "sample_precipitation_end": "2026-11-02T16:00:00Z"
+    },
+    {
+      "hour": 31,
+      "valid_at": "2026-11-02T17:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        11.18468146027201,
+        18.019764574882682
+      ],
+      "measurement_digest": "02ba1e1e59dd9c8a4f6e9be08b349c1ff1a482e2cafc7545fe04206012a4a23f",
+      "sample_wind_valid_at": "2026-11-02T17:00:00Z",
+      "sample_precipitation_end": "2026-11-02T17:00:00Z"
+    },
+    {
+      "hour": 32,
+      "valid_at": "2026-11-02T18:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        12.986657917760278,
+        19.57319255547602
+      ],
+      "measurement_digest": "ad1ef33ea59f385b1e61fd657ca0cc6e7d4d4a79bddd126f622dca094671aa03",
+      "sample_wind_valid_at": "2026-11-02T18:00:00Z",
+      "sample_precipitation_end": "2026-11-02T18:00:00Z"
+    },
+    {
+      "hour": 33,
+      "valid_at": "2026-11-02T19:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        13.670166229221346,
+        20.256700866937088
+      ],
+      "measurement_digest": "0b3eeb7f5ef6cd395ae76fb2e4a5fc4faeb8dde05194f9c192c47c3d7cb8f2d4",
+      "sample_wind_valid_at": "2026-11-02T19:00:00Z",
+      "sample_precipitation_end": "2026-11-02T19:00:00Z"
+    },
+    {
+      "hour": 34,
+      "valid_at": "2026-11-02T20:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        13.856577586892547,
+        21.188757655293088
+      ],
+      "measurement_digest": "c6fe58358c71ae6775d0788e50b3b6df18a9d0a29ea4c5b6dc262bdcabe5558c",
+      "sample_wind_valid_at": "2026-11-02T20:00:00Z",
+      "sample_precipitation_end": "2026-11-02T20:00:00Z"
+    },
+    {
+      "hour": 35,
+      "valid_at": "2026-11-02T21:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        12.303149606299213,
+        21.43730613218802
+      ],
+      "measurement_digest": "389d90d11b6037efaf3fd3d3e65c1ccbd68478d5b3068c229fceb57ce7cd5ea6",
+      "sample_wind_valid_at": "2026-11-02T21:00:00Z",
+      "sample_precipitation_end": "2026-11-02T21:00:00Z"
+    },
+    {
+      "hour": 36,
+      "valid_at": "2026-11-02T22:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        8.947745168217608,
+        19.076095601686152
+      ],
+      "measurement_digest": "1cbcfc9452b9525b75095b0d3f1fdaaabcc805acdf38a6539c15abfd7bd329e0",
+      "sample_wind_valid_at": "2026-11-02T22:00:00Z",
+      "sample_precipitation_end": "2026-11-02T22:00:00Z"
+    },
+    {
+      "hour": 37,
+      "valid_at": "2026-11-02T23:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        9.196293645112542,
+        16.404199475065614
+      ],
+      "measurement_digest": "5332c9bcc8897c26f5896db24dd28fe042b804d821c69b8043805db46899fd99",
+      "sample_wind_valid_at": "2026-11-02T23:00:00Z",
+      "sample_precipitation_end": "2026-11-02T23:00:00Z"
+    },
+    {
+      "hour": 38,
+      "valid_at": "2026-11-03T00:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        8.264236856756542,
+        15.720691163604549
+      ],
+      "measurement_digest": "0e7aaa877903643eb4cc4c249730270f00e7d5e7f51cff9986bd6378235a24c5",
+      "sample_wind_valid_at": "2026-11-03T00:00:00Z",
+      "sample_precipitation_end": "2026-11-03T00:00:00Z"
+    },
+    {
+      "hour": 39,
+      "valid_at": "2026-11-03T01:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        8.07782549908534,
+        16.15565099817068
+      ],
+      "measurement_digest": "f4086deeed0525364449269765f777ca2fdb40d96a83c8f60602f536295776d7",
+      "sample_wind_valid_at": "2026-11-03T01:00:00Z",
+      "sample_precipitation_end": "2026-11-03T01:00:00Z"
+    },
+    {
+      "hour": 40,
+      "valid_at": "2026-11-03T02:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        4.970969537898672,
+        15.410005567485882
+      ],
+      "measurement_digest": "788ccafbf1f0ef55ed0850b181169a9da07a9918f8de13662d6c06e4e1b7cf47",
+      "sample_wind_valid_at": "2026-11-03T02:00:00Z",
+      "sample_precipitation_end": "2026-11-03T02:00:00Z"
+    },
+    {
+      "hour": 41,
+      "valid_at": "2026-11-03T03:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        6.95935735305814,
+        15.285731329038416
+      ],
+      "measurement_digest": "56ed25e3907ee048d370bedb4a3a5417f9255fe80be244e92e81f14f4226922c",
+      "sample_wind_valid_at": "2026-11-03T03:00:00Z",
+      "sample_precipitation_end": "2026-11-03T03:00:00Z"
+    },
+    {
+      "hour": 42,
+      "valid_at": "2026-11-03T04:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        8.45064821442774,
+        16.15565099817068
+      ],
+      "measurement_digest": "75fc65296d29439a4878902bef07b1e328e6d20bb1961382c276c45e8059f15a",
+      "sample_wind_valid_at": "2026-11-03T04:00:00Z",
+      "sample_precipitation_end": "2026-11-03T04:00:00Z"
+    },
+    {
+      "hour": 43,
+      "valid_at": "2026-11-03T05:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        9.87980195657361,
+        17.025570667302947
+      ],
+      "measurement_digest": "16d784d7bb4fc83f6a1bbb31eaa5acf44882caba35359866bf6e29b275f77a2e",
+      "sample_wind_valid_at": "2026-11-03T05:00:00Z",
+      "sample_precipitation_end": "2026-11-03T05:00:00Z"
+    },
+    {
+      "hour": 44,
+      "valid_at": "2026-11-03T06:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        10.749721625705877,
+        17.274119144197883
+      ],
+      "measurement_digest": "b977a146a68aedf1592b6bf86a20ec3dc2de82ca1c8a0891c44f178c8c6bdeb0",
+      "sample_wind_valid_at": "2026-11-03T06:00:00Z",
+      "sample_precipitation_end": "2026-11-03T06:00:00Z"
+    },
+    {
+      "hour": 45,
+      "valid_at": "2026-11-03T07:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        12.489560963970414,
+        17.460530501869084
+      ],
+      "measurement_digest": "8e0d02c1f2eae425f599cf45739e79b43a150400e09e147377f16f6be67611b3",
+      "sample_wind_valid_at": "2026-11-03T07:00:00Z",
+      "sample_precipitation_end": "2026-11-03T07:00:00Z"
+    },
+    {
+      "hour": 46,
+      "valid_at": "2026-11-03T08:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        11.74391553328561,
+        17.646941859540284
+      ],
+      "measurement_digest": "a04129624342798301d862575995499c24542b2aadd95f3347e3af9d3ebd7c8e",
+      "sample_wind_valid_at": "2026-11-03T08:00:00Z",
+      "sample_precipitation_end": "2026-11-03T08:00:00Z"
+    },
+    {
+      "hour": 47,
+      "valid_at": "2026-11-03T09:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        10.811858744929609,
+        20.443112224608285
+      ],
+      "measurement_digest": "4a7ba62f02d31761d2572cd4cdc13ce1a5bbb5927c3464b8953e43ec97b1a516",
+      "sample_wind_valid_at": "2026-11-03T09:00:00Z",
+      "sample_precipitation_end": "2026-11-03T09:00:00Z"
+    },
+    {
+      "hour": 48,
+      "valid_at": "2026-11-03T10:00:00Z",
+      "coverage_fraction": 1.0,
+      "wind_range_mph": [
+        7.89141414141414,
+        19.94601527081842
+      ],
+      "measurement_digest": "dff8313af31284cecbaef54689ce6f09081f8bb8aba2865bcd5201b7eba8ae77",
+      "sample_wind_valid_at": "2026-11-03T10:00:00Z",
+      "sample_precipitation_end": "2026-11-03T10:00:00Z"
+    }
+  ],
+  "warnings": []
+}

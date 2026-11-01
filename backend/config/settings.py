@@ -34,6 +34,7 @@ CACHES = {
     }
 }
 REST_FRAMEWORK = {
+    "DEFAULT_PARSER_CLASSES": ["routing.api.parsers.BoundedJSONParser"],
     "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "UNAUTHENTICATED_USER": None,

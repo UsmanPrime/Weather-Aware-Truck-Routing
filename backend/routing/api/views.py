@@ -6,10 +6,11 @@ from rest_framework.response import Response
 
 from routing.providers.ors import DEFAULT_GEOCODING, PeliasGeocoding
 from routing.services.cache import cached_call
+from routing.services.corridor import corridor_forecast
 from routing.services.planning import plan_trip
 
-from .serializers import PlanSerializer
-from .throttles import GeocodeThrottle, PlanThrottle
+from .serializers import CorridorSerializer, PlanSerializer
+from .throttles import CorridorThrottle, GeocodeThrottle, PlanThrottle
 
 
 @api_view(["GET"])
@@ -38,3 +39,11 @@ def plans(request):
     serializer = PlanSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     return Response(plan_trip(serializer.validated_data))
+
+
+@api_view(["POST"])
+@throttle_classes([CorridorThrottle])
+def corridor(request):
+    serializer = CorridorSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    return Response(corridor_forecast(serializer.validated_data["context"]))

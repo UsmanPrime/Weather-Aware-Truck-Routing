@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import type { GeoJSONSource, Map as MapLibreMap, Marker } from 'maplibre-gl';
-import type { Plan } from '../../api/contracts';
+import type {
+  GeoJSONSource,
+  Map as MapLibreMap,
+  Marker,
+  Popup,
+} from 'maplibre-gl';
+import type { Plan, Corridor, WeatherMetric } from '../../api/contracts';
+import { forecastFeatures } from '../forecast/forecastFeatures';
+import { timestamp } from '../../components/format';
 import { routeFeatures, checkpointFeatures } from './mapSources';
 import Icon from '../../components/Icon';
 import { loadMapEngine } from './loadMap';
@@ -12,6 +19,10 @@ export default function RouteMap({
   onRoute,
   onCheckpoint,
   children,
+  forecast,
+  forecastHour,
+  metric,
+  weatherVisible,
 }: {
   plan: Plan | null;
   selectedRoute: string | null;
@@ -19,10 +30,15 @@ export default function RouteMap({
   onRoute: (id: string) => void;
   onCheckpoint: (routeId: string, id: string) => void;
   children?: React.ReactNode;
+  forecast: Corridor | null;
+  forecastHour: number;
+  metric: WeatherMetric;
+  weatherVisible: boolean;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
   const markers = useRef<Marker[]>([]);
+  const popup = useRef<Popup | null>(null);
   const current = useRef({ plan, onRoute, onCheckpoint });
   useEffect(() => {
     current.current = { plan, onRoute, onCheckpoint };
@@ -81,11 +97,61 @@ export default function RouteMap({
         );
         instance.on('load', () => {
           if (cancelled) return;
-          for (const id of ['truck-routes', 'checkpoints'])
+          for (const id of ['truck-routes', 'checkpoints', 'corridor-cells'])
             instance.addSource(id, {
               type: 'geojson',
               data: { type: 'FeatureCollection', features: [] },
             });
+          instance.addLayer({
+            id: 'corridor-fill',
+            type: 'fill',
+            source: 'corridor-cells',
+            paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.23 },
+          });
+          instance.addLayer({
+            id: 'corridor-grid',
+            type: 'line',
+            source: 'corridor-cells',
+            paint: {
+              'line-color': '#6f9596',
+              'line-width': 0.5,
+              'line-opacity': 0.28,
+            },
+          });
+          instance.addLayer({
+            id: 'corridor-unknown',
+            type: 'line',
+            source: 'corridor-cells',
+            filter: ['==', ['get', 'missing'], true],
+            paint: {
+              'line-color': '#6c7b88',
+              'line-width': 1,
+              'line-dasharray': [2, 2],
+            },
+          });
+          popup.current = new library.Popup({
+            closeButton: false,
+            closeOnClick: false,
+            maxWidth: '240px',
+            className: 'weather-popup',
+          });
+          instance.on('mousemove', 'corridor-fill', (event) => {
+            const props = event.features?.[0]?.properties;
+            if (!props || !popup.current) return;
+            const node = document.createElement('div');
+            const format = (value: unknown, units: string) =>
+              value === null || value === undefined
+                ? 'Unavailable'
+                : `${Number(value).toFixed(2)} ${units}`;
+            node.textContent = `Corridor forecast · ${timestamp(String(props.valid_at), current.current.plan?.departure_timezone || 'UTC')}\nWind ${format(props.wind_mph, 'mph')} · Rain ${format(props.rain_in_per_hr, 'in/hr')} · Snow ${format(props.snow_in_per_hr, 'in/hr')}\n${props.missing ? 'This cell has missing data.' : 'Open-Meteo sampled model forecast.'}`;
+            popup.current
+              .setLngLat(event.lngLat)
+              .setDOMContent(node)
+              .addTo(instance);
+          });
+          instance.on('mouseleave', 'corridor-fill', () =>
+            popup.current?.remove(),
+          );
           instance.addLayer({
             id: 'route-outline',
             type: 'line',
@@ -179,6 +245,7 @@ export default function RouteMap({
       cancelled = true;
       markers.current.forEach((marker) => marker.remove());
       markers.current = [];
+      popup.current?.remove();
       map.current?.remove();
       map.current = null;
     };
@@ -192,6 +259,23 @@ export default function RouteMap({
       checkpointFeatures(plan, selectedRoute, activeCheckpoint),
     );
   }, [plan, selectedRoute, activeCheckpoint, ready]);
+  useEffect(() => {
+    if (!ready || !map.current) return;
+    const handle = requestAnimationFrame(() => {
+      if (!map.current) return;
+      (map.current.getSource('corridor-cells') as GeoJSONSource).setData(
+        forecastFeatures(forecast, forecastHour, metric),
+      );
+      for (const id of ['corridor-fill', 'corridor-grid', 'corridor-unknown'])
+        map.current.setLayoutProperty(
+          id,
+          'visibility',
+          weatherVisible ? 'visible' : 'none',
+        );
+      popup.current?.remove();
+    });
+    return () => cancelAnimationFrame(handle);
+  }, [forecast, forecastHour, metric, weatherVisible, ready]);
   useEffect(() => {
     if (!ready || !plan || !map.current) return;
     fit();

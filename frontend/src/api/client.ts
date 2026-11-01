@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { placeSchema, planSchema, type PlanRequest } from './contracts';
+import {
+  placeSchema,
+  planSchema,
+  corridorSchema,
+  type PlanRequest,
+} from './contracts';
 
 const base = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(
   /\/$/,
@@ -57,3 +62,6 @@ export const searchPlaces = (query: string, signal: AbortSignal) =>
   );
 export const createPlan = (body: PlanRequest, signal: AbortSignal) =>
   request('/plans', planSchema, signal, body);
+
+export const loadCorridor = (context: string, signal: AbortSignal) =>
+  request('/corridor-forecasts', corridorSchema, signal, { context });

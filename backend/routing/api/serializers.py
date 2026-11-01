@@ -60,3 +60,7 @@ class PlanSerializer(serializers.Serializer):
         if attrs["origin"]["position"] == attrs["destination"]["position"]:
             raise serializers.ValidationError("Choose different origin and destination locations.")
         return attrs
+
+
+class CorridorSerializer(serializers.Serializer):
+    context = serializers.CharField(max_length=128 * 1024)

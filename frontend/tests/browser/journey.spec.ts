@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { syntheticPlan } from '../fixtures';
+import { syntheticPlan, syntheticCorridor } from '../fixtures';
 
 test.beforeEach(async ({ page }) => {
+  let anchor: string | undefined;
   await page.route('**/api/v1/**', async (route) => {
     const url = new URL(route.request().url());
     if (url.pathname.endsWith('/health'))
@@ -18,10 +19,13 @@ test.beforeEach(async ({ page }) => {
           ],
         },
       });
-    if (url.pathname.endsWith('/plans'))
-      return route.fulfill({
-        json: syntheticPlan(route.request().postDataJSON()),
-      });
+    if (url.pathname.endsWith('/plans')) {
+      const plan = syntheticPlan(route.request().postDataJSON());
+      anchor = plan.departure_at;
+      return route.fulfill({ json: plan });
+    }
+    if (url.pathname.endsWith('/corridor-forecasts'))
+      return route.fulfill({ json: syntheticCorridor(anchor) });
     return route.fulfill({
       status: 503,
       json: { error: { message: 'Synthetic fixture endpoint unavailable.' } },
@@ -148,4 +152,50 @@ test('synthetic journey: provider errors and changed-input state are truthful', 
     'Synthetic provider timeout',
   );
   await expect(page.locator('.route-option')).toHaveCount(3);
+});
+
+test('synthetic corridor: 0–48 slider changes rendered weather without new requests or reranking', async ({
+  page,
+}) => {
+  let forecastRequests = 0;
+  page.on('request', (request) => {
+    if (request.url().includes('/corridor-forecasts')) forecastRequests++;
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: /Try Fort Worth/ }).click();
+  await page.getByRole('button', { name: 'Generate routes' }).click();
+  const slider = page.getByRole('slider', { name: 'Forecast hour' });
+  await expect(slider).toBeVisible();
+  await expect(slider).toHaveValue('0');
+  const recommendation = await page.locator('.recommendation-note').innerText();
+  await slider.focus();
+  await slider.press('End');
+  await expect(slider).toHaveValue('48');
+  await expect(page.getByText(/Some cells are unavailable/)).toBeVisible();
+  await expect
+    .poll(() =>
+      page.getByTestId('route-map').evaluate((element) => {
+        const map = (
+          element as HTMLDivElement & {
+            mapInstance?: {
+              queryRenderedFeatures: (options: {
+                layers: string[];
+              }) => { properties: { hour: number } }[];
+            };
+          }
+        ).mapInstance;
+        return map
+          ?.queryRenderedFeatures({ layers: ['corridor-fill'] })
+          .some((feature) => feature.properties.hour === 48);
+      }),
+    )
+    .toBe(true);
+  expect(await page.locator('.recommendation-note').innerText()).toBe(
+    recommendation,
+  );
+  await page.getByLabel('Map layer').selectOption('wind_mph');
+  await slider.focus();
+  await slider.press('Home');
+  await expect(slider).toHaveValue('0');
+  expect(forecastRequests).toBe(1);
 });

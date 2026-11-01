@@ -10,3 +10,7 @@ class GeocodeThrottle(SimpleRateThrottle):
 
 class PlanThrottle(GeocodeThrottle):
     scope = "plans"
+
+
+class CorridorThrottle(GeocodeThrottle):
+    scope = "corridor"

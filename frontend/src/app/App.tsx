@@ -1,7 +1,13 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { fetchHealth } from '../api/health';
-import { createPlan } from '../api/client';
-import type { Plan, PlanRequest } from '../api/contracts';
+import { createPlan, loadCorridor } from '../api/client';
+import type {
+  Plan,
+  PlanRequest,
+  Corridor,
+  WeatherMetric,
+} from '../api/contracts';
+import ForecastControls from '../features/forecast/ForecastControls';
 import Icon from '../components/Icon';
 import { riskColors, riskLabel, timestamp } from '../components/format';
 import TripForm from '../features/trip/TripForm';
@@ -20,6 +26,14 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [dirty, setDirty] = useState(false);
+  const [forecast, setForecast] = useState<Corridor | null>(null);
+  const [forecastLoading, setForecastLoading] = useState(false);
+  const [forecastError, setForecastError] = useState('');
+  const [hour, setHour] = useState(0);
+  const [metric, setMetric] = useState<WeatherMetric>('risk');
+  const [weatherVisible, setWeatherVisible] = useState(true);
+  const forecastController = useRef<AbortController | null>(null);
+  const revision = useRef(0);
   const controller = useRef<AbortController | null>(null);
   const resultHeading = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -32,7 +46,13 @@ export default function App() {
     );
     return () => controller.abort();
   }, []);
-  useEffect(() => () => controller.current?.abort(), []);
+  useEffect(
+    () => () => {
+      controller.current?.abort();
+      forecastController.current?.abort();
+    },
+    [],
+  );
   const route =
     plan?.routes.find((route) => route.id === selected) || plan?.routes[0];
   const active =
@@ -42,7 +62,33 @@ export default function App() {
     setSelected(id);
     setCheckpoint(null);
   };
+  const fetchForecast = async (result: Plan) => {
+    forecastController.current?.abort();
+    const next = new AbortController();
+    forecastController.current = next;
+    setForecastError('');
+    if (!result.corridor_context) {
+      setForecastLoading(false);
+      setForecastError('Corridor forecast is unavailable for this plan.');
+      return;
+    }
+    setForecastLoading(true);
+    try {
+      const data = await loadCorridor(result.corridor_context, next.signal);
+      if (!next.signal.aborted) setForecast(data);
+    } catch (error) {
+      if (!next.signal.aborted)
+        setForecastError(
+          error instanceof Error
+            ? error.message
+            : 'Corridor forecast is unavailable.',
+        );
+    } finally {
+      if (!next.signal.aborted) setForecastLoading(false);
+    }
+  };
   const generate = async (request: PlanRequest) => {
+    const submittedRevision = revision.current;
     controller.current?.abort();
     const requestController = new AbortController();
     controller.current = requestController;
@@ -54,7 +100,10 @@ export default function App() {
       setPlan(result);
       setSelected(result.recommendation.route_id || result.routes[0].id);
       setCheckpoint(null);
-      setDirty(false);
+      setDirty(revision.current !== submittedRevision);
+      setForecast(null);
+      setHour(0);
+      void fetchForecast(result);
       if (window.innerWidth < 800)
         resultHeading.current?.scrollIntoView({
           behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -97,6 +146,7 @@ export default function App() {
             onGenerate={(data) => void generate(data)}
             loading={loading}
             onEdit={() => {
+              revision.current += 1;
               if (plan) setDirty(true);
             }}
           />
@@ -232,6 +282,10 @@ export default function App() {
           >
             <RouteMap
               plan={plan}
+              forecast={forecast}
+              forecastHour={hour}
+              metric={metric}
+              weatherVisible={weatherVisible}
               selectedRoute={route?.id || null}
               activeCheckpoint={active?.id || null}
               onRoute={selectRoute}
@@ -272,6 +326,21 @@ export default function App() {
             </div>
           )}
           {plan && (
+            <ForecastControls
+              forecast={forecast}
+              loading={forecastLoading}
+              error={forecastError}
+              hour={hour}
+              setHour={setHour}
+              metric={metric}
+              setMetric={setMetric}
+              visible={weatherVisible}
+              setVisible={setWeatherVisible}
+              zone={plan.departure_timezone}
+              retry={() => void fetchForecast(plan)}
+            />
+          )}
+          {plan && (
             <RouteComparison
               plan={plan}
               selected={route?.id || null}
@@ -302,10 +371,12 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Routing by HeiGIT
+                © openrouteservice.org by HeiGIT
               </a>
             </span>
-            <span>Built for the road. Reviewed with care.</span>
+            <span>
+              Map data © OpenStreetMap contributors · Forecast estimates
+            </span>
           </footer>
         </div>
       </main>

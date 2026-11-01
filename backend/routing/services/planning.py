@@ -14,6 +14,7 @@ from routing.providers.errors import ProviderError
 from routing.providers.factory import routing_provider
 
 from .cache import cached_call
+from .context import create_context
 from .forecasts import load_forecasts
 
 
@@ -182,7 +183,7 @@ def plan_trip(data: dict, *, routes_provider=None, forecasts_provider=None) -> d
                 ),
             }
         )
-    return {
+    result = {
         "schema_version": "1",
         "request_id": str(uuid4()),
         "evaluated_at": instant(datetime.now(UTC)),
@@ -216,3 +217,8 @@ def plan_trip(data: dict, *, routes_provider=None, forecasts_provider=None) -> d
             "Cargo weight affects weather rules only; vehicle dimensions/gross weight are not set.",
         ],
     }
+    try:
+        result["corridor_context"] = create_context(routes, result["departure_at"], data["load_lb"])
+    except ProviderError as error:
+        result["warnings"].append({"code": error.code, "message": error.message})
+    return result

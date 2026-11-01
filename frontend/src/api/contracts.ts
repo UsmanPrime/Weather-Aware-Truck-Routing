@@ -139,3 +139,64 @@ export interface PlanRequest {
   load_lb: number;
   checkpoint_interval_mi: 10 | 25 | 50;
 }
+
+export const corridorFrameSchema = z.object({
+  valid_at: instant,
+  wind_mph: z.array(nonnegative.nullable()),
+  rain_in_per_hr: z.array(nonnegative.nullable()),
+  snow_in_per_hr: z.array(nonnegative.nullable()),
+  risk: z.array(riskSchema.nullable()),
+  wind_valid_at: z.array(instant.nullable()),
+  precipitation_interval_end: z.array(instant.nullable()),
+  coverage_fraction: z.number().min(0).max(1),
+});
+export const corridorSchema = z
+  .object({
+    anchor_at: instant,
+    load_lb: nonnegative,
+    corridor_half_width_m: nonnegative,
+    grid_spacing_m: nonnegative,
+    cells: z
+      .array(
+        z.object({
+          id: z.number().int(),
+          position,
+          polygon: z.array(position).length(5),
+          model_position: position.nullable(),
+          retrieved_at: instant.nullable(),
+        }),
+      )
+      .min(1)
+      .max(96),
+    frames: z.array(corridorFrameSchema).length(49),
+    retrieved_at: instant.nullable(),
+    oldest_retrieved_at: instant.nullable(),
+    source: z.literal('open_meteo'),
+    data_kind: z.literal('forecast'),
+    frames_with_missing_data: z.array(z.number().int()),
+    generated_at: instant,
+    warnings: z.array(warningSchema),
+  })
+  .superRefine((data, context) => {
+    if (
+      data.frames.some((frame) =>
+        [
+          frame.wind_mph,
+          frame.rain_in_per_hr,
+          frame.snow_in_per_hr,
+          frame.risk,
+          frame.wind_valid_at,
+          frame.precipitation_interval_end,
+        ].some((array) => array.length !== data.cells.length),
+      )
+    ) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Forecast arrays must align with the spatial grid.',
+      });
+    }
+  });
+export type Corridor = z.infer<typeof corridorSchema>;
+export type CorridorFrame = z.infer<typeof corridorFrameSchema>;
+export type WeatherMetric =
+  'risk' | 'wind_mph' | 'rain_in_per_hr' | 'snow_in_per_hr';
