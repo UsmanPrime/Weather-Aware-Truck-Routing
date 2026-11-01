@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { syntheticPlan, syntheticCorridor } from '../fixtures';
 
 test.beforeEach(async ({ page }) => {
@@ -364,4 +365,165 @@ test('synthetic journey: WebGL failure preserves the accessible route list', asy
   await expect(page.locator('.checkpoint-inspector:visible')).toContainText(
     'Route 2',
   );
+});
+
+test('synthetic empty, pending and error states leave the map usable', async ({
+  page,
+}, testInfo) => {
+  await page.goto('/');
+  await expect(page.locator('.map-shell')).toHaveAttribute(
+    'data-map-ready',
+    'true',
+  );
+  await expect(page.getByRole('button', { name: 'Fit routes' })).toHaveCount(0);
+  const viewports =
+    testInfo.project.name === 'desktop'
+      ? [
+          [1440, 900],
+          [1280, 800],
+          [1024, 768],
+          [768, 1024],
+          [390, 844],
+          [360, 800],
+        ]
+      : [[390, 844]];
+  for (const [width, height] of viewports) {
+    await page.setViewportSize({ width, height });
+    await page.locator('.map-shell').scrollIntoViewIfNeeded();
+    const hint = (await page.locator('.planning-hint').boundingBox())!;
+    const map = (await page.locator('.map-shell').boundingBox())!;
+    expect(hint.y + hint.height).toBeLessThanOrEqual(map.y);
+    await page.getByRole('button', { name: 'Zoom in' }).click();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`empty-${width}.png`) });
+  }
+  const canvas = page.locator('.maplibregl-canvas');
+  const box = (await canvas.boundingBox())!;
+  const center = () =>
+    page
+      .getByTestId('route-map')
+      .evaluate((el) =>
+        (
+          el as HTMLDivElement & { mapInstance: import('maplibre-gl').Map }
+        ).mapInstance
+          .getCenter()
+          .toArray(),
+      );
+  const before = await center();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2 + 60, box.y + box.height / 2, {
+    steps: 10,
+  });
+  await page.mouse.up();
+  await expect.poll(center).not.toEqual(before);
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/api/v1/plans', async (route) => {
+    await gate;
+    await route.fulfill({
+      status: 503,
+      json: {
+        error: { message: 'Synthetic provider unavailable. Try again.' },
+      },
+    });
+  });
+  await page.getByRole('button', { name: /Try Fort Worth/ }).click();
+  await page.getByRole('button', { name: 'Generate routes' }).click();
+  await expect(
+    page.getByRole('button', { name: /Calculating/ }),
+  ).toBeDisabled();
+  await expect(page.locator('.planning-hint')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Zoom in' }).click();
+  release();
+  await expect(page.getByRole('alert')).toContainText(
+    'Synthetic provider unavailable',
+  );
+  await expect(
+    page.getByRole('button', { name: 'Generate routes' }),
+  ).toBeEnabled();
+  await expect(page.locator('.map-empty')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Zoom out' }).click();
+  const accessibility = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze();
+  expect(accessibility.violations).toEqual([]);
+});
+
+test('synthetic fit routes: hover is idle and clicks preserve map and selection', async ({
+  page,
+}) => {
+  let apiCalls = 0;
+  page.on('request', (r) => {
+    if (/\/api\/v1\/(plans|corridor-forecasts)$/.test(r.url())) apiCalls++;
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: /Try Fort Worth/ }).click();
+  await page.getByRole('button', { name: 'Generate routes' }).click();
+  const fit = page.getByRole('button', { name: 'Fit routes' });
+  await expect(fit).toBeVisible();
+  await expect(
+    page.getByRole('slider', { name: 'Forecast hour' }),
+  ).toBeEnabled();
+  await expect(page.locator('.planning-hint')).toHaveCount(0);
+  await page.locator('.route-option').nth(1).click();
+  await page.getByTestId('route-map').evaluate((el) => {
+    const node = el as HTMLDivElement & {
+      mapInstance: import('maplibre-gl').Map;
+      originalMap: import('maplibre-gl').Map;
+    };
+    node.originalMap = node.mapInstance;
+    node.mapInstance.jumpTo({ center: [-100, 35], zoom: 12 });
+  });
+  const calls = apiCalls;
+  await fit.hover();
+  await page.waitForTimeout(3000);
+  await expect(fit).toHaveCSS('cursor', 'pointer');
+  expect(apiCalls).toBe(calls);
+  for (const keyboard of [false, true, false]) {
+    if (keyboard) {
+      await fit.focus();
+      await fit.press('Enter');
+    } else await fit.click();
+    await expect(page.locator('.route-option').nth(1)).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    const state = await page.getByTestId('route-map').evaluate((el) => {
+      const node = el as HTMLDivElement & {
+        mapInstance: import('maplibre-gl').Map;
+        originalMap: import('maplibre-gl').Map;
+      };
+      const map = node.mapInstance;
+      const data = (
+        map.getSource('truck-routes') as import('maplibre-gl').GeoJSONSource
+      ).serialize().data as GeoJSON.FeatureCollection<GeoJSON.LineString>;
+      return {
+        same: map === node.originalMap,
+        zoom: map.getZoom(),
+        moving: map.isMoving(),
+        visible: data.features.every((f) =>
+          f.geometry.coordinates.every((c) => {
+            const p = map.project(c as [number, number]);
+            return (
+              p.x >= 0 &&
+              p.y >= 0 &&
+              p.x <= el.clientWidth &&
+              p.y <= el.clientHeight
+            );
+          }),
+        ),
+      };
+    });
+    expect(state).toMatchObject({ same: true, moving: false, visible: true });
+    expect(state.zoom).toBeLessThanOrEqual(14);
+  }
+  expect(apiCalls).toBe(calls);
+  await expect(page.locator('.maplibregl-canvas')).toHaveCount(1);
 });

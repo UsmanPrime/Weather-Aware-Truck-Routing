@@ -33,7 +33,7 @@ summary {
   cursor: pointer;
 }
 button:disabled {
-  cursor: wait;
+  cursor: not-allowed;
   opacity: 0.65;
 }
 a {
@@ -400,29 +400,14 @@ input::placeholder {
   background: #e7edeb;
   border-radius: 8px;
 }
-.map-empty {
-  position: absolute;
-  left: 32px;
-  top: 70px;
-  background: #fffffff2;
-  border: 1px solid #dce5e7;
-  padding: 24px;
-  width: 280px;
-  border-radius: 6px;
-  box-shadow: 0 4px 15px #233c4710;
-  pointer-events: none;
-}
-.map-empty h2 {
-  font-size: 28px;
-  line-height: 1.25;
-  margin-top: 12px;
-  letter-spacing: -0.7px;
-}
-.map-empty p {
-  font-size: 12px;
+.planning-hint {
+  margin: 0 0 12px;
   color: #506978;
-  line-height: 1.8;
-  margin-top: 15px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+button[aria-busy='true'] {
+  cursor: wait;
 }
 .fit-button {
   position: absolute;
@@ -956,11 +941,6 @@ input::placeholder {
   }
   .map-shell {
     height: 680px;
-  }
-  .map-empty {
-    left: 20px;
-    top: 64px;
-    width: 250px;
   }
   .checkpoint-inspector {
     bottom: 110px;

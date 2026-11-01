@@ -217,7 +217,12 @@ function TripForm({
           {error}
         </p>
       )}
-      <button className="primary-button" type="submit" disabled={loading}>
+      <button
+        className="primary-button"
+        type="submit"
+        disabled={loading}
+        aria-busy={loading}
+      >
         {loading ? 'Calculating routes…' : 'Generate routes'}
         <Icon name="arrow" />
       </button>

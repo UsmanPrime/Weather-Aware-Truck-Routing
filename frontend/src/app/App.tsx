@@ -286,6 +286,11 @@ export default function App() {
               wakes.
             </p>
           )}
+          {!plan && !loading && !error && (
+            <p className="planning-hint">
+              Enter your journey to compare truck routes and weather at arrival.
+            </p>
+          )}
           <Suspense
             fallback={
               <div className="map-loading" role="status">

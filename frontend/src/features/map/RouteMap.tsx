@@ -58,6 +58,7 @@ export default function RouteMap({
         [Math.max(...longs), Math.max(...lats)],
       ],
       {
+        maxZoom: 14,
         padding: {
           top: 75,
           bottom: 115,
@@ -370,10 +371,12 @@ export default function RouteMap({
         role="region"
         aria-label="Interactive route map"
       />
-      <button className="fit-button" onClick={fit} disabled={!plan || !ready}>
-        <Icon name="focus" />
-        Fit routes
-      </button>
+      {ready && !!plan?.routes.length && (
+        <button className="fit-button" onClick={fit}>
+          <Icon name="focus" />
+          Fit routes
+        </button>
+      )}
       {forecast && weatherVisible && (
         <div className="forecast-map-label">
           Corridor forecast · +{forecastHour}h{' '}
@@ -386,20 +389,6 @@ export default function RouteMap({
                   ? 'Rain · in/hr'
                   : 'Snow · in/hr'}
           </span>
-        </div>
-      )}
-      {!plan && (
-        <div className="map-empty">
-          <span className="eyebrow">A CLEARER VIEW OF THE ROAD</span>
-          <h2>
-            Weather insights,
-            <br />
-            mile by mile.
-          </h2>
-          <p>
-            Enter your journey to compare truck routes and inspect the forecast
-            at arrival.
-          </p>
         </div>
       )}
       {notice && (
