@@ -1,6 +1,6 @@
 # Four-day implementation and validation plan
 
-Current checkpoint: Milestone 1 implementation authorized November 1, 2026. See IMPLEMENTATION.md for actual progress and verification. Preserve the sequence below; pushing and deployment require separate authorization in the current workflow.
+Current checkpoint: phases 1-5 implemented; phase 6 release configuration prepared; final audit and evidence refresh underway. ORS driving-hgv/Pelias replace the original HERE spike in this approved sequence. See IMPLEMENTATION.md for measured progress. Hosted verification, pushing and Loom recording remain delivery gates requiring manual action and explicit publication approval.
 
 ## Precise sequence and day gates
 

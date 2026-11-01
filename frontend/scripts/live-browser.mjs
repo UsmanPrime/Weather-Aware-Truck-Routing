@@ -37,7 +37,9 @@ try {
   const raw = await planResponse;
   if (!raw.ok()) throw new Error(`Live plan failed with HTTP ${raw.status()}`);
   const plan = await raw.json();
+  await raw.finished();
   const planMs = performance.now() - start;
+  const requestMs = raw.request().timing().responseEnd;
   const forecastResponse = await corridorResponse;
   if (!forecastResponse.ok())
     throw new Error(
@@ -81,7 +83,9 @@ try {
   await page.screenshot({ path: '../docs/screenshots/desktop.png' });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('button', { name: 'Fit routes' }).click();
-  await page.locator('.journey-bar').scrollIntoViewIfNeeded();
+  await page
+    .locator('.journey-bar')
+    .evaluate((element) => element.scrollIntoView({ block: 'start' }));
   await page.screenshot({ path: '../docs/screenshots/mobile.png' });
   await page.locator('.forecast-controls').scrollIntoViewIfNeeded();
   await page.screenshot({ path: '../docs/screenshots/mobile-forecast.png' });
@@ -143,7 +147,8 @@ try {
     routing_providers: plan.routes.map((route) => route.provider),
     grid_cells: forecast.cells.length,
     frame_count: forecast.frames.length,
-    route_plan_roundtrip_ms: Math.round(planMs),
+    action_to_plan_ready_ms: Math.round(planMs),
+    plan_http_request_ms: Math.round(requestMs),
     frame0_wind_mph: forecast.frames[0].wind_mph.slice(0, 5),
     frame48_wind_mph: forecast.frames[48].wind_mph.slice(0, 5),
     source,

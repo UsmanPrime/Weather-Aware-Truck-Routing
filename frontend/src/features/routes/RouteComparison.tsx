@@ -66,7 +66,8 @@ function RouteComparison({
                 <span className="selection-dot" />
               </span>
               <span className="route-arrival">
-                Arrive {timestamp(route.arrival_at, plan.departure_timezone)}
+                Est. arrival{' '}
+                {timestamp(route.arrival_at, plan.departure_timezone)}
               </span>
               <span className="route-metrics">
                 <span>

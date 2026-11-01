@@ -9,9 +9,9 @@ November 1 approved provider migration: replace HERE in the default data flow wi
 ```mermaid
 flowchart LR
   UI[React trip form] --> GEO[Django geocode endpoint]
-  GEO --> HEREG[HERE geocoding]
+  GEO --> HEREG[HeiGIT Pelias geocoding]
   UI --> PLAN[Django trip orchestration]
-  PLAN --> ROUTE[HERE truck routing adapter]
+  PLAN --> ROUTE[ORS driving-hgv adapter]
   ROUTE --> SAMPLE[Geometry and ETA sampler]
   SAMPLE --> WEATHER[Open-Meteo adapter + cache]
   WEATHER --> RISK[Pure risk, exposure and ranking]
@@ -26,6 +26,8 @@ flowchart LR
 Frontend owns input, display, map selection and forecast playback. Django owns credentials, validation, normalization, sampling, risk and recommendation. Route planning completes before independent corridor fetch; a heatmap failure cannot discard valid ETA risk results. Provider HTTP never occurs in domain functions. OpenFreeMap tiles are fetched directly by the browser with required attribution. Backend serves no arbitrary provider proxy URLs.
 
 Use REST JSON under `/api/v1`. No persistent trips, user accounts, database models, queue, websocket or Redis required. Same contracts support later persistence without designing for it now. A small process-local TTL cache and signed, short-lived corridor context avoid permanent server state.
+
+Executable contracts are now `frontend/src/api/contracts.ts` and `backend/routing/api/serializers.py`. The illustrative structures and wire notation below record the approved design, not a generated inventory; concrete names can differ without adding architecture. Implementation uses services/cache.py, services/context.py, providers/ors.py and providers/pelias.py; it processes sequential forecast batches of at most 25 and caps the practical corridor grid at 96 cells.
 
 ## Frontend structure
 

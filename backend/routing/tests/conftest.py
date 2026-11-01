@@ -6,6 +6,16 @@ import flexpolyline
 import pytest
 
 
+@pytest.fixture(autouse=True)
+def block_live_network(monkeypatch):
+    def blocked(*args, **kwargs):
+        raise AssertionError(
+            "Unit tests must not call live providers; use the opt-in smoke commands."
+        )
+
+    monkeypatch.setattr("socket.create_connection", blocked)
+
+
 @pytest.fixture
 def here_payload():
     return {

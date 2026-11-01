@@ -12,6 +12,9 @@ export default function ForecastSlider({
   setHour: (hour: number) => void;
   zone: string;
 }) {
+  const wind = forecast.frames[hour].wind_mph.filter(
+    (value): value is number => value !== null,
+  );
   return (
     <section
       className="forecast-scrubber"
@@ -46,7 +49,12 @@ export default function ForecastSlider({
           ))}
         </div>
       </div>
-      <p>Independent of truck ETA risk</p>
+      <p>
+        Independent of truck ETA risk · Corridor wind{' '}
+        {wind.length
+          ? `${Math.min(...wind).toFixed(1)}–${Math.max(...wind).toFixed(1)} mph`
+          : 'unavailable'}
+      </p>
     </section>
   );
 }

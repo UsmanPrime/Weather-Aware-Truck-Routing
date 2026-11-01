@@ -13,13 +13,22 @@ if not SECRET_KEY:
     if not DEBUG:
         raise ImproperlyConfigured("Set DJANGO_SECRET_KEY or explicitly enable local DJANGO_DEBUG.")
     SECRET_KEY = secrets.token_urlsafe(48)
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+    if host.strip()
+]
+if os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
+    ALLOWED_HOSTS.append(os.environ["RENDER_EXTERNAL_HOSTNAME"])
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
-INSTALLED_APPS = ["rest_framework", "routing"]
+INSTALLED_APPS = ["corsheaders", "rest_framework", "routing"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 DATABASES = {}
 USE_TZ = True
@@ -34,6 +43,7 @@ CACHES = {
     }
 }
 REST_FRAMEWORK = {
+    "NUM_PROXIES": 1 if os.environ.get("RENDER_EXTERNAL_HOSTNAME") else 0,
     "DEFAULT_PARSER_CLASSES": ["routing.api.parsers.BoundedJSONParser"],
     "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
@@ -42,3 +52,23 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "routing.api.errors.exception_handler",
     "DEFAULT_THROTTLE_RATES": {"geocode": "20/minute", "plans": "5/minute", "corridor": "3/minute"},
 }
+
+CORS_ALLOWED_ORIGINS = [
+    value.strip()
+    for value in os.environ.get("CORS_ALLOWED_ORIGINS", "").split(",")
+    if value.strip()
+]
+CORS_ALLOW_CREDENTIALS = False
+CORS_URLS_REGEX = r"^/api/v1/.*$"
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
+SECURE_PROXY_SSL_HEADER = (
+    ("HTTP_X_FORWARDED_PROTO", "https") if os.environ.get("RENDER_EXTERNAL_HOSTNAME") else None
+)
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_HSTS_SECONDS = 3600 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True

@@ -282,7 +282,8 @@ export default function App() {
           {loading && (
             <p className="loading-message" role="status">
               Finding truck routes and matching forecasts to checkpoint
-              arrivals…
+              arrivals… The first request can take longer while the service
+              wakes.
             </p>
           )}
           <Suspense

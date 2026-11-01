@@ -24,7 +24,7 @@ export async function request<T>(
   body?: unknown,
 ): Promise<T> {
   const response = await fetch(base + path, {
-    signal: AbortSignal.any([signal, AbortSignal.timeout(45000)]),
+    signal: AbortSignal.any([signal, AbortSignal.timeout(90000)]),
     method: body === undefined ? 'GET' : 'POST',
     headers:
       body === undefined ? undefined : { 'Content-Type': 'application/json' },

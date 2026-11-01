@@ -1,4 +1,12 @@
-# Milestone 1 implementation evidence
+# Implementation and verification record
+
+## Current submission state
+
+Phases 1-5 are implemented and locally verified. Phase 6 prepares free Render hosting, exact-origin CORS, HTTPS/proxy settings, a one-process Gunicorn configuration, environment initialization and a walkthrough outline. No push, hosted deployment or recorded Loom has occurred. See FINAL_AUDIT.md for the final requirement audit; historical milestone-one statements below do not describe current functionality.
+
+Phase 6 gate: **225 backend tests passed**, Django normal checks reported **0 issues**, and Ruff lint/format passed across 54 Python files. Production checks run in an isolated test process and exit 0 with the two intentional HSTS warnings W005/W021. Frontend formatting, lint, type checks, **25 unit tests** and production build passed. The first verification invocation omitted the required local environment and failed startup; rerunning with explicit DJANGO_DEBUG=true produced these results. No startup failure was counted as a passing test.
+
+The live browser refresh used one real plan and one real corridor request: 3 ORS truck routes, 35 cells, 49 frames, no page errors or horizontal overflow, unchanged recommendation. Plan HTTP time was 6,487 ms; five software-rendered frame samples ranged 31.7-158.8 ms. No 50 ms or p95 claim is made. Screenshots are actual local live-provider captures. A mobile map-label/control overlap found during inspection was corrected afterward and is included in final browser verification.
 
 ## Subsequent phase 1 — ORS migration (November 1)
 
@@ -28,7 +36,9 @@ Live browser proof used real providers without intercepted responses: three rout
 
 Live [complete backend plan](evidence/live-plan.json): Pelias searches returned 2 candidates each; the plan returned 3 genuine truck routes, 5 checkpoints each at 10-mile spacing, 100% required forecast coverage, no warnings and zero exposure-distance conservation error. Current weather tied on risk, so the shortest estimated duration won. This is real provider evidence, separate from deterministic tests. ORS-only fallback for long trips returns a single genuine truck route with an explicit alternatives warning; no car substitution occurs.
 
-- React 19 / TypeScript / Vite application with Tailwind design tokens, honest service-status UI, validated health response and lazy MapLibre boundary. MapLibre is installed but no map, route form or heatmap is presented as working.
+## Archived milestone-one scope (superseded by phases above)
+
+- React 19 / TypeScript / Vite application with Tailwind design tokens, honest service-status UI, validated health response and lazy MapLibre boundary. At milestone one, the map, route form and heatmap were not yet implemented.
 - Database-free Django 5.2 / DRF project and `GET /api/v1/health`. Structured provider/DRF errors; no authentication, database, Redis, Celery or analytics installed/configured.
 - Frozen domain data structures, explicit units, normalization, all PDF weather/load thresholds, unknown-preserving combination and lexicographic eligible-route ordering. Ranking consumes validated comparison metrics; route exposure aggregation is future work.
 - Independently injectable HERE and Open-Meteo adapters, bounded JSON transport, response validation, credential-safe errors, redirects refused, provider protocols and opt-in smoke command.

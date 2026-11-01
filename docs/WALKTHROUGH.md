@@ -1,0 +1,16 @@
+# Loom demonstration outline
+
+Status: outline only; no video recorded. Target 7–8 minutes, with a permitted range of 5–10 minutes. Use the actual hosted app once its URLs are verified; until then clearly call the demo local.
+
+| Time | Demonstration and natural talking points |
+|---|---|
+| 0:00–0:40 | “This helps compare truck routes using weather expected when the truck reaches each checkpoint. It is an assessment prototype, not a certified dispatch system.” Briefly show the clean layout and required inputs. |
+| 0:40–1:40 | Choose Fort Worth and Dallas, or use the reproducible example. Explain departure timezone, cargo pounds and 10/25/50-mile resolution. Generate routes. If a free backend is waking, acknowledge the real delay rather than editing it into a false instantaneous result. |
+| 1:40–2:40 | Compare the actual alternatives: distances, estimated times, weather coverage, Severe/High exposure and recommendation explanation. Select another route and show synchronized map/list emphasis. Mention that the public API may return fewer alternatives, particularly beyond its 100 km alternative limit. |
+| 2:40–3:40 | Inspect a checkpoint: road-distance chainage, ETA, wind/rain/snow units and valid forecast interval. Explain step-level time estimates and preceding-hour rain/snow. Show that missing forecasts are Unknown, not zero. |
+| 3:40–4:50 | Move the corridor slider from departure to +24 and +48 hours; show the absolute selected time, corridor wind range and map tooltip. Toggle the layer or metric. Explain that categorical colors may remain Low even while actual forecast measurements change. Route checkpoint risk and recommendation remain tied to arrival times. |
+| 4:50–5:50 | Open methodology. Explain lexicographic ranking: Severe miles, High miles, average index, then time. Explain strict cargo boundaries and No Travel exclusion. If actual weather is benign, use the clearly identified automated threshold tests to demonstrate hazardous branches; never portray fixture weather as a live forecast. |
+| 5:50–6:50 | Show the small backend layout: provider adapters → geometry/ETA → weather lookup → deterministic risk/exposure/ranking. Briefly show genuine test output and distinguish mocked tests from live provider/browser evidence. Point out server-only credentials, bounded batches and caching. |
+| 6:50–7:40 | State limits plainly: forecast uncertainty, interpolation and sampled exposure, unconfigured physical truck dimensions, free quotas/cold starts, and bounded corridor resolution. Show repository/setup and actual demo links. Close with the tradeoff: correctness and clear uncertainty over extra features. |
+
+Before recording: confirm live route/weather access, public link permissions and audio; hide .env, API dashboards and terminal history containing credentials. Record actual success/failure behavior. After recording, verify the real Loom link is accessible and add it to README. Do not claim screenshots or automated tests are a recorded walkthrough.

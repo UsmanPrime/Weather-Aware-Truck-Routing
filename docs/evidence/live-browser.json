@@ -1,9 +1,9 @@
 {
-  "run_at": "2026-11-01T10:00:25.085Z",
+  "run_at": "2026-11-01T10:40:37.685Z",
   "data_kind": "live_provider_browser_verification",
   "browser": "156.0.8078.4",
   "renderer": "Chromium headless / software ANGLE",
-  "viewport": "1600\u00d71200 and 390\u00d7844",
+  "viewport": "1600×1200 and 390×844",
   "route_count": 3,
   "checkpoint_counts": [
     3,
@@ -17,19 +17,21 @@
   ],
   "grid_cells": 35,
   "frame_count": 49,
+  "action_to_plan_ready_ms": 6560,
+  "plan_http_request_ms": 6487,
   "frame0_wind_mph": [
-    1.8019764574882684,
+    0.4970969537898672,
+    4.101049868766403,
     3.47967867652907,
-    3.1689930804104027,
-    2.485484768949336,
-    1.6155650998170683
+    1.6155650998170683,
+    1.5534279805933349
   ],
   "frame48_wind_mph": [
-    15.285731329038416,
-    14.975045732919748,
-    14.602223017577348,
-    14.415811659906147,
-    15.596416925157083
+    10.625447387258411,
+    13.73230334844508,
+    12.80024656008908,
+    11.557504175614412,
+    10.936132983377078
   ],
   "source": {
     "route_features": 3,
@@ -39,23 +41,23 @@
   "frame_render_measurements": [
     {
       "hour": 12,
-      "input_to_render_ms": 208.6
+      "input_to_render_ms": 48.8
     },
     {
       "hour": 24,
-      "input_to_render_ms": 74.4
+      "input_to_render_ms": 158.8
     },
     {
       "hour": 36,
-      "input_to_render_ms": 210.2
+      "input_to_render_ms": 55.3
     },
     {
       "hour": 48,
-      "input_to_render_ms": 79.4
+      "input_to_render_ms": 39
     },
     {
       "hour": 0,
-      "input_to_render_ms": 36.3
+      "input_to_render_ms": 31.7
     }
   ],
   "requests": {
@@ -65,7 +67,5 @@
   "recommendation_unchanged": true,
   "horizontal_overflow": false,
   "page_errors": [],
-  "note": "Real local backend and providers; no intercepted API responses. Five render measurements are not a general p95 guarantee.",
-  "action_to_plan_ready_ms": 22527,
-  "timing_note": "Action-to-plan includes browser click auto-wait; this earlier measurement is not pure HTTP latency."
+  "note": "Real local backend and providers; no intercepted API responses. Five render measurements are not a general p95 guarantee."
 }

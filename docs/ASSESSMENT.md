@@ -12,7 +12,7 @@ Build a React + Django web app helping a truck driver choose the safest route ba
 | E02 | Origin and destination input (p1) | TripForm, geocoding adapter | Both places resolved and selected; invalid/ambiguous places handled |
 | E03 | Departure date/time input (p1) | TripForm, validation | Offset-aware departure survives API round trip and timezone conversion |
 | E04 | Load weight input (p1) | TripForm, domain | Pounds visible; exact load boundaries tested |
-| E05 | Generate 3 route options using routing API (p1) | HERE adapter | Three genuine alternatives for supported test journey; unavailable alternatives explicitly reported |
+| E05 | Generate 3 route options using routing API (p1) | ORS driving-hgv adapter | Three genuine alternatives for supported test journey; unavailable alternatives explicitly reported |
 | E06 | Weather every 10 / 25 / 50 miles (p1) | checkpoint sampler | All three intervals selectable; measured chainage, endpoints and short remainder verified |
 | E07 | Use truck ETA at each checkpoint (p1) | timing + forecast lookup | Different checkpoint arrival times select corresponding forecast hours |
 | E08 | Calculate weather risk using provided rules (p1–2) | risk.py | Every weather/load threshold and boundary tested |
@@ -59,4 +59,4 @@ The PDF does not define decimal wind bands, shared rain/snow endpoints, multi-ha
 
 ## Completion gate
 
-Every matrix row needs recorded evidence before final submission. Planning is approved; see IMPLEMENTATION.md for milestone evidence. The full routing workflow, deployment, repository publication and Loom remain future work.
+Every matrix row needs recorded evidence before final submission. The full routing workflow and corridor forecast are implemented and locally verified; see IMPLEMENTATION.md and FINAL_AUDIT.md. Hosted verification, publication of local commits and a recorded Loom remain delivery gates.
