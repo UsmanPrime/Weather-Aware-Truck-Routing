@@ -2,8 +2,10 @@
 
 from datetime import datetime
 from hashlib import sha256
+from itertools import groupby
 from urllib.parse import urlsplit
 
+from routing.domain.geometry import distance
 from routing.domain.types import (
     Coordinate,
     Notice,
@@ -55,7 +57,7 @@ def parse_routes(payload: object) -> RouteDiscovery:
                 Coordinate(latitude=p[1], longitude=p[0]) for p in geometry["coordinates"]
             )
             fingerprint = tuple(
-                dict.fromkeys((round(p.latitude, 6), round(p.longitude, 6)) for p in points)
+                k for k, _ in groupby((round(p.latitude, 6), round(p.longitude, 6)) for p in points)
             )
             if fingerprint in seen:
                 duplicates += 1
@@ -156,12 +158,18 @@ class OrsRouting:
             "instructions": True,
             "alternative_routes": {"target_count": 3, "share_factor": 0.8, "weight_factor": 1.6},
         }
-        payload = self.transport.post_json(
-            "ors",
-            self.base_url + "/v2/directions/driving-hgv/geojson",
-            body,
-            {"Authorization": self.api_key, "Accept": "application/geo+json"},
-        )
+        if distance(origin, destination) > 100_000:
+            body.pop("alternative_routes")
+        endpoint = self.base_url + "/v2/directions/driving-hgv/geojson"
+        headers = {"Authorization": self.api_key, "Accept": "application/geo+json"}
+        try:
+            payload = self.transport.post_json("ors", endpoint, body, headers)
+        except ProviderError as error:
+            if error.code != "route_limit" or "alternative_routes" not in body:
+                raise
+            # One explicit truck-only fallback for the public alternative distance limit.
+            body.pop("alternative_routes")
+            payload = self.transport.post_json("ors", endpoint, body, headers)
         return parse_routes(payload)
 
 

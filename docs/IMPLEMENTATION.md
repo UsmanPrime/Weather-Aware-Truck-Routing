@@ -12,6 +12,12 @@ Assessment window: November 1–4, 2026. Milestone work and checks below perform
 
 ## Implemented scope
 
+Phase 2 completed the database-free `/geocode` and `/plans` workflow, bounded forecast batches/cache, per-IP throttles and conservative per-process free-provider budgets. Checkpoint chainage follows official step distances reconciled to section and route totals; within-step geometry and duration are interpolated with explicit estimation labels. Missing step timing falls back to section-level interpolation with a visible note. Exposure uses maximum endpoint risk for each interval and distance weighting, preserving unknown measurements and No Travel. API validators require timezone-aware departure, IANA zone, finite cargo weight and 10/25/50-mile interval.
+
+Phase 2 gate: 199 backend tests passed, 0 failed; Ruff passed; Django checks reported 0 issues. Synthetic pipeline tests include ETA-varying weather, conservative exposure, all No Travel, unknowns, short/exact/remainder distances, multi-section timing, caching and API rate limits.
+
+Live [complete backend plan](evidence/live-plan.json): Pelias searches returned 2 candidates each; the plan returned 3 genuine truck routes, 5 checkpoints each at 10-mile spacing, 100% required forecast coverage, no warnings and zero exposure-distance conservation error. Current weather tied on risk, so the shortest estimated duration won. This is real provider evidence, separate from deterministic tests. ORS-only fallback for long trips returns a single genuine truck route with an explicit alternatives warning; no car substitution occurs.
+
 - React 19 / TypeScript / Vite application with Tailwind design tokens, honest service-status UI, validated health response and lazy MapLibre boundary. MapLibre is installed but no map, route form or heatmap is presented as working.
 - Database-free Django 5.2 / DRF project and `GET /api/v1/health`. Structured provider/DRF errors; no authentication, database, Redis, Celery or analytics installed/configured.
 - Frozen domain data structures, explicit units, normalization, all PDF weather/load thresholds, unknown-preserving combination and lexicographic eligible-route ordering. Ranking consumes validated comparison metrics; route exposure aggregation is future work.

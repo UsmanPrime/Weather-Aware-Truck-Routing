@@ -26,10 +26,18 @@ USE_TZ = True
 TIME_ZONE = "UTC"
 APPEND_SLASH = False
 DATA_UPLOAD_MAX_MEMORY_SIZE = 256 * 1024
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "weather-routing",
+        "OPTIONS": {"MAX_ENTRIES": 2048},
+    }
+}
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "UNAUTHENTICATED_USER": None,
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
     "EXCEPTION_HANDLER": "routing.api.errors.exception_handler",
+    "DEFAULT_THROTTLE_RATES": {"geocode": "20/minute", "plans": "5/minute", "corridor": "3/minute"},
 }

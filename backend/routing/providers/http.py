@@ -72,6 +72,21 @@ class HttpTransport:
         except HTTPError as exc:
             retry_after = exc.headers.get("Retry-After", "") if exc.headers else ""
             status = exc.code
+            if provider == "ors" and status in (400, 404):
+                try:
+                    code = json.loads(exc.read(65536)).get("error", {}).get("code")
+                except (ValueError, AttributeError):
+                    code = None
+                if code == 2004:
+                    exc.close()
+                    raise ProviderError(
+                        provider, "route_limit", "Public routing distance limit exceeded.", 422
+                    ) from None
+                if code in (2009, 2010):
+                    exc.close()
+                    raise ProviderError(
+                        provider, "no_routes", "No routable truck road near these locations.", 422
+                    ) from None
             exc.close()
             if status == 429:
                 raise ProviderError(
