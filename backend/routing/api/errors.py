@@ -1,0 +1,24 @@
+from uuid import uuid4
+
+from rest_framework.response import Response
+from rest_framework.views import exception_handler as drf_exception_handler
+
+from routing.providers.errors import ProviderError
+
+
+def exception_handler(exc, context):
+    request_id = str(uuid4())
+    if isinstance(exc, ProviderError):
+        return Response({"error": exc.as_dict(request_id)}, status=exc.http_status)
+    response = drf_exception_handler(exc, context)
+    if response is not None:
+        response.data = {
+            "error": {
+                "code": f"http_{response.status_code}",
+                "message": "Request could not be processed.",
+                "retryable": response.status_code == 429,
+                "request_id": request_id,
+                "fields": response.data,
+            }
+        }
+    return response

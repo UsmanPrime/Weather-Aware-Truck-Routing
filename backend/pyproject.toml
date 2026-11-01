@@ -1,0 +1,25 @@
+[project]
+name = "weather-aware-routing"
+version = "0.1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "django>=5.2,<5.3",
+  "djangorestframework>=3.16,<3.17",
+  "flexpolyline>=0.1,<0.2",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.4,<10", "pytest-django>=4.11,<5", "ruff>=0.14,<0.15"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ["."]
+testpaths = ["routing/tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

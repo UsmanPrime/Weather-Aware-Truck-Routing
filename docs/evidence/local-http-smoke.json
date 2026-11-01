@@ -1,0 +1,19 @@
+{
+  "run_at": "2026-11-01T08:29:55.156517+00:00",
+  "kind": "real_local_http_smoke",
+  "results": {
+    "django": {
+      "status": 200,
+      "contract": "verified"
+    },
+    "vite_html": {
+      "status": 200,
+      "contract": "verified"
+    },
+    "vite_proxy": {
+      "status": 200,
+      "contract": "verified"
+    }
+  },
+  "browser_rendering": "not tested"
+}

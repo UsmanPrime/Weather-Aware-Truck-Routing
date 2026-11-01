@@ -1,0 +1,37 @@
+# Proposed engineering decisions
+
+Status: architecture approved with targeted corrections; Milestone 1 implementation authorized November 1, 2026. The PDF prevails. Changes to assumptions must update tests and contracts. See IMPLEMENTATION.md for verified progress; planning decisions below are not claims of completed features.
+
+| ID | Decision / rationale | Remaining question or risk |
+|---|---|---|
+| D01 | Use the proposed React/TS/Vite, Tailwind tokens, MapLibre/OpenFreeMap, DRF, HERE and Open-Meteo stack. Single synchronous Django service, no database or queue initially. | Confirm current provider entitlements, quotas, attribution and hosting limits in day-one spike. |
+| D02 | Interpret continuous wind bands as [0,25), [25,35), [35,45), [45,55), [55,∞). Same continuous bounds for load overrides. | PDF uses integer ranges; decimals otherwise leave gaps. |
+| D03 | At overlapping rain boundaries 0.25/0.50 and snow 1.0/2.0 choose the higher severity. Rain 1.00 and snow 3.0 remain Severe because No Travel explicitly uses >. | Conservative resolution of ambiguous shared endpoints; requires review. |
+| D04 | Combine wind after load override, rain and snow using maximum severity. Ordinal encoding Low=0, Moderate=1, High=2, Severe=3, No Travel=4. | PDF supplies no combination or numerical encoding. This is an ordinal index, not a probability. |
+| D05 | Treat any No Travel exposure as ineligible, and any unknown weather as incomplete and ineligible for definitive recommendation. Rank complete eligible candidates by exact PDF order. | PDF does not say where No Travel ranks. Safety exclusion prevents prohibited travel winning on zero Severe miles. If candidates are missing, best available is provisional. |
+| D06 | Assign each between-checkpoint interval the maximum severity of its two endpoints. Distance-weight average over those intervals. | Conservative discrete approximation; can overestimate exposure by up to interval lengths. Show sampling resolution and estimation label. |
+| D07 | Default 25-mile sampling; expose 10/25/50. Request dynamicSpeedInfo with span length/duration to induce speed-related boundaries. Preserve section summary and travelSummary separately. | Length/duration are span metadata and do not create boundaries. Live span granularity and pre/post-action time allocation must be verified before checkpoint interpolation; do not claim exact timing. |
+| D08 | Forecast slider anchored to requested departure (0 through +48 hours), hourly. Corridor union covers every alternative. Default corridor extends 25 km on each side; cap grid to 250 cells, adaptive density. | PDF gives no anchor, corridor width or density; disclose spatial resolution. |
+| D09 | Use sustained wind at 10 m, rain + showers (distinct large-scale and convective hourly liquid components), and snowfall depth in cm. Never add total precipitation to rain/showers or substitute snow-water equivalent. | Official hourly documentation defines precipitation as preceding-hour accumulation; snowfall is new snowfall depth, not snow depth on the ground. Adapter validates actual units. Live evidence remains separate from documentation/fixtures. |
+| D10 | Store UTC; show origin's selected IANA zone plus explicit UTC offsets in entry/summary, and local checkpoint zone when reliable metadata exists (otherwise UTC labeled). | Geocoding may not supply zone; add explicit zone selector with browser zone clearly labeled as default, never inferred as origin zone. |
+| D11 | Load is cargo pounds only. Do not pass it as gross vehicle weight to HERE. Request truck mode without inventing dimensions or legal weight. Explain unconfigured vehicle restrictions. | Assessment does not supply tare weight, dimensions, axles or hazardous cargo. Must not imply full commercial dispatch suitability. |
+| D12 | Request two alternatives plus primary; never duplicate/manufacture options. Return fewer honestly with warning. | Three routes are explicit; validate demo corridors early. Provider cannot guarantee alternatives for every pair. |
+| D13 | Route risk eligibility depends only on required weather coverage at checkpoint ETAs. Independently report unavailable 0–48h heatmap frames/cells as unknown. | An incomplete heatmap never invalidates an otherwise evaluable route. Check actual returned forecast coverage rather than an advertised maximum horizon. |
+| D14 | Use standard library HTTP client initially with bounded ThreadPoolExecutor for batched requests; use one shared timeout/deadline policy. Use Django local-memory cache first. | Per-worker cache duplication acceptable at assessment scale; reconsider only with measured quota pressure. |
+| D15 | Start corridor work with bounded batches and record response bytes/latency before density optimization. Use uncompressed signed context initially; reject compressed tokens. Bound encoded input to 128 KiB, decoded JSON to 96 KiB, at most 3 routes/6,000 total coordinates, valid numeric coordinates and 30-minute expiry. | Context is future milestone work. Avoiding compression removes decompression bombs; if compression is later justified, enforce decoded size during streaming decompression, before JSON parsing, not after it. |
+
+## Critical unknowns and resolution gates
+
+1. HERE credentials, truck routing entitlement, genuine alternatives, notices, flexible-polyline decoding and duration spans: prove with a small live integration before UI polish. If insufficient, report the shortfall; do not substitute fabricated routes.
+2. Open-Meteo hourly variable units, accumulation timestamps, batch ordering/limits, nulls and actual coverage: confirm with a recorded schema/provenance sample and explicit unit tests before risk integration.
+3. Free provider usage rights, attribution, allowed caching, quota and deployment service availability: verify current terms before deployment; do not assume assessment/noncommercial access permits every later use.
+4. Domain ambiguities D02–D13: review now; keep assumptions visible in UI methodology and documentation if clarification is unavailable.
+5. Hosted latency, cold starts and corridor rendering: measure early on deployed preview and target browser; tune density/concurrency only with evidence.
+
+## Provider documentation checked during planning
+
+- [HERE route calculation reference](https://docs.here.com/routing/reference/routing-api-v8-calculateroutes): adapter integration reference; validate exact request/response with entitled account during spike.
+- [HERE time-dependent routing](https://docs.here.com/routing/docs/routing-v8-time-dependent-routing): departure timestamps accept RFC3339. Always send a known departure.
+- [Open-Meteo forecast documentation](https://open-meteo.com/en/docs): hourly model forecasts and variable metadata; coverage must be checked in actual returned series.
+
+Documentation lookup is not evidence that provider calls or deployment work. No provider credentials or successful live calls have been established in this planning phase.

@@ -1,0 +1,97 @@
+{
+  "data_kind": "live_provider_smoke",
+  "run_at": "2026-11-01T07:02:21.159262+00:00",
+  "departure_at": "2026-11-01T08:00:00+00:00",
+  "results": {
+    "here": [
+      {
+        "corridor": "Chicago\u2013Indianapolis",
+        "status": "blocked",
+        "error": {
+          "code": "missing_credentials",
+          "message": "HERE_API_KEY is not configured.",
+          "provider": "here",
+          "retryable": false,
+          "request_id": "smoke"
+        }
+      }
+    ],
+    "open_meteo": {
+      "status": "success",
+      "elapsed_s": 1.033,
+      "units_validated": {
+        "time": "unixtime",
+        "wind_speed_10m": "km/h",
+        "rain": "mm",
+        "showers": "mm",
+        "snowfall": "cm"
+      },
+      "batch_size": 3,
+      "response_bytes": 16566,
+      "batch_order_check": "grid within 1 degree of corresponding request",
+      "semantics": "wind instant; rain + showers and snowfall preceding-hour sums",
+      "locations": [
+        {
+          "requested": {
+            "latitude": 41.8781,
+            "longitude": -87.6298
+          },
+          "returned_grid": {
+            "latitude": 41.879498,
+            "longitude": -87.64974
+          },
+          "hour_count": 168,
+          "first_valid_at": "2026-11-01T00:00:00+00:00",
+          "last_valid_at": "2026-11-07T23:00:00+00:00",
+          "missing_measurements": 0,
+          "available_frames_0_to_48": 49,
+          "first_normalized_hour": {
+            "wind_mph": 9.32056788356001,
+            "rain_in_per_hr": 0.0,
+            "snow_in_per_hr": 0.0
+          }
+        },
+        {
+          "requested": {
+            "latitude": 40.4842,
+            "longitude": -88.9937
+          },
+          "returned_grid": {
+            "latitude": 40.49058,
+            "longitude": -88.98608
+          },
+          "hour_count": 168,
+          "first_valid_at": "2026-11-01T00:00:00+00:00",
+          "last_valid_at": "2026-11-07T23:00:00+00:00",
+          "missing_measurements": 0,
+          "available_frames_0_to_48": 49,
+          "first_normalized_hour": {
+            "wind_mph": 4.846695299451205,
+            "rain_in_per_hr": 0.043307086614173235,
+            "snow_in_per_hr": 0.0
+          }
+        },
+        {
+          "requested": {
+            "latitude": 38.627,
+            "longitude": -90.1994
+          },
+          "returned_grid": {
+            "latitude": 38.622715,
+            "longitude": -90.2129
+          },
+          "hour_count": 168,
+          "first_valid_at": "2026-11-01T00:00:00+00:00",
+          "last_valid_at": "2026-11-07T23:00:00+00:00",
+          "missing_measurements": 0,
+          "available_frames_0_to_48": 49,
+          "first_normalized_hour": {
+            "wind_mph": 4.908832418674939,
+            "rain_in_per_hr": 0.0,
+            "snow_in_per_hr": 0.0
+          }
+        }
+      ]
+    }
+  }
+}
