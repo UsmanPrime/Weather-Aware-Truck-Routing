@@ -1036,6 +1036,12 @@ input::placeholder {
   color: #506978;
   padding-top: 6px;
 }
+@media (min-width: 761px) and (max-width: 1100px) {
+  .forecast-scrubber {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+}
 @media (max-width: 760px) {
   .forecast-scrubber {
     grid-template-columns: 1fr;

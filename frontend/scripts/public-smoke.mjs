@@ -30,7 +30,7 @@ function origin(value, name) {
 const frontend = origin(process.env.PUBLIC_FRONTEND_URL, 'PUBLIC_FRONTEND_URL');
 const backend = origin(process.env.PUBLIC_BACKEND_URL, 'PUBLIC_BACKEND_URL');
 const api = `${backend}/api/v1`;
-const output = process.env.PUBLIC_SMOKE_OUTPUT || 'test-results/public-smoke';
+const output = process.env.PUBLIC_SMOKE_OUTPUT || '../.cache/public-smoke';
 await mkdir(output, { recursive: true });
 const report = {
   run_at: new Date().toISOString(),

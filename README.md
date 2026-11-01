@@ -2,7 +2,7 @@
 
 A React + Django assessment prototype that compares genuine truck routes using weather expected at road-distance checkpoints. Built for the [Spotter specification](docs/fs-assessment-spotter.pdf), November 1-4, 2026.
 
-**Hosted demo:** pending deployment approval and verification.
+**Hosted demo:** [Public application](https://spotter-weather-routing-jm1n.onrender.com). A bounded real public journey passed November 1, 2026; see [production audit](docs/PRODUCTION_AUDIT.md) for verified scope, local-only fixes and remaining checks.
 
 **Loom:** not recorded; [7-8 minute outline](docs/WALKTHROUGH.md).
 

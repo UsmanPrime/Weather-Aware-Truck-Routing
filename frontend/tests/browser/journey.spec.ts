@@ -142,6 +142,12 @@ test('synthetic journey: comparison, inspector and real map sources stay synchro
     path: testInfo.outputPath('journey.png'),
     fullPage: true,
   });
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.locator('.forecast-scrubber').scrollIntoViewIfNeeded();
+  expect(
+    (await page.locator('.scrubber-track').boundingBox())!.width,
+  ).toBeGreaterThan(300);
+  await page.screenshot({ path: testInfo.outputPath('tablet.png') });
 });
 
 test('synthetic journey: keyboard autocomplete and validation', async ({
