@@ -2,7 +2,7 @@
 
 from bisect import bisect_left
 from dataclasses import dataclass
-from math import asin, atan2, cos, degrees, radians, sin, sqrt
+from math import asin, atan2, cos, degrees, isfinite, radians, sin, sqrt
 
 from .types import Coordinate, ProviderRoute, RouteSpan
 from .units import miles_to_meters
@@ -54,7 +54,10 @@ class Sample:
 def route_edges(route: ProviderRoute) -> tuple[tuple[TimedEdge, ...], tuple[str, ...]]:
     section_m = sum(s.distance_m for s in route.sections)
     section_s = sum(s.duration_s for s in route.sections)
-    if route.distance_m <= 0 or route.duration_s <= 0 or section_m <= 0 or section_s <= 0:
+    if any(
+        not isfinite(v) or v <= 0
+        for v in (route.distance_m, route.duration_s, section_m, section_s)
+    ):
         raise ValueError("Route has no positive distance/duration")
     edges, warnings = [], []
     current_m = current_s = 0.0
@@ -151,6 +154,8 @@ def sample_route(
         if len(positions) > 600:
             raise ValueError("Trip exceeds checkpoint limit; choose coarser spacing")
     positions.append(route.distance_m)
+    if len(positions) > 600:
+        raise ValueError("Trip exceeds checkpoint limit; choose coarser spacing")
     ends = [e.end_m for e in edges]
     result = []
     for chainage in positions:

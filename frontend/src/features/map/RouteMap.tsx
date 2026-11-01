@@ -72,6 +72,7 @@ export default function RouteMap({
   };
   useEffect(() => {
     let cancelled = false;
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
     void loadMapEngine()
       .then((library) => {
         if (cancelled || !container.current) return;
@@ -81,6 +82,7 @@ export default function RouteMap({
           center: [-97.07, 32.78],
           zoom: 8.8,
           attributionControl: { compact: true },
+          pixelRatio: Math.min(window.devicePixelRatio, 2),
         });
         map.current = instance;
         // Development-only handle lets browser tests inspect actual MapLibre sources/layers.
@@ -90,13 +92,34 @@ export default function RouteMap({
           new library.NavigationControl({ showCompass: false }),
           'top-left',
         );
-        instance.on('error', () =>
+        instance.on('error', (event) => {
+          if (import.meta.env.DEV && container.current)
+            container.current.dataset.lastMapError = event.error.message;
           setNotice(
-            'Some map tiles could not load. Journey details remain available below.',
-          ),
-        );
-        instance.on('load', () => {
+            'Some map tiles could not load. Route geometry and journey details remain available.',
+          );
+        });
+        fallbackTimer = setTimeout(() => {
+          if (!instance.isStyleLoaded()) {
+            instance.setStyle({
+              version: 8,
+              sources: {},
+              layers: [
+                {
+                  id: 'offline-background',
+                  type: 'background',
+                  paint: { 'background-color': '#e6ece9' },
+                },
+              ],
+            });
+            setNotice(
+              'Basemap unavailable. Displaying route geometry without map tiles.',
+            );
+          }
+        }, 10000);
+        instance.once('style.load', () => {
           if (cancelled) return;
+          clearTimeout(fallbackTimer);
           for (const id of ['truck-routes', 'checkpoints', 'corridor-cells'])
             instance.addSource(id, {
               type: 'geojson',
@@ -106,7 +129,15 @@ export default function RouteMap({
             id: 'corridor-fill',
             type: 'fill',
             source: 'corridor-cells',
-            paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.23 },
+            paint: {
+              'fill-color': [
+                'coalesce',
+                ['feature-state', 'color'],
+                ['get', 'color'],
+              ],
+              'fill-opacity': 0.18,
+              'fill-color-transition': { duration: 0, delay: 0 },
+            },
           });
           instance.addLayer({
             id: 'corridor-grid',
@@ -122,11 +153,16 @@ export default function RouteMap({
             id: 'corridor-unknown',
             type: 'line',
             source: 'corridor-cells',
-            filter: ['==', ['get', 'missing'], true],
             paint: {
               'line-color': '#6c7b88',
               'line-width': 1,
               'line-dasharray': [2, 2],
+              'line-opacity': [
+                'case',
+                ['==', ['feature-state', 'missing'], true],
+                1,
+                0,
+              ],
             },
           });
           popup.current = new library.Popup({
@@ -136,8 +172,13 @@ export default function RouteMap({
             className: 'weather-popup',
           });
           instance.on('mousemove', 'corridor-fill', (event) => {
-            const props = event.features?.[0]?.properties;
-            if (!props || !popup.current) return;
+            const feature = event.features?.[0];
+            if (!feature || feature.id === undefined || !popup.current) return;
+            const props = instance.getFeatureState({
+              source: 'corridor-cells',
+              id: feature.id,
+            });
+            if (typeof props.valid_at !== 'string') return;
             const node = document.createElement('div');
             const format = (value: unknown, units: string) =>
               value === null || value === undefined
@@ -243,6 +284,7 @@ export default function RouteMap({
       });
     return () => {
       cancelled = true;
+      clearTimeout(fallbackTimer);
       markers.current.forEach((marker) => marker.remove());
       markers.current = [];
       popup.current?.remove();
@@ -261,11 +303,22 @@ export default function RouteMap({
   }, [plan, selectedRoute, activeCheckpoint, ready]);
   useEffect(() => {
     if (!ready || !map.current) return;
+    map.current.removeFeatureState({ source: 'corridor-cells' });
+    (map.current.getSource('corridor-cells') as GeoJSONSource).setData(
+      forecastFeatures(forecast, 0, 'risk'),
+    );
+  }, [forecast, ready]);
+  useEffect(() => {
+    if (!ready || !map.current) return;
     const handle = requestAnimationFrame(() => {
       if (!map.current) return;
-      (map.current.getSource('corridor-cells') as GeoJSONSource).setData(
-        forecastFeatures(forecast, forecastHour, metric),
-      );
+      for (const feature of forecastFeatures(forecast, forecastHour, metric)
+        .features) {
+        map.current.setFeatureState(
+          { source: 'corridor-cells', id: feature.id },
+          feature.properties,
+        );
+      }
       for (const id of ['corridor-fill', 'corridor-grid', 'corridor-unknown'])
         map.current.setLayoutProperty(
           id,
@@ -305,7 +358,11 @@ export default function RouteMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [plan?.request_id, ready]);
   return (
-    <div className="map-shell" data-selected-route={selectedRoute || ''}>
+    <div
+      className="map-shell"
+      data-map-ready={ready}
+      data-selected-route={selectedRoute || ''}
+    >
       <div
         ref={container}
         className="map-canvas"
@@ -317,6 +374,20 @@ export default function RouteMap({
         <Icon name="focus" />
         Fit routes
       </button>
+      {forecast && weatherVisible && (
+        <div className="forecast-map-label">
+          Corridor forecast · +{forecastHour}h{' '}
+          <span>
+            {metric === 'risk'
+              ? 'Combined risk'
+              : metric === 'wind_mph'
+                ? 'Wind · mph'
+                : metric === 'rain_in_per_hr'
+                  ? 'Rain · in/hr'
+                  : 'Snow · in/hr'}
+          </span>
+        </div>
+      )}
       {!plan && (
         <div className="map-empty">
           <span className="eyebrow">A CLEARER VIEW OF THE ROAD</span>

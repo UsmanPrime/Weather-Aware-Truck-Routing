@@ -32,7 +32,12 @@ def plan_trip(data: dict, *, routes_provider=None, forecasts_provider=None) -> d
         if routes_provider
         else cached_call(
             "routes",
-            (os.environ.get("ROUTING_PROVIDER", "ors"), origin, destination),
+            (
+                os.environ.get("ROUTING_PROVIDER", "ors"),
+                origin,
+                destination,
+                data["departure_at"] if os.environ.get("ROUTING_PROVIDER") == "here" else None,
+            ),
             300,
             lambda: provider.discover(origin, destination, data["departure_at"]),
             "ors",
@@ -47,7 +52,11 @@ def plan_trip(data: dict, *, routes_provider=None, forecasts_provider=None) -> d
         try:
             samples, notes = sample_route(route, data["checkpoint_interval_mi"])
             sampled.append((route, samples, notes))
-        except ValueError:
+        except ValueError as error:
+            if "checkpoint limit" in str(error):
+                raise ProviderError(
+                    "ors", "trip_limit", "Too many checkpoints; choose coarser spacing.", 422
+                ) from None
             warnings.append(
                 {
                     "code": "unusable_geometry",
@@ -149,6 +158,7 @@ def plan_trip(data: dict, *, routes_provider=None, forecasts_provider=None) -> d
             if len(routes) == 3
             and not warnings
             and all(r["status"] != "incomplete" for r in routes)
+            and all(r["coverage_fraction"] >= 1 - 1e-12 for r in routes)
             else "available_candidates"
         )
         if ordered

@@ -7,7 +7,6 @@ export default function ForecastControls({
   loading,
   error,
   hour,
-  setHour,
   metric,
   setMetric,
   visible,
@@ -19,7 +18,6 @@ export default function ForecastControls({
   loading: boolean;
   error: string;
   hour: number;
-  setHour: (hour: number) => void;
   metric: WeatherMetric;
   setMetric: (metric: WeatherMetric) => void;
   visible: boolean;
@@ -116,26 +114,6 @@ export default function ForecastControls({
               <br />
               {Math.round(forecast.grid_spacing_m / 1000)} km grid
             </span>
-          </div>
-          <label className="sr-only" htmlFor="forecast-hour">
-            Forecast hour
-          </label>
-          <input
-            id="forecast-hour"
-            type="range"
-            min="0"
-            max="48"
-            step="1"
-            value={hour}
-            aria-valuetext={`Departure plus ${hour} hours, ${timestamp(frame.valid_at, zone)}`}
-            onChange={(e) => setHour(Number(e.target.value))}
-          />
-          <div className="forecast-ticks">
-            <button onClick={() => setHour(0)}>Departure</button>
-            <button onClick={() => setHour(12)}>+12h</button>
-            <button onClick={() => setHour(24)}>+24h</button>
-            <button onClick={() => setHour(36)}>+36h</button>
-            <button onClick={() => setHour(48)}>+48h</button>
           </div>
           <div className="forecast-legend" aria-label="Corridor weather legend">
             {legends[metric].map((label, index) => (

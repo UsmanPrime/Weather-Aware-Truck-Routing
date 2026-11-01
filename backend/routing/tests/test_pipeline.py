@@ -307,3 +307,38 @@ def test_forecast_exact_coordinate_cache_reuse():
         two, _ = load_forecasts(tuple(reversed(positions)))
         assert factory.call_count == 1
         assert one == two
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"load_lb": True},
+        {"origin": {"id": "a", "label": "Invalid boolean", "position": [True, 32]}},
+    ],
+)
+def test_boolean_measurements_rejected(changes):
+    data = request_data()
+    data["departure_at"] = NOW.isoformat()
+    data.update(changes)
+    assert APIClient().post("/api/v1/plans", data, format="json").status_code == 400
+
+
+def test_checkpoint_limit_includes_destination():
+    with pytest.raises(ValueError, match="checkpoint limit"):
+        sample_route(road(miles_to_meters(10) * 599 + 0.1), 10)
+
+
+@pytest.mark.parametrize("length", [float("nan"), float("inf"), 0])
+def test_nonfinite_and_empty_road_totals_rejected(length):
+    with pytest.raises(ValueError):
+        route_edges(road(length))
+
+
+def test_unexpected_api_error_is_structured_and_sanitized():
+    data = request_data()
+    data["departure_at"] = NOW.isoformat()
+    with patch("routing.api.views.plan_trip", side_effect=RuntimeError("sensitive details")):
+        response = APIClient().post("/api/v1/plans", data, format="json")
+    assert response.status_code == 500
+    assert response.json()["error"]["code"] == "internal_error"
+    assert "sensitive" not in response.content.decode()

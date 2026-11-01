@@ -1,4 +1,11 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { fetchHealth } from '../api/health';
 import { createPlan, loadCorridor } from '../api/client';
 import type {
@@ -8,6 +15,7 @@ import type {
   WeatherMetric,
 } from '../api/contracts';
 import ForecastControls from '../features/forecast/ForecastControls';
+import ForecastSlider from '../features/forecast/ForecastSlider';
 import Icon from '../components/Icon';
 import { riskColors, riskLabel, timestamp } from '../components/format';
 import TripForm from '../features/trip/TripForm';
@@ -58,11 +66,11 @@ export default function App() {
   const active =
     route?.checkpoints.find((cp) => cp.id === checkpoint) ||
     route?.checkpoints[0];
-  const selectRoute = (id: string) => {
+  const selectRoute = useCallback((id: string) => {
     setSelected(id);
     setCheckpoint(null);
-  };
-  const fetchForecast = async (result: Plan) => {
+  }, []);
+  const fetchForecast = useCallback(async (result: Plan) => {
     forecastController.current?.abort();
     const next = new AbortController();
     forecastController.current = next;
@@ -86,41 +94,52 @@ export default function App() {
     } finally {
       if (!next.signal.aborted) setForecastLoading(false);
     }
-  };
-  const generate = async (request: PlanRequest) => {
-    const submittedRevision = revision.current;
-    controller.current?.abort();
-    const requestController = new AbortController();
-    controller.current = requestController;
-    setLoading(true);
-    setError('');
-    try {
-      const result = await createPlan(request, requestController.signal);
-      if (requestController.signal.aborted) return;
-      setPlan(result);
-      setSelected(result.recommendation.route_id || result.routes[0].id);
-      setCheckpoint(null);
-      setDirty(revision.current !== submittedRevision);
-      setForecast(null);
-      setHour(0);
-      void fetchForecast(result);
-      if (window.innerWidth < 800)
-        resultHeading.current?.scrollIntoView({
-          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
-            ? 'instant'
-            : 'smooth',
-        });
-    } catch (error) {
-      if (!requestController.signal.aborted)
-        setError(
-          error instanceof Error
-            ? error.message
-            : 'The journey could not be calculated.',
-        );
-    } finally {
-      if (!requestController.signal.aborted) setLoading(false);
-    }
-  };
+  }, []);
+  const generate = useCallback(
+    async (request: PlanRequest) => {
+      const submittedRevision = revision.current;
+      controller.current?.abort();
+      const requestController = new AbortController();
+      controller.current = requestController;
+      setLoading(true);
+      setError('');
+      try {
+        const result = await createPlan(request, requestController.signal);
+        if (requestController.signal.aborted) return;
+        setPlan(result);
+        setSelected(result.recommendation.route_id || result.routes[0].id);
+        setCheckpoint(null);
+        setDirty(revision.current !== submittedRevision);
+        setForecast(null);
+        setHour(0);
+        void fetchForecast(result);
+        if (window.innerWidth < 800)
+          resultHeading.current?.scrollIntoView({
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
+              ? 'instant'
+              : 'smooth',
+          });
+      } catch (error) {
+        if (!requestController.signal.aborted)
+          setError(
+            error instanceof Error
+              ? error.message
+              : 'The journey could not be calculated.',
+          );
+      } finally {
+        if (!requestController.signal.aborted) setLoading(false);
+      }
+    },
+    [fetchForecast],
+  );
+  const onEdit = useCallback(() => {
+    revision.current += 1;
+    if (plan) setDirty(true);
+  }, [plan]);
+  const onMapCheckpoint = useCallback((routeId: string, id: string) => {
+    setSelected(routeId);
+    setCheckpoint(id);
+  }, []);
   return (
     <>
       <header className="app-header">
@@ -142,14 +161,7 @@ export default function App() {
       </header>
       <main id="main" className="workspace">
         <aside className="sidebar">
-          <TripForm
-            onGenerate={(data) => void generate(data)}
-            loading={loading}
-            onEdit={() => {
-              revision.current += 1;
-              if (plan) setDirty(true);
-            }}
-          />
+          <TripForm onGenerate={generate} loading={loading} onEdit={onEdit} />
           <details className="methodology">
             <summary>
               <Icon name="layers" />
@@ -289,10 +301,7 @@ export default function App() {
               selectedRoute={route?.id || null}
               activeCheckpoint={active?.id || null}
               onRoute={selectRoute}
-              onCheckpoint={(routeId, id) => {
-                setSelected(routeId);
-                setCheckpoint(id);
-              }}
+              onCheckpoint={onMapCheckpoint}
             >
               {plan && route && active && (
                 <CheckpointInspector
@@ -316,6 +325,14 @@ export default function App() {
               </div>
             </RouteMap>
           </Suspense>
+          {plan && forecast && (
+            <ForecastSlider
+              forecast={forecast}
+              hour={hour}
+              setHour={setHour}
+              zone={plan.departure_timezone}
+            />
+          )}
           {plan && route && active && (
             <div className="mobile-inspector">
               <CheckpointInspector
@@ -326,25 +343,24 @@ export default function App() {
             </div>
           )}
           {plan && (
+            <RouteComparison
+              plan={plan}
+              selected={route?.id || null}
+              onSelect={selectRoute}
+            />
+          )}
+          {plan && (
             <ForecastControls
               forecast={forecast}
               loading={forecastLoading}
               error={forecastError}
               hour={hour}
-              setHour={setHour}
               metric={metric}
               setMetric={setMetric}
               visible={weatherVisible}
               setVisible={setWeatherVisible}
               zone={plan.departure_timezone}
               retry={() => void fetchForecast(plan)}
-            />
-          )}
-          {plan && (
-            <RouteComparison
-              plan={plan}
-              selected={route?.id || null}
-              onSelect={selectRoute}
             />
           )}
           {plan && route && (

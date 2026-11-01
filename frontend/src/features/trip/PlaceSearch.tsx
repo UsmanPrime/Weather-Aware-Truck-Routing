@@ -31,7 +31,7 @@ export default function PlaceSearch({
           if (controller.signal.aborted) return;
           setPlaces(data.places);
           setActive(0);
-          setOpen(true);
+          setOpen(document.activeElement?.id === id);
           if (!data.places.length)
             setMessage('No matches. Try a city and state.');
         })
@@ -51,7 +51,7 @@ export default function PlaceSearch({
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, value]);
+  }, [query, value, id]);
   const choose = (place: Place) => {
     onChange(place);
     setQuery(place.label);
@@ -85,6 +85,8 @@ export default function PlaceSearch({
           onBlur={() => setOpen(false)}
           onChange={(event) => {
             setQuery(event.target.value);
+            setMessage('');
+            setPlaces([]);
             onChange(null);
             setOpen(false);
             setBusy(false);
@@ -128,8 +130,8 @@ export default function PlaceSearch({
           ))}
         </ul>
       )}
-      {busy && <small role="status">Searching places…</small>}
-      {message && <small role="status">{message}</small>}
+      {busy && !value && <small role="status">Searching places…</small>}
+      {message && !value && <small role="status">{message}</small>}
     </div>
   );
 }

@@ -18,10 +18,20 @@ class AwareDateTime(serializers.DateTimeField):
         return super().to_internal_value(value)
 
 
+class FiniteFloatField(serializers.FloatField):
+    def to_internal_value(self, value):
+        if isinstance(value, bool):
+            raise serializers.ValidationError("Use a finite number, not a boolean.")
+        result = super().to_internal_value(value)
+        if not isfinite(result):
+            raise serializers.ValidationError("Use a finite number.")
+        return result
+
+
 class PlaceSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=200)
     label = serializers.CharField(max_length=300)
-    position = serializers.ListField(child=serializers.FloatField(), min_length=2, max_length=2)
+    position = serializers.ListField(child=FiniteFloatField(), min_length=2, max_length=2)
 
     def validate_position(self, value):
         lon, lat = value
@@ -35,7 +45,7 @@ class PlanSerializer(serializers.Serializer):
     destination = PlaceSerializer()
     departure_at = AwareDateTime()
     departure_timezone = serializers.CharField(max_length=80)
-    load_lb = serializers.FloatField(min_value=0, max_value=200000)
+    load_lb = FiniteFloatField(min_value=0, max_value=200000)
     checkpoint_interval_mi = serializers.ChoiceField(choices=[10, 25, 50])
 
     def validate_load_lb(self, value):

@@ -192,7 +192,7 @@ class PeliasGeocoding:
         payload = self.transport.get_json(
             "pelias",
             self.base_url + "/search",
-            {"text": query, "size": "5", "boundary.country": "USA"},
+            {"text": query, "size": "5"},
             headers={"Authorization": self.api_key},
         )
         try:

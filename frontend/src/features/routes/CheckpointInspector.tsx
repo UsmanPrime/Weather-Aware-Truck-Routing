@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { Checkpoint, Plan, Route } from '../../api/contracts';
 import {
   miles,
@@ -20,7 +21,7 @@ export function RiskBadge({ risk }: { risk: Checkpoint['risk'] }) {
     </span>
   );
 }
-export default function CheckpointInspector({
+function CheckpointInspector({
   checkpoint,
   route,
   plan,
@@ -107,7 +108,7 @@ export default function CheckpointInspector({
         .
       </p>
       <p className="source-note">
-        Open-Meteo model forecast
+        Risk uses unrounded values. Open-Meteo model forecast
         {weather.retrieved_at
           ? ` · retrieved ${timestamp(weather.retrieved_at, plan.departure_timezone)}`
           : ''}
@@ -116,7 +117,7 @@ export default function CheckpointInspector({
   );
 }
 
-export function CheckpointList({
+function CheckpointListView({
   route,
   plan,
   active,
@@ -176,3 +177,7 @@ export function CheckpointList({
     </section>
   );
 }
+
+export const CheckpointList = memo(CheckpointListView);
+
+export default memo(CheckpointInspector);

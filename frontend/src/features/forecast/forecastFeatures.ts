@@ -45,6 +45,7 @@ export function forecastFeatures(
             const value = metric === 'risk' ? null : frame[metric][index];
             return {
               type: 'Feature' as const,
+              id: cell.id,
               geometry: {
                 type: 'Polygon' as const,
                 coordinates: [cell.polygon],

@@ -99,7 +99,10 @@ class HttpTransport:
                 ) from None
             if status in (401, 403):
                 raise ProviderError(
-                    provider, "access_denied", "Provider credentials or entitlement rejected.", 503
+                    provider,
+                    "access_denied",
+                    "Provider access denied or daily quota exhausted.",
+                    503,
                 ) from None
             raise ProviderError(
                 provider,

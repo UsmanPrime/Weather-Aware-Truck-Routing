@@ -76,3 +76,26 @@ def test_invalid_and_oversized_json_is_structured(body):
 
 def test_redirects_do_not_forward_credentials():
     assert NoRedirect().redirect_request(None, None, 302, "", {}, "https://other.invalid") is None
+
+
+def test_post_transport_uses_headers_and_sanitizes_provider_limit():
+    transport = HttpTransport()
+    error = HTTPError(
+        "https://synthetic.invalid",
+        400,
+        "Bad Request",
+        {},
+        io.BytesIO(b'{"error":{"code":2004,"message":"not forwarded"}}'),
+    )
+    with patch.object(transport.opener, "open", side_effect=error) as opener:
+        with pytest.raises(ProviderError, match="route_limit"):
+            transport.post_json(
+                "ors",
+                "https://synthetic.invalid",
+                {"coordinates": []},
+                {"Authorization": "synthetic-test-key"},
+            )
+    request = opener.call_args.args[0]
+    assert request.get_method() == "POST"
+    assert "synthetic-test-key" not in request.full_url
+    assert request.get_header("Authorization") == "synthetic-test-key"

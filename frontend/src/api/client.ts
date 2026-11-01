@@ -30,7 +30,14 @@ export async function request<T>(
       body === undefined ? undefined : { 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
-  const data: unknown = await response.json();
+  let data: unknown;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(
+      'The service returned an unreadable response. Try again shortly.',
+    );
+  }
   if (!response.ok) {
     const parsed = z
       .object({

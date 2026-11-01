@@ -1,0 +1,71 @@
+{
+  "run_at": "2026-11-01T10:00:25.085Z",
+  "data_kind": "live_provider_browser_verification",
+  "browser": "156.0.8078.4",
+  "renderer": "Chromium headless / software ANGLE",
+  "viewport": "1600\u00d71200 and 390\u00d7844",
+  "route_count": 3,
+  "checkpoint_counts": [
+    3,
+    3,
+    3
+  ],
+  "routing_providers": [
+    "ors",
+    "ors",
+    "ors"
+  ],
+  "grid_cells": 35,
+  "frame_count": 49,
+  "frame0_wind_mph": [
+    1.8019764574882684,
+    3.47967867652907,
+    3.1689930804104027,
+    2.485484768949336,
+    1.6155650998170683
+  ],
+  "frame48_wind_mph": [
+    15.285731329038416,
+    14.975045732919748,
+    14.602223017577348,
+    14.415811659906147,
+    15.596416925157083
+  ],
+  "source": {
+    "route_features": 3,
+    "cell_features": 35,
+    "rendered_routes": 6
+  },
+  "frame_render_measurements": [
+    {
+      "hour": 12,
+      "input_to_render_ms": 208.6
+    },
+    {
+      "hour": 24,
+      "input_to_render_ms": 74.4
+    },
+    {
+      "hour": 36,
+      "input_to_render_ms": 210.2
+    },
+    {
+      "hour": 48,
+      "input_to_render_ms": 79.4
+    },
+    {
+      "hour": 0,
+      "input_to_render_ms": 36.3
+    }
+  ],
+  "requests": {
+    "plans": 1,
+    "corridor": 1
+  },
+  "recommendation_unchanged": true,
+  "horizontal_overflow": false,
+  "page_errors": [],
+  "note": "Real local backend and providers; no intercepted API responses. Five render measurements are not a general p95 guarantee.",
+  "action_to_plan_ready_ms": 22527,
+  "timing_note": "Action-to-plan includes browser click auto-wait; this earlier measurement is not pure HTTP latency."
+}

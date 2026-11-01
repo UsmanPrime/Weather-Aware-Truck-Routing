@@ -1,3 +1,4 @@
+import logging
 from uuid import uuid4
 
 from rest_framework.response import Response
@@ -21,4 +22,19 @@ def exception_handler(exc, context):
                 "fields": response.data,
             }
         }
+    else:
+        logging.getLogger(__name__).error(
+            "api_failure request_id=%s type=%s", request_id, type(exc).__name__
+        )
+        response = Response(
+            {
+                "error": {
+                    "code": "internal_error",
+                    "message": "The service could not complete this request. Try again shortly.",
+                    "retryable": False,
+                    "request_id": request_id,
+                }
+            },
+            status=500,
+        )
     return response

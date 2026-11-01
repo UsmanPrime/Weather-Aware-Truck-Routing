@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { useState } from 'react';
 import type { Place, PlanRequest } from '../../api/contracts';
 import Icon from '../../components/Icon';
 import PlaceSearch from './PlaceSearch';
 import { localFields, wallTimeToInstant } from './time';
 
-export default function TripForm({
+function TripForm({
   onGenerate,
   loading,
   onEdit,
@@ -33,6 +34,7 @@ export default function TripForm({
       'America/Denver',
       'America/Los_Angeles',
       'UTC',
+      ...Intl.supportedValuesOf('timeZone'),
     ]),
   ];
   const example = () => {
@@ -226,3 +228,5 @@ export default function TripForm({
     </form>
   );
 }
+
+export default memo(TripForm);

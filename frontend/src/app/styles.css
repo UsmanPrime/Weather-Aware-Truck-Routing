@@ -71,11 +71,11 @@ a {
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 1.6px;
-  color: #74818b;
+  color: #506978;
   margin-top: 1px;
 }
 .header-description {
-  color: #78838b;
+  color: #506978;
   font-size: 13px;
   padding-left: 30px;
   border-left: 1px solid #dfe4e6;
@@ -86,7 +86,7 @@ a {
   align-items: center;
   gap: 7px;
   font-size: 11px;
-  color: #667680;
+  color: #506978;
 }
 .api-status i {
   width: 6px;
@@ -119,14 +119,14 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #65818b;
+  color: #506978;
   margin-bottom: 10px;
 }
 .eyebrow {
   font-size: 9px;
   letter-spacing: 1.65px;
   font-weight: 750;
-  color: #68818c;
+  color: #506978;
 }
 h1,
 h2,
@@ -140,7 +140,7 @@ h2 {
   letter-spacing: -0.5px;
 }
 .section-copy {
-  color: #72808b;
+  color: #506978;
   font-size: 12px;
   line-height: 1.65;
   margin-top: 6px;
@@ -159,7 +159,7 @@ label {
 }
 label span {
   float: right;
-  color: #7e8991;
+  color: #506978;
   font-weight: 400;
 }
 input,
@@ -183,7 +183,7 @@ select:focus {
   border-color: #19747a;
 }
 input::placeholder {
-  color: #8a969f;
+  color: #506978;
 }
 .place-field {
   position: relative;
@@ -211,7 +211,7 @@ input::placeholder {
 }
 .place-field > small {
   display: block;
-  color: #697b88;
+  color: #506978;
   font-size: 10px;
   padding-top: 4px;
 }
@@ -274,7 +274,7 @@ input::placeholder {
 .field-note,
 .provider-note {
   font-size: 10px;
-  color: #788791;
+  color: #506978;
   line-height: 1.65;
 }
 .primary-button {
@@ -301,7 +301,7 @@ input::placeholder {
 }
 .methodology {
   font-size: 11px;
-  color: #657684;
+  color: #506978;
   line-height: 1.75;
   padding: 20px 6px 10px;
 }
@@ -334,7 +334,7 @@ input::placeholder {
 }
 .assessment-note {
   font-size: 10px;
-  color: #7a858e;
+  color: #506978;
   line-height: 1.7;
   margin: 8px 6px 20px;
 }
@@ -357,7 +357,7 @@ input::placeholder {
   margin-top: 5px;
 }
 .journey-arrow {
-  color: #8b9aa4;
+  color: #506978;
   margin: 0 8px;
   font-weight: 400;
 }
@@ -366,14 +366,14 @@ input::placeholder {
   gap: 9px;
   align-items: center;
   font-size: 10px;
-  color: #687e8d;
+  color: #506978;
   line-height: 1.6;
   text-align: right;
 }
 .journey-meta small {
   display: block;
   font-size: 9px;
-  color: #82919b;
+  color: #506978;
 }
 .map-shell {
   height: 610px;
@@ -420,7 +420,7 @@ input::placeholder {
 }
 .map-empty p {
   font-size: 12px;
-  color: #6d7c86;
+  color: #506978;
   line-height: 1.8;
   margin-top: 15px;
 }
@@ -466,7 +466,7 @@ input::placeholder {
   border-radius: 5px;
   max-width: calc(100% - 32px);
   font-size: 9px;
-  color: #5f7280;
+  color: #506978;
 }
 .risk-legend > span:first-child {
   font-size: 8px;
@@ -491,7 +491,7 @@ input::placeholder {
   max-width: calc(100% - 35px);
   font-size: 8px;
   background: #ffffffc9;
-  color: #687b86;
+  color: #506978;
   padding: 2px 4px;
 }
 .map-notice {
@@ -549,7 +549,7 @@ input::placeholder {
   font-size: 9px;
   line-height: 1.7;
   margin-top: 7px;
-  color: #72838e;
+  color: #506978;
 }
 .weather-readings {
   margin-top: 16px;
@@ -565,12 +565,12 @@ input::placeholder {
   font-size: 11px;
 }
 .weather-readings svg {
-  color: #62808b;
+  color: #506978;
 }
 .weather-readings span small {
   display: block;
   font-size: 9px;
-  color: #7b8b95;
+  color: #506978;
   margin-top: 2px;
 }
 .weather-readings strong {
@@ -581,18 +581,18 @@ input::placeholder {
 .weather-readings strong small {
   font-size: 9px;
   font-weight: 400;
-  color: #82929d;
+  color: #506978;
 }
 .inspector-foot,
 .source-note {
   font-size: 8px;
   line-height: 1.8;
-  color: #7b8b95;
+  color: #506978;
   margin-top: 12px;
 }
 .source-note {
   margin-top: 7px;
-  color: #597680;
+  color: #506978;
 }
 .comparison {
   margin-top: 28px;
@@ -602,7 +602,7 @@ input::placeholder {
 }
 .count-label {
   font-size: 10px;
-  color: #71818c;
+  color: #506978;
 }
 .route-list {
   display: grid;
@@ -652,7 +652,7 @@ input::placeholder {
   background: #f0f3f5;
   padding: 4px 6px;
   border-radius: 3px;
-  color: #7c8c97;
+  color: #506978;
 }
 .route-status.preferred {
   background: #e6f2ed;
@@ -679,7 +679,7 @@ input::placeholder {
 }
 .route-main > span {
   font-size: 12px;
-  color: #7b8a94;
+  color: #506978;
 }
 .route-main .selection-dot {
   width: 12px;
@@ -695,7 +695,7 @@ input::placeholder {
 .route-arrival {
   display: block;
   font-size: 9px;
-  color: #82919b;
+  color: #506978;
   margin-top: 6px;
 }
 .route-metrics {
@@ -708,7 +708,7 @@ input::placeholder {
 }
 .route-metrics span {
   font-size: 8px;
-  color: #81909a;
+  color: #506978;
 }
 .route-metrics b {
   display: block;
@@ -731,11 +731,11 @@ input::placeholder {
 .recommendation-note p {
   font-size: 11px;
   line-height: 1.7;
-  color: #738690;
+  color: #506978;
   margin-top: 4px;
 }
 .recommendation-note.attention {
-  color: #9a6734;
+  color: #506978;
 }
 .checkpoint-section {
   border-top: 1px solid #dce3e5;
@@ -754,7 +754,7 @@ input::placeholder {
 }
 .checkpoint-title > span {
   font-size: 10px;
-  color: #7f8f99;
+  color: #506978;
 }
 .checkpoint-list {
   display: flex;
@@ -780,7 +780,7 @@ input::placeholder {
 }
 .checkpoint-index {
   font-size: 10px;
-  color: #9aa7ad;
+  color: #506978;
   align-self: flex-start;
   padding-top: 2px;
 }
@@ -793,7 +793,7 @@ input::placeholder {
   display: block;
   font-size: 8px;
   margin-top: 6px;
-  color: #81939d;
+  color: #506978;
 }
 .checkpoint-list .risk-badge {
   margin-left: auto;
@@ -801,7 +801,7 @@ input::placeholder {
 }
 .method-note {
   font-size: 10px;
-  color: #83919a;
+  color: #506978;
   line-height: 1.7;
   padding: 8px 0;
 }
@@ -810,12 +810,12 @@ input::placeholder {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  color: #8a969e;
+  color: #506978;
   font-size: 9px;
   line-height: 1.6;
 }
 .app-footer a {
-  color: #637e89;
+  color: #506978;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -997,6 +997,74 @@ input::placeholder {
     font-size: 7px;
   }
 }
+
+.forecast-scrubber {
+  display: grid;
+  grid-template-columns: 225px minmax(0, 1fr);
+  column-gap: 25px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d5e0e4;
+  border-radius: 6px;
+  padding: 16px 20px 10px;
+  margin-top: 10px;
+}
+.scrubber-label strong {
+  display: block;
+  color: #26747c;
+  font-size: 18px;
+  margin-top: 7px;
+  font-weight: 600;
+}
+.scrubber-label strong span {
+  display: inline-block;
+  font-size: 11px;
+  color: #506978;
+  margin-left: 10px;
+  font-weight: 400;
+}
+.scrubber-track input {
+  width: 100%;
+  height: 22px;
+  padding: 0;
+  accent-color: #267d80;
+  cursor: pointer;
+}
+.forecast-scrubber > p {
+  grid-column: 1/-1;
+  font-size: 9px;
+  color: #506978;
+  padding-top: 6px;
+}
+@media (max-width: 760px) {
+  .forecast-scrubber {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 15px;
+  }
+  .scrubber-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .scrubber-label strong {
+    margin: 0;
+    font-size: 16px;
+  }
+  .scrubber-label strong span {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 10px;
+  }
+  .trip-form input,
+  .trip-form select {
+    height: 44px;
+  }
+  .layer-toggle {
+    padding: 8px 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1080,7 +1148,7 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #65838d;
+  color: #506978;
 }
 .forecast-heading h2 {
   font-size: 19px;
@@ -1136,13 +1204,13 @@ input::placeholder {
 .forecast-time div > span {
   display: block;
   font-size: 10px;
-  color: #7c8d98;
+  color: #506978;
   margin-top: 6px;
 }
 .forecast-resolution {
   font-size: 10px;
   line-height: 1.8;
-  color: #81909a;
+  color: #506978;
   margin-left: auto;
   text-align: right;
 }
@@ -1160,7 +1228,7 @@ input::placeholder {
 .forecast-ticks button {
   background: none;
   border: 0;
-  color: #68818e;
+  color: #506978;
   font-size: 10px;
   padding: 5px 0;
 }
@@ -1175,7 +1243,7 @@ input::placeholder {
   padding-top: 15px;
   border-top: 1px solid #e3eaeb;
   font-size: 10px;
-  color: #687f8c;
+  color: #506978;
 }
 .forecast-legend span {
   display: flex;
@@ -1194,7 +1262,7 @@ input::placeholder {
 .forecast-validity {
   font-size: 10px;
   line-height: 1.7;
-  color: #677d8a;
+  color: #506978;
   margin-top: 14px;
 }
 .text-button {
@@ -1243,5 +1311,63 @@ input::placeholder {
   }
   .map-attribution {
     display: none;
+  }
+}
+
+/* Accessible secondary text and readable controls without relying on risk hue. */
+.eyebrow {
+  font-size: 10px;
+}
+.field-note {
+  font-size: 11px;
+}
+.provider-note,
+.route-status,
+.app-footer,
+.source-note {
+  font-size: 10px;
+}
+.route-name,
+.trip-form label {
+  font-size: 12px;
+}
+.risk-badge {
+  color: #3b5664;
+}
+.journey-meta,
+.inspector-route,
+.count-label {
+  font-size: 11px;
+}
+.journey-meta small {
+  font-size: 10px;
+}
+.forecast-map-label {
+  position: absolute;
+  top: 12px;
+  left: 160px;
+  padding: 8px 12px;
+  border: 1px solid #d5e2e4;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 10px;
+  color: #3e6774;
+}
+.forecast-map-label span {
+  margin-left: 10px;
+  color: #526f7c;
+}
+@media (max-width: 760px) {
+  .trip-form input,
+  .trip-form select {
+    font-size: 16px;
+  }
+  .forecast-map-label {
+    top: 52px;
+    left: 10px;
+    font-size: 9px;
+  }
+  .map-notice {
+    top: 85px;
   }
 }

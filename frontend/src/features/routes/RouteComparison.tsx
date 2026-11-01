@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { Plan } from '../../api/contracts';
 import {
   duration,
@@ -7,7 +8,7 @@ import {
 } from '../../components/format';
 import Icon from '../../components/Icon';
 
-export default function RouteComparison({
+function RouteComparison({
   plan,
   selected,
   onSelect,
@@ -114,3 +115,5 @@ export default function RouteComparison({
     </section>
   );
 }
+
+export default memo(RouteComparison);

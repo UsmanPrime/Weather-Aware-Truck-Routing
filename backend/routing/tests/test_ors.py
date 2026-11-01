@@ -127,3 +127,28 @@ def test_pelias_coordinate_order():
     places = PeliasGeocoding("synthetic-test-key", transport=transport).search("Synthetic")
     assert places[0]["position"] == [-97, 32]
     assert transport.calls[0][3]["Authorization"] == "synthetic-test-key"
+
+
+def test_alternative_limit_falls_back_once_to_genuine_truck_primary(ors_payload):
+    class Limited(SyntheticTransport):
+        def post_json(self, provider, endpoint, body, headers):
+            self.calls.append((endpoint, deepcopy(body)))
+            if len(self.calls) == 1:
+                raise ProviderError("ors", "route_limit", "Limit.", 422)
+            return self.payload
+
+    transport = Limited(ors_payload)
+    result = OrsRouting("synthetic-test-key", transport=transport).discover(
+        Coordinate(32, -97), Coordinate(32, -96.97), datetime.now(UTC)
+    )
+    assert len(result.routes) == 1 and len(transport.calls) == 2
+    assert "alternative_routes" not in transport.calls[1][1]
+    assert all("/driving-hgv/" in endpoint for endpoint, _ in transport.calls)
+
+
+def test_long_trip_requests_one_truck_route_without_invalid_alternatives(ors_payload):
+    transport = SyntheticTransport(ors_payload)
+    OrsRouting("synthetic-test-key", transport=transport).discover(
+        Coordinate(32, -97), Coordinate(34, -97), datetime.now(UTC)
+    )
+    assert "alternative_routes" not in transport.calls[0][2]
