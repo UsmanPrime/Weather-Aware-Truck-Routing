@@ -1,0 +1,63 @@
+{
+  "run_at": "2026-11-01T11:19:39.436Z",
+  "frontend": "http://127.0.0.1:4173",
+  "backend": "http://127.0.0.1:4173",
+  "mode": "local rehearsal",
+  "checks": [
+    "frontend and first real browser health response",
+    "live Pelias origin selection and destination lookup",
+    "10/25/50-mile controls; one actual 25-mile plan",
+    "real distinct truck routes, official totals, checkpoint chainage and ETA-aligned forecast intervals",
+    "route selection, checkpoint inspector and recommendation explanation",
+    "49 frames, 0/48 endpoints, forecast labels, fixed recommendation and no extra planning requests",
+    "desktop/mobile map controls, list alternative, timeline and no mobile horizontal overflow",
+    "credential patterns in entry assets and outgoing browser requests; exact local-secret bundle scan is separate"
+  ],
+  "warnings": [
+    "Local rehearsal cannot verify public TLS or production origin configuration."
+  ],
+  "errors": [],
+  "requests": {
+    "plans": 1,
+    "corridor": 1
+  },
+  "console_errors": [],
+  "network_errors": [],
+  "first_health_ms": 274,
+  "first_health_status": 200,
+  "routes": [
+    {
+      "distance_m": 52488,
+      "duration_s": 3520.3,
+      "checkpoints": 3,
+      "coverage": 1,
+      "geometry_sha256": "77028daa994f017965da41824a7afbf9f45ddac479e91b6b3d4889340da44031",
+      "notices": 0
+    },
+    {
+      "distance_m": 57424.1,
+      "duration_s": 4044.6,
+      "checkpoints": 3,
+      "coverage": 1,
+      "geometry_sha256": "68690a7ea10fae7238138cb495f7cda1c7a13365cd6e0901801cd7c7a1f567f1",
+      "notices": 0
+    },
+    {
+      "distance_m": 57705.9,
+      "duration_s": 4192.3,
+      "checkpoints": 3,
+      "coverage": 1,
+      "geometry_sha256": "a4c9e898f270cb781b55ea8799da53fa25ce7ddc2204633e745e3f7bdcb563e0",
+      "notices": 0
+    }
+  ],
+  "forecast": {
+    "cells": 35,
+    "frames": 49,
+    "missing_frames": [],
+    "frame0": "2026-11-01T12:19:00Z",
+    "frame48": "2026-11-03T12:19:00Z",
+    "measurements_changed": true
+  },
+  "status": "passed"
+}

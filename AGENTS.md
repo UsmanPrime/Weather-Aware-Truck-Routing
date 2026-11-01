@@ -19,3 +19,5 @@ Build Weather-Aware Truck Routing with React and Django. The authoritative speci
 Keep the requirement matrix and decisions current as implementation changes. Review progress against docs/PLAN.md before expanding scope.
 
 Submission checkpoint: the full local routing/map/corridor application and release configuration are implemented. FINAL_AUDIT.md records evidence and limitations. Remaining delivery work is approved publication, hosted verification and a real Loom recording; do not infer approval from prepared release instructions.
+
+Release authorization: the user explicitly approved normal pushes of verified main to the existing GitHub origin. Fetch and check remote ancestry before each push. No force pushes, overwriting remote work, paid services, payment methods or cloud-resource creation are authorized. Hosting still needs separate approval.

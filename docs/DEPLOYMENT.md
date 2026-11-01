@@ -1,6 +1,6 @@
 # Free hosting and release instructions
 
-Status: prepared locally; nothing has been pushed, published or deployed. Public URLs remain unverified. Obtain explicit user approval before pushing or applying any deployment configuration.
+Status: GitHub publication is authorized and the reviewed main branch has been pushed. See RELEASE.md for exact commit/CI evidence. No cloud resources have been created and no hosted deployment has occurred. Public app URLs remain unverified; cloud creation still needs separate explicit approval.
 
 ## Cost and provider checks (November 1, 2026)
 
@@ -35,6 +35,35 @@ Django serves JSON only, with no admin, database or static assets. There is no m
 6. Set backend `CORS_ALLOWED_ORIGINS=https://ACTUAL-FRONTEND.onrender.com` (no trailing slash), then manually restart/redeploy the backend as needed. Only exact listed origins receive CORS permission. Cookies/credentialed CORS are disabled.
 7. Visit the actual frontend. Run the Fort Worth–Dallas example, confirm three distinct truck routes, checkpoint details and forecast frames 0 and 48. Check API errors, attribution, desktop/mobile layout and browser console. Record actual URLs, timestamps and any cold-start delay before adding the demo link to README.
 8. Record the 5–10 minute Loom video using [WALKTHROUGH.md](WALKTHROUGH.md); add the real link after checking its accessibility. Never label the outline as a recorded video.
+
+## Exact manual environment settings
+
+Create no resources until separately approved. In Render choose **New > Web Service**, connect GitHub (grant access to this repository only if possible), select `UsmanPrime/Weather-Aware-Truck-Routing`, branch `main`, root `backend`, Python runtime and **Free** instance. Use the build/start/health settings in the table above and turn auto-deploy off. Do not use a generic Django template that adds a database.
+
+Backend environment:
+
+| Name | Value / secure action |
+|---|---|
+| `PYTHON_VERSION` | `3.13.17` |
+| `UV_VERSION` | `0.13.5` |
+| `DJANGO_DEBUG` | `false` |
+| `DJANGO_SECRET_KEY` | Generate one strong stable value in Render; retain it across restarts. Blueprint uses `generateValue: true`. Never use a demo/example key. |
+| `ROUTING_PROVIDER` | `ors` |
+| `ORS_API_KEY` | Copy directly from ignored local backend/.env into the backend secret field; never into this document or frontend. |
+| `ORS_BASE_URL` | `https://api.heigit.org/openrouteservice` |
+| `ORS_GEOCODING_BASE_URL` | `https://api.heigit.org/pelias/v1` |
+| `CORS_ALLOWED_ORIGINS` | Initially blank until the actual frontend exists, then its exact `https://` origin without a trailing slash. |
+| `DJANGO_ALLOWED_HOSTS` | Optional for Render's generated hostname, which is added from `RENDER_EXTERNAL_HOSTNAME`; add actual custom hostnames explicitly if used. |
+
+Render supplies `PORT` and `RENDER_EXTERNAL_HOSTNAME`; do not invent or override their values. No DATABASE_URL, Redis, HERE key, frontend provider secret or payment method is required.
+
+Once the backend is healthy, choose **New > Static Site**, connect the same repository/main, root `frontend`, build `npm ci && npm run build`, publish `dist`, and turn auto-deploy off. Static sites have no paid compute instance; do not change the runtime to a Node web service. Set `NODE_VERSION=24.11.0` and `VITE_API_BASE_URL` to the **actual backend HTTPS origin plus `/api/v1`**. Changing this Vite value requires a frontend rebuild. Add rewrite `/*` to `/index.html` and the four response headers from render.yaml. Set backend CORS to the actual new frontend origin and restart/redeploy the backend manually.
+
+Verify the real backend `/api/v1/health` returns JSON status ok over HTTPS. Then run [PUBLIC_ACCEPTANCE.md](PUBLIC_ACCEPTANCE.md) with both actual origins. Record URLs only after the public checks pass; no sample hostname in these instructions is a live deployment.
+
+## Strongest local deployment proof
+
+`python scripts/production_smoke.py` runs on Linux from any working directory with the locked backend environment. It starts the actual Gunicorn configuration, checks health/security headers, HTTP-to-HTTPS redirect, allowed/rejected CORS origins and a JSON POST preflight, then stops its process. It uses a freshly generated local secret and no provider requests. This check is included in Linux GitHub Actions. It does not prove actual Render TLS/proxy configuration; public acceptance still needs real service URLs.
 
 ## Limits and operational behavior
 

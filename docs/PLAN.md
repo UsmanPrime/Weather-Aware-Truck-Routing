@@ -1,6 +1,6 @@
 # Four-day implementation and validation plan
 
-Current checkpoint: phases 1-5 implemented and tested; phase 6 release configuration prepared; phase 7 local audit recorded in FINAL_AUDIT.md. ORS driving-hgv/Pelias replace the original HERE spike in this approved sequence. See IMPLEMENTATION.md for measured progress. Hosted verification, pushing and Loom recording remain delivery gates requiring manual action and explicit publication approval.
+Current checkpoint: application implemented/tested; release configuration and local audit complete; reviewed main published with explicit authorization. Actual CI and Linux-startup evidence are in RELEASE.md. ORS driving-hgv/Pelias replace the original HERE spike in this approved sequence. Hosted verification and Loom recording remain delivery gates; cloud creation still requires separate approval.
 
 ## Precise sequence and day gates
 

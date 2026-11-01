@@ -27,7 +27,7 @@ def git(*args):
     return subprocess.check_output(GIT + list(args), cwd=ROOT)
 
 
-def run_scan():
+def run_scan(assets=None):
     configured = []
     for key in ("ORS_API_KEY", "HERE_API_KEY", "DJANGO_SECRET_KEY"):
         value = os.environ.get(key, "")
@@ -76,11 +76,21 @@ def run_scan():
     finally:
         process.stdin.close()
         process.wait()
+    asset_files = 0
+    if assets:
+        asset_root = Path(assets).resolve()
+        if not asset_root.is_dir():
+            raise ValueError("Build assets directory does not exist")
+        for path in asset_root.rglob("*"):
+            if path.is_file():
+                scan(path.read_bytes(), "build:" + path.relative_to(asset_root).as_posix())
+                asset_files += 1
     return {
         "run_at": datetime.now(UTC).isoformat(),
         "scope": "tracked working files and all reachable Git-history blobs",
         "tracked_files": len(files),
         "history_blobs": blobs,
+        "build_asset_files": asset_files,
         "configured_secret_values_checked": len(set(configured)),
         "rules": list(PATTERNS),
         "findings": findings,
@@ -94,8 +104,11 @@ def run_scan():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output")
+    parser.add_argument(
+        "--assets", help="Also scan an existing frontend production output directory"
+    )
     options = parser.parse_args()
-    report = run_scan()
+    report = run_scan(options.assets)
     encoded = json.dumps(report, indent=2) + "\n"
     if options.output:
         Path(options.output).write_text(encoded, encoding="utf-8")

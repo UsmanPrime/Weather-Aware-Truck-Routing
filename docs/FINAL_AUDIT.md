@@ -19,8 +19,8 @@ Paths below are relative to the repository. All Python tests are under `backend/
 | E09 Recommendation priority | `domain/ranking.py`, `services/planning.py` | Tie-breaker counterexamples; unknown/No Travel exclusion; provisional wording | Live benign weather ties resolve by duration; synthetic browser verifies hazardous/incomplete branches | Complete; no live severe-weather journey is claimed; miles and ordinal average are estimates |
 | E10 All-route map / checkpoints / ETA / summaries | persistent RouteMap, RouteComparison, CheckpointInspector | Rendered source/selection checks, accessible list, WebGL fallback, synchronized details, Axe | Real tiles and geometries in screenshots; desktop/mobile browser proof | Complete locally; basemap requires network/WebGL, list remains available |
 | E11 Corridor heatmap / 0-48 slider | `domain/corridor.py`, signed context/corridor service; ForecastControls/Slider; MapLibre feature-state | `test_corridor.py`, forecast features tests; rendered 0/48, one fetch, unchanged recommendation, independent failure/retry | Live 35 cells / 49 frames; different frame values, render receipts and screenshots | Complete locally; categorical center-sample cells, not continuous meteorological observations; 96-cell cap, polar/dateline bounds; 50 ms target unproven |
-| E12 GitHub | existing origin, coherent local milestones, CI workflow | Lockfiles/setup/checks and history secret scan | Origin configured; no push performed | Partial delivery: local commits must be approved and pushed; remote CI not yet run |
-| E13 Hosted application | `render.yaml`, Gunicorn, production settings, `DEPLOYMENT.md` | Production subprocess check, HTTPS/header/CORS tests, production frontend build | Current official free-service documentation reviewed; no hosted instance created | Pending approval/account access: actual Linux startup, TLS, CORS, URLs/cold start must be verified |
+| E12 GitHub | public repository/main, coherent milestones, CI workflow | Lockfiles/setup/checks and history/asset secret scan | Reviewed application published at 28e8e23; Linux lockfile fix at 3b0bd5a; actual CI links in RELEASE.md | Published by authorized normal push; verify latest CI outcome via RELEASE.md and Actions |
+| E13 Hosted application | `render.yaml`, Gunicorn, production settings, `DEPLOYMENT.md` | Production checks, real Linux Gunicorn startup, HTTPS/header/CORS tests, production build | Local WSL production receipt; official free-service documentation reviewed; no hosted instance | Pending separate approval/account access: actual hosted TLS, CORS, URLs/cold start must be verified |
 | E14 5-10 minute Loom | `WALKTHROUGH.md` seven-to-eight-minute demonstration outline | Documentation reviewed against PDF | No recording exists | Pending manual recording and accessible real link |
 
 ## Independent correctness review
@@ -39,7 +39,7 @@ Paths below are relative to the repository. All Python tests are under `backend/
 
 **40% UI/map/heatmap/performance:** desktop/mobile rendered journeys, real local screenshots, map synchronization, keyboard selection, independent 49-frame controls and missing/failure states are verified. Grid/payload bounds and persistent map geometry reduce work. Software-ANGLE timing samples exceed 50 ms in some frames; no p95 or hosted latency target is claimed. MapLibre's separately loaded bundle remains large and Vite reports its chunk-size warning.
 
-**15% code quality:** pure typed domain modules, separate provider adapters/services, validated API contracts, lockfiles, meaningful tests, lint/format/type/build gates, local commits and CI configuration. Runtime dependency audit and focused history/configured-secret scan are recorded. Remaining development-tool advisories are disclosed rather than suppressed. CI has not run remotely.
+**15% code quality:** pure typed domain modules, separate provider adapters/services, validated API contracts, lockfiles, meaningful tests, lint/format/type/build gates and published commits/CI. Runtime dependency audit and focused history/configured-secret/asset scan are recorded. Remaining development-tool advisories are disclosed rather than suppressed. Actual remote CI outcomes, including the first lockfile failure and normal-commit repair, are recorded in RELEASE.md.
 
 **5% documentation and walkthrough:** current README, design decisions, requirement matrix, setup, verified screenshots, free deployment instructions and natural demonstration outline exist. A recorded Loom and actual public demo remain mandatory unfinished delivery items.
 
@@ -54,7 +54,7 @@ No hosted/public-delivery proof is implied by local browser success. Free Render
 
 ## Remaining release sequence
 
-1. Obtain approval to push the tested local commits; inspect remote CI after publication.
+1. GitHub push approval was received and the reviewed main published. Verify latest Actions status and preserve normal history for any further release fixes; see RELEASE.md.
 2. With authenticated user access, approve/create only the documented free Render services without a payment method. Verify actual Linux process startup, HTTPS health, exact CORS, a real journey and slider endpoints at both viewport sizes. Stop if a card/paid plan is required.
 3. Add only verified public URLs to README, record the real 5-10 minute Loom, check its accessibility and add the link.
 

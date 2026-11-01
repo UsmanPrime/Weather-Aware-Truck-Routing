@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "checks": 5,
+  "server": "real Linux Gunicorn, 1 process / 4 threads",
+  "note": "Loopback and simulated trusted-proxy header; not public TLS or hosted verification. No provider requests.",
+  "run_at": "2026-11-01T11:17:13.912770+00:00",
+  "platform": "Existing local WSL Linux; managed CPython 3.13.17; frozen production dependencies",
+  "gunicorn": "26.2.0",
+  "cloud_resources_created": 0
+}

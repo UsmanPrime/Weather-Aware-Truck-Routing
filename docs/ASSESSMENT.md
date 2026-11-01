@@ -59,4 +59,4 @@ The PDF does not define decimal wind bands, shared rain/snow endpoints, multi-ha
 
 ## Completion gate
 
-Every matrix row needs recorded evidence before final submission. The full routing workflow and corridor forecast are implemented and locally verified; see IMPLEMENTATION.md and FINAL_AUDIT.md. Hosted verification, publication of local commits and a recorded Loom remain delivery gates.
+Every matrix row needs recorded evidence before final submission. The full routing workflow and corridor forecast are implemented and locally verified; the reviewed main branch is now published. See IMPLEMENTATION.md, FINAL_AUDIT.md and RELEASE.md. Hosted verification and a recorded Loom remain delivery gates.

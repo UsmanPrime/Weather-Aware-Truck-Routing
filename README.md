@@ -6,7 +6,7 @@ A React + Django assessment prototype that compares genuine truck routes using w
 
 **Loom:** not recorded; [7-8 minute outline](docs/WALKTHROUGH.md).
 
-**Repository:** [Weather-Aware-Truck-Routing](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing) | local milestones await push approval.
+**Repository:** [Weather-Aware-Truck-Routing](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing). GitHub publication is authorized; release evidence and CI status are tracked in [RELEASE.md](docs/RELEASE.md).
 
 ![Local app with genuine ORS routes and Open-Meteo forecasts](docs/screenshots/desktop.png)
 
@@ -92,7 +92,7 @@ uv run --env-file .env python manage.py journey_smoke --output ../docs/evidence/
 uv run --env-file .env python manage.py corridor_smoke --plan-file ../docs/evidence/live-plan-local.json --output ../docs/evidence/live-corridor-local.json
 ```
 
-With local servers running, `node scripts/live-browser.mjs` from `frontend` performs an opt-in real browser journey and refreshes screenshots/evidence. It makes actual provider requests; keep runs modest. Verified counts and limitations are in [IMPLEMENTATION](docs/IMPLEMENTATION.md) and the [final requirement audit](docs/FINAL_AUDIT.md). CI is prepared but has not run remotely until code is pushed.
+With local servers running, `node scripts/live-browser.mjs` from `frontend` performs an opt-in real browser journey and refreshes screenshots/evidence. It makes actual provider requests; keep runs modest. Verified counts and limitations are in [IMPLEMENTATION](docs/IMPLEMENTATION.md) and the [final requirement audit](docs/FINAL_AUDIT.md). CI runs on published commits; actual outcomes and the initial Linux lockfile repair are recorded in [RELEASE](docs/RELEASE.md).
 
 ## How decisions are calculated
 
@@ -114,6 +114,6 @@ Free services have quotas, no SLA and possible cold starts. Cache/budgets are pe
 
 ## Hosting and acknowledgments
 
-[Exact free Render deployment steps](docs/DEPLOYMENT.md) and [render.yaml](render.yaml) are prepared with auto-deploys off. **Do not add a payment method, choose paid resources, push or deploy without approval.** Hosting eligibility, HTTPS/CORS and public performance still need verification after release. Two HSTS scope/preload warnings are intentionally documented pending hostname verification.
+[Exact free Render deployment steps](docs/DEPLOYMENT.md) and [render.yaml](render.yaml) are prepared with auto-deploys off. GitHub pushes are authorized; **cloud creation/deployment still requires separate approval. Do not add a payment method or choose paid resources.** Use the [bounded public acceptance procedure](docs/PUBLIC_ACCEPTANCE.md) after actual URLs exist. Hosting eligibility, HTTPS/CORS and public performance still need verification. Two HSTS scope/preload warnings are intentionally documented pending hostname verification.
 
 Routing: openrouteservice.org by HeiGIT, based on copyright OpenStreetMap contributors. Geocoding: HeiGIT Pelias. Forecasts: [Open-Meteo](https://open-meteo.com/) (CC BY 4.0; free endpoint subject to noncommercial usage terms). Basemap: OpenFreeMap / OpenMapTiles / OpenStreetMap, with attribution retained in the map. Commercial reuse needs a fresh provider-terms review.

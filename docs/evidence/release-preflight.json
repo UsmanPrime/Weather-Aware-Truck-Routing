@@ -1,0 +1,54 @@
+{
+  "run_at": "2026-11-01T11:21:08.181400+00:00",
+  "scope": "GitHub publication preflight and release tooling; no cloud resources",
+  "backend": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "225",
+    "time": "1.700",
+    "timestamp": "2026-11-01T16:02:56.466621+05:00",
+    "hostname": "Usman-Pc"
+  },
+  "frontend_unit": {
+    "numPassedTests": 25,
+    "numFailedTests": 0,
+    "numPendingTests": 0
+  },
+  "playwright": {
+    "startTime": "2026-11-01T11:03:45.876Z",
+    "duration": 74946.219,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "linux_production": {
+    "status": "passed",
+    "checks": 5,
+    "server": "real Linux Gunicorn, 1 process / 4 threads",
+    "note": "Loopback and simulated trusted-proxy header; not public TLS or hosted verification. No provider requests.",
+    "run_at": "2026-11-01T11:17:13.912770+00:00",
+    "platform": "Existing local WSL Linux; managed CPython 3.13.17; frozen production dependencies",
+    "gunicorn": "26.2.0",
+    "cloud_resources_created": 0
+  },
+  "github_verified_commit": "3b0bd5a41bdf4764b680a435aca05826413e6d05",
+  "github_run": "https://github.com/UsmanPrime/Weather-Aware-Truck-Routing/actions/runs/41301202496",
+  "checks": [
+    "Ruff lint/format passed",
+    "ESLint/Prettier passed",
+    "TypeScript passed",
+    "Production build passed (known lazy MapLibre size warning)",
+    "Django check zero issues",
+    "Fresh npm ci passed; existing dependency versions unchanged",
+    "History/source/configured-secret/bundle scan passed; see release-secret-scan.json"
+  ],
+  "not_verified": [
+    "Actual Render account eligibility or service creation",
+    "Hosted public TLS/proxy/CORS",
+    "Hosted cold-start distribution",
+    "Real Loom recording"
+  ]
+}

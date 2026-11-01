@@ -1,6 +1,6 @@
 # Loom demonstration outline
 
-Status: outline only; no video recorded. Target 7–8 minutes, with a permitted range of 5–10 minutes. Use the actual hosted app once its URLs are verified; until then clearly call the demo local.
+Status: final speaking outline only; no video recorded. Target approximately 8 minutes (7-9 minutes requested; the PDF permits 5-10). Use the actual hosted app once its URLs are verified; until then clearly call the demo local.
 
 | Time | Demonstration and natural talking points |
 |---|---|
@@ -14,3 +14,5 @@ Status: outline only; no video recorded. Target 7–8 minutes, with a permitted 
 | 6:50–7:40 | State limits plainly: forecast uncertainty, interpolation and sampled exposure, unconfigured physical truck dimensions, free quotas/cold starts, and bounded corridor resolution. Show repository/setup and actual demo links. Close with the tradeoff: correctness and clear uncertainty over extra features. |
 
 Before recording: confirm live route/weather access, public link permissions and audio; hide .env, API dashboards and terminal history containing credentials. Record actual success/failure behavior. After recording, verify the real Loom link is accessible and add it to README. Do not claim screenshots or automated tests are a recorded walkthrough.
+
+Recording checklist: use the published commit with passing CI; run one public acceptance check beforehand and reuse a modest real journey; keep the actual demo/repository URLs ready; close secret-bearing tabs; set readable browser zoom; test microphone and screen capture; show full valid times and units; distinguish arrival weather from slider weather; acknowledge benign weather rather than inventing hazards; keep forecast/traffic/free-tier limitations visible. Check the final duration, audio, link accessibility and absence of credentials before adding the real Loom URL.

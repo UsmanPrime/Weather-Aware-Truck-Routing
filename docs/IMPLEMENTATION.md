@@ -2,6 +2,8 @@
 
 ## Current submission state
 
+Release continuation: GitHub publication was explicitly authorized and the reviewed main pushed normally to the previously empty public repository. Release preflight repeated 225 backend, 25 frontend and 20 browser tests successfully. First remote CI passed backend but exposed missing optional bundled lock metadata during npm ci; a normal fix commit 3b0bd5a preserves all package versions. Real local Linux Gunicorn startup now passes five checks; public acceptance tooling has been rehearsed against the production bundle and real providers. See RELEASE.md for actual CI evidence. No cloud resources or hosted URLs exist; hosting still requires separate approval. Earlier phase statements below are historical.
+
 Phases 1-5 are implemented and locally verified. Phase 6 prepares free Render hosting, exact-origin CORS, HTTPS/proxy settings, a one-process Gunicorn configuration, environment initialization and a walkthrough outline. No push, hosted deployment or recorded Loom has occurred. See FINAL_AUDIT.md for the final requirement audit; historical milestone-one statements below do not describe current functionality.
 
 Phase 6 gate: **225 backend tests passed**, Django normal checks reported **0 issues**, and Ruff lint/format passed across 54 Python files. Production checks run in an isolated test process and exit 0 with the two intentional HSTS warnings W005/W021. Frontend formatting, lint, type checks, **25 unit tests** and production build passed. The first verification invocation omitted the required local environment and failed startup; rerunning with explicit DJANGO_DEBUG=true produced these results. No startup failure was counted as a passing test.
