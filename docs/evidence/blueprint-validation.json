@@ -1,0 +1,7 @@
+{
+  "run_at": "2026-11-01T10:48:13.967814+00:00",
+  "schema": "https://render.com/schema/render.yaml.json",
+  "valid": true,
+  "service_count": 2,
+  "note": "Public JSON Schema validation only; no account access, service creation or deployment."
+}

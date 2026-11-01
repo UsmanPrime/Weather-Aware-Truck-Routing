@@ -126,6 +126,18 @@ test('synthetic journey: comparison, inspector and real map sources stay synchro
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+  const label = await page.locator('.forecast-map-label').boundingBox();
+  const navigation = await page
+    .locator('.maplibregl-ctrl-top-left')
+    .boundingBox();
+  expect(label).not.toBeNull();
+  expect(navigation).not.toBeNull();
+  expect(
+    label!.x >= navigation!.x + navigation!.width ||
+      label!.y >= navigation!.y + navigation!.height ||
+      label!.x + label!.width <= navigation!.x ||
+      label!.y + label!.height <= navigation!.y,
+  ).toBe(true);
   await page.screenshot({
     path: testInfo.outputPath('journey.png'),
     fullPage: true,

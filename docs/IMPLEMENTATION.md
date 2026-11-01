@@ -6,7 +6,11 @@ Phases 1-5 are implemented and locally verified. Phase 6 prepares free Render ho
 
 Phase 6 gate: **225 backend tests passed**, Django normal checks reported **0 issues**, and Ruff lint/format passed across 54 Python files. Production checks run in an isolated test process and exit 0 with the two intentional HSTS warnings W005/W021. Frontend formatting, lint, type checks, **25 unit tests** and production build passed. The first verification invocation omitted the required local environment and failed startup; rerunning with explicit DJANGO_DEBUG=true produced these results. No startup failure was counted as a passing test.
 
-The live browser refresh used one real plan and one real corridor request: 3 ORS truck routes, 35 cells, 49 frames, no page errors or horizontal overflow, unchanged recommendation. Plan HTTP time was 6,487 ms; five software-rendered frame samples ranged 31.7-158.8 ms. No 50 ms or p95 claim is made. Screenshots are actual local live-provider captures. A mobile map-label/control overlap found during inspection was corrected afterward and is included in final browser verification.
+The live browser refresh used one real plan and one real corridor request: 3 ORS truck routes, 35 cells, 49 frames, no page errors or horizontal overflow, unchanged recommendation. Final plan HTTP time was 8,532 ms; five software-rendered frame samples ranged 29.4-181.1 ms. No 50 ms or p95 claim is made. Screenshots are actual local live-provider captures. A mobile map-label/control overlap found during inspection was corrected and the final screenshots and rendered regression assertion verify the fix.
+
+## Final phase 7 gate
+
+225 backend tests, 25 frontend unit tests and 20 desktop/mobile Playwright tests passed; zero failed/skipped/flaky tests. Final lint, format, type checks, Django checks, lock check and production build passed. The public Render blueprint schema validates the prepared two-service configuration; no resources were created. Runtime npm audit reports zero vulnerabilities; full audit retains 12 moderate development-tool entries, zero high/critical. Fresh screenshots were inspected, including the corrected mobile map control placement. The focused secret scanner initially flagged the generated-key expression in init_env.py; rewriting that expression resolved the false positive without weakening scan rules. See evidence/verification.json for machine-readable counts and FINAL_AUDIT.md for E01-E14 coverage and remaining public-delivery gates.
 
 ## Subsequent phase 1 — ORS migration (November 1)
 

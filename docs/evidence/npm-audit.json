@@ -18,7 +18,7 @@
       ],
       "fixAvailable": {
         "name": "typescript-eslint",
-        "version": "8.36.0",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -37,8 +37,8 @@
         "node_modules/@eslint/config-array"
       ],
       "fixAvailable": {
-        "name": "@eslint/js",
-        "version": "9.39.5",
+        "name": "typescript-eslint",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -70,12 +70,18 @@
         "@typescript-eslint/utils",
         "eslint"
       ],
-      "effects": [],
+      "effects": [
+        "typescript-eslint"
+      ],
       "range": "*",
       "nodes": [
         "node_modules/@typescript-eslint/eslint-plugin"
       ],
-      "fixAvailable": true
+      "fixAvailable": {
+        "name": "typescript-eslint",
+        "version": "8.14.0",
+        "isSemVerMajor": true
+      }
     },
     "@typescript-eslint/parser": {
       "name": "@typescript-eslint/parser",
@@ -86,8 +92,7 @@
         "eslint"
       ],
       "effects": [
-        "@typescript-eslint/eslint-plugin",
-        "typescript-eslint"
+        "@typescript-eslint/eslint-plugin"
       ],
       "range": "*",
       "nodes": [
@@ -95,7 +100,7 @@
       ],
       "fixAvailable": {
         "name": "typescript-eslint",
-        "version": "8.36.0",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -111,11 +116,15 @@
       "effects": [
         "@typescript-eslint/eslint-plugin"
       ],
-      "range": ">=5.62.1-alpha.0",
+      "range": ">=5.9.2-alpha.0",
       "nodes": [
         "node_modules/@typescript-eslint/type-utils"
       ],
-      "fixAvailable": true
+      "fixAvailable": {
+        "name": "typescript-eslint",
+        "version": "8.14.0",
+        "isSemVerMajor": true
+      }
     },
     "@typescript-eslint/typescript-estree": {
       "name": "@typescript-eslint/typescript-estree",
@@ -136,7 +145,7 @@
       ],
       "fixAvailable": {
         "name": "typescript-eslint",
-        "version": "8.36.0",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -150,6 +159,8 @@
         "eslint"
       ],
       "effects": [
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/type-utils",
         "typescript-eslint"
       ],
       "range": "*",
@@ -158,7 +169,7 @@
       ],
       "fixAvailable": {
         "name": "typescript-eslint",
-        "version": "8.36.0",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -186,8 +197,8 @@
         "node_modules/eslint"
       ],
       "fixAvailable": {
-        "name": "@eslint/js",
-        "version": "9.39.5",
+        "name": "typescript-eslint",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -237,8 +248,8 @@
         "node_modules/minimatch"
       ],
       "fixAvailable": {
-        "name": "@eslint/js",
-        "version": "9.39.5",
+        "name": "typescript-eslint",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     },
@@ -260,7 +271,7 @@
       ],
       "fixAvailable": {
         "name": "typescript-eslint",
-        "version": "8.36.0",
+        "version": "8.14.0",
         "isSemVerMajor": true
       }
     }
@@ -276,11 +287,11 @@
     },
     "dependencies": {
       "prod": 28,
-      "dev": 267,
-      "optional": 77,
+      "dev": 275,
+      "optional": 81,
       "peer": 13,
       "peerOptional": 0,
-      "total": 295
+      "total": 304
     }
   }
 }

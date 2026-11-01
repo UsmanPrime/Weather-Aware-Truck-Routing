@@ -1,0 +1,71 @@
+{
+  "run_at": "2026-11-01T10:50:30.446210+00:00",
+  "environment": "Windows; Python 3.13.17; Node 24.11.0; local Chromium headless software ANGLE",
+  "backend": {
+    "tests": 225,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend_unit": {
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "expected": 20,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "duration": 103867.272
+  },
+  "checks": {
+    "backend_ruff_lint_and_format": "passed; 54 Python files formatted",
+    "uv_lock_offline_check": "passed",
+    "django_system_check": "passed; zero issues",
+    "production_system_check": "exit 0; intentional security.W005 and security.W021; tested in fresh subprocess",
+    "frontend_lint_format_and_types": "passed",
+    "frontend_production_build": "passed; lazy MapLibre chunk size and upstream Zod comment warnings remain",
+    "render_blueprint": "valid against public Render JSON Schema; no deployment"
+  },
+  "npm_runtime_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "npm_full_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 12,
+    "high": 0,
+    "critical": 0,
+    "total": 12
+  },
+  "live_browser": {
+    "receipt": "live-browser.json",
+    "run_at": "2026-11-01T10:46:37.819Z",
+    "routes": 3,
+    "cells": 35,
+    "frames": 49,
+    "http_plan_ms": 8532,
+    "frame_render_samples_ms": [
+      181.1,
+      59.6,
+      36.9,
+      29.4,
+      134.2
+    ],
+    "note": "Actual providers, one plan and one corridor request, no intercepted responses. Not a hosted/p95 performance proof."
+  },
+  "secrets": "See secret-scan-final.json for tracked files, reachable history and exact local configured-secret scan; focused scan, not exhaustive assurance.",
+  "not_performed": [
+    "remote CI",
+    "git push",
+    "hosted deployment/TLS/CORS/Linux Gunicorn startup",
+    "Loom recording"
+  ],
+  "reproduce": "Commands in README.md; deterministic tests block or intercept network. Live smoke commands are opt-in and consume bounded free-provider quota."
+}

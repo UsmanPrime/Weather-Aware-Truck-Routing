@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-01T10:40:37.685Z",
+  "run_at": "2026-11-01T10:46:37.819Z",
   "data_kind": "live_provider_browser_verification",
   "browser": "156.0.8078.4",
   "renderer": "Chromium headless / software ANGLE",
@@ -17,8 +17,8 @@
   ],
   "grid_cells": 35,
   "frame_count": 49,
-  "action_to_plan_ready_ms": 6560,
-  "plan_http_request_ms": 6487,
+  "action_to_plan_ready_ms": 8732,
+  "plan_http_request_ms": 8532,
   "frame0_wind_mph": [
     0.4970969537898672,
     4.101049868766403,
@@ -41,23 +41,23 @@
   "frame_render_measurements": [
     {
       "hour": 12,
-      "input_to_render_ms": 48.8
+      "input_to_render_ms": 181.1
     },
     {
       "hour": 24,
-      "input_to_render_ms": 158.8
+      "input_to_render_ms": 59.6
     },
     {
       "hour": 36,
-      "input_to_render_ms": 55.3
+      "input_to_render_ms": 36.9
     },
     {
       "hour": 48,
-      "input_to_render_ms": 39
+      "input_to_render_ms": 29.4
     },
     {
       "hour": 0,
-      "input_to_render_ms": 31.7
+      "input_to_render_ms": 134.2
     }
   ],
   "requests": {

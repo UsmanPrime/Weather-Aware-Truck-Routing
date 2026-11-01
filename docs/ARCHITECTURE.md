@@ -27,7 +27,7 @@ Frontend owns input, display, map selection and forecast playback. Django owns c
 
 Use REST JSON under `/api/v1`. No persistent trips, user accounts, database models, queue, websocket or Redis required. Same contracts support later persistence without designing for it now. A small process-local TTL cache and signed, short-lived corridor context avoid permanent server state.
 
-Executable contracts are now `frontend/src/api/contracts.ts` and `backend/routing/api/serializers.py`. The illustrative structures and wire notation below record the approved design, not a generated inventory; concrete names can differ without adding architecture. Implementation uses services/cache.py, services/context.py, providers/ors.py and providers/pelias.py; it processes sequential forecast batches of at most 25 and caps the practical corridor grid at 96 cells.
+Executable contracts are now `frontend/src/api/contracts.ts` and `backend/routing/api/serializers.py`. The illustrative structures and wire notation below record the approved design, not a generated inventory; concrete names can differ without adding architecture. Implementation uses services/cache.py, services/context.py and providers/ors.py (including PeliasGeocoding); it processes sequential forecast batches of at most 25 and caps the practical corridor grid at 96 cells.
 
 ## Frontend structure
 

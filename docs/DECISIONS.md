@@ -38,4 +38,4 @@ Free-account use is bounded conservatively; API errors never trigger a paid endp
 - [HERE time-dependent routing](https://docs.here.com/routing/docs/routing-v8-time-dependent-routing): departure timestamps accept RFC3339. Always send a known departure.
 - [Open-Meteo forecast documentation](https://open-meteo.com/en/docs): hourly model forecasts and variable metadata; coverage must be checked in actual returned series.
 
-Documentation lookup is not evidence that provider calls or deployment work. No provider credentials or successful live calls have been established in this planning phase.
+Documentation lookup is not evidence that provider calls or deployment work. The original planning phase established no successful calls; subsequent genuine ORS/Pelias/Open-Meteo evidence is recorded separately in IMPLEMENTATION.md and FINAL_AUDIT.md. Public hosting remains unverified.
