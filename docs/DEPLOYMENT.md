@@ -1,6 +1,6 @@
 # Free hosting and release instructions
 
-Status: the existing public frontend/backend have passed bounded public acceptance. Reviewed commit c87bc89 was pushed and CI passed; the owner manually deployed the frontend tablet correction and changed public assets/layout were verified. Exact Render deployment SHAs still require dashboard confirmation. See PRODUCTION_AUDIT.md for current evidence. The creation instructions below are reference setup instructions, not a request to create duplicate services.
+Status: the existing public frontend/backend have passed bounded public acceptance. Reviewed commit c87bc89 was pushed and CI passed; the owner manually deployed the frontend tablet correction and changed public assets/layout were verified. The account owner confirmed both existing services show Live commit c87bc89, matching published full SHA c87bc89cfdfb39529f249fbddb2891b170d15a4e; authenticated dashboard records were not independently inspected. See PRODUCTION_AUDIT.md for current evidence. The creation instructions below are reference setup instructions, not a request to create duplicate services.
 
 ## Cost and provider checks (November 1, 2026)
 

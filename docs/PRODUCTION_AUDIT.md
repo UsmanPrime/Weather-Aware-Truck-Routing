@@ -6,15 +6,15 @@ Frontend: https://spotter-weather-routing-jm1n.onrender.com
 
 Backend: https://weather-aware-truck-routing-ddv8.onrender.com
 
-Local and remote source baseline: 6f231075b48e810b99efa3b91cce083c26ac9865. Functional production behavior is consistent with this source, but exact Render deployment SHAs were not independently obtained. Credential rotation cannot be established from successful provider calls or absence of secrets in Git; account-side rotation evidence remains required.
+Initial audit baseline: 6f231075b48e810b99efa3b91cce083c26ac9865. Current published application commit: c87bc89cfdfb39529f249fbddb2891b170d15a4e. The account owner subsequently confirmed both Render services show Live commit c87bc89 and confirmed old keys were revoked. These dashboard/account confirmations are user-reported; the agent did not independently inspect the authenticated dashboards.
 
-## Release follow-up ? November 1, 12:22?12:29 UTC
+## Release follow-up - November 1, 12:22-12:29 UTC
 
-This section supersedes earlier pending-publication/tablet/security statements below. Verdict remains **CONDITIONAL for final submission**: public functionality and the tablet correction are verified; exact Render deployment identity and the actual Loom link remain outstanding.
+This section supersedes earlier pending-publication/tablet/security statements below. Verdict remains **CONDITIONAL for final submission**: public functionality and the tablet correction are verified; both deployment identities are now owner-confirmed; the actual Loom link remains outstanding.
 
 **Publication:** approved commit `c87bc89cfdfb39529f249fbddb2891b170d15a4e` pushed normally after a clean preflight and compatible remote ancestry. Remote main matched that SHA. [CI run 41306283796](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing/actions/runs/41306283796) completed successfully: backend and frontend jobs, including five real Linux Gunicorn checks. No backend code/configuration changed in this release. This follow-up documentation is a separate local-only change, not authorization for another push.
 
-**Deployment identity:** the account owner reported manually deploying the frontend. Public entry JS changed from `index-Iy9gx5Wb.js` to `index-CbIwstpG.js`; CSS changed from `index-BB94Aswg.css` to `index-xlgAQcoH.css`. The latter CSS is the corrected build asset and public tablet behavior confirms it is served. Exact frontend and backend Render commit SHAs have not been independently read from the dashboard; do not equate asset identity with an attested deployment SHA. The backend health body intentionally does not expose provider health or a release SHA.
+**Deployment identity:** the account owner reported manually deploying the frontend. Public entry JS changed from `index-Iy9gx5Wb.js` to `index-CbIwstpG.js`; CSS changed from `index-BB94Aswg.css` to `index-xlgAQcoH.css`. The latter CSS is the corrected build asset and public tablet behavior confirms it is served. In the follow-up, the owner explicitly confirmed that both frontend and backend show Live commit `c87bc89`, matching published full commit `c87bc89cfdfb39529f249fbddb2891b170d15a4e`. This closes the dashboard-confirmation action using owner-provided evidence; authenticated Render records were not independently inspected. The backend health body intentionally does not expose provider health or a release SHA.
 
 **Credential status:** account owner explicitly confirmed old keys were revoked during this session. This is owner-reported account evidence, not independently inspected provider records. One local server-side ORS smoke request at 12:22:54 UTC succeeded with three distinct driving-hgv routes in 6.471 seconds. No key values were printed or copied into evidence. Current-key success alone does not prove old-key revocation.
 
@@ -32,7 +32,7 @@ The successful run verified real Pelias autocomplete keyboard selection, destina
 | Isolated warm health | 253 ms | One HTTPS request; no SLA inference |
 | Plan response | 73,662 decoded bytes; 6,542 ms first / 1,141 ms repeat | Browser response-end timing, not provider-only time |
 | Corridor response | 154,813 decoded bytes; 6,431 ms first / 1,761 ms repeat | Same caveat; repeat benefits may include caching |
-| Slider displayed-label updates | 7?17 ms across ten keyboard actions | DOM/automation timing; NOT GPU frame latency |
+| Slider displayed-label updates | 7-17 ms across ten keyboard actions | DOM/automation timing; NOT GPU frame latency |
 | Public map mount to ready | 652 ms | Post-deploy browser, replayed captured responses, software WebGL; not full tile completion |
 | Thirty route selections | One map canvas retained | Bounded lifecycle check; not a heap/listener leak proof |
 | Public Axe | Zero WCAG A/AA violations at 1440x900, 1280x800, 768x1024, 390x844 | Both live pre-deploy and replay post-deploy states |
@@ -52,9 +52,9 @@ Evidence: [live receipt](evidence/release-verification/report.json), [explicit r
 
 ### Remaining delivery actions
 
-1. Record frontend and backend **Live** deployment SHAs from Render Events. Confirm frontend `c87bc89`; backend may remain on its prior SHA because this release changed no backend code. Do not redeploy backend solely to match commit labels. If a replacement ORS key was not installed there, set it securely and restart/deploy backend, then perform one bounded live journey.
-2. Existing frontend Static Site ? Manual Deploy ? Deploy latest commit was performed by the owner and corrected assets were verified. If Render is still pending, wait for Live and confirm SHA; keep auto-deploy off and plans unchanged. Frontend environment stays `VITE_API_BASE_URL=https://weather-aware-truck-routing-ddv8.onrender.com/api/v1`; backend CORS stays exactly `https://spotter-weather-routing-jm1n.onrender.com`.
-3. Record and review the actual 7?9 minute Loom using WALKTHROUGH.md, hide secret-bearing tabs, verify audio/link access and add the real link. E01?E13 have implementation/public evidence with the qualifications above; E14 remains incomplete. Publish this documentation only after further approval.
+1. Deployment identity action completed by owner confirmation: both existing Render services are Live at `c87bc89`. No further deployment is needed solely for this confirmation.
+2. Keep auto-deploy off and plans unchanged. Frontend environment stays `VITE_API_BASE_URL=https://weather-aware-truck-routing-ddv8.onrender.com/api/v1`; backend CORS stays exactly `https://spotter-weather-routing-jm1n.onrender.com`.
+3. Record and review the actual 7-9 minute Loom using WALKTHROUGH.md, hide secret-bearing tabs, verify audio/link access and add the real link. E01-E13 have implementation/public evidence with the qualifications above; E14 remains incomplete. Publish this documentation only after further approval.
 
 ---
 
