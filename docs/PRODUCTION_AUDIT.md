@@ -8,7 +8,57 @@ Backend: https://weather-aware-truck-routing-ddv8.onrender.com
 
 Local and remote source baseline: 6f231075b48e810b99efa3b91cce083c26ac9865. Functional production behavior is consistent with this source, but exact Render deployment SHAs were not independently obtained. Credential rotation cannot be established from successful provider calls or absence of secrets in Git; account-side rotation evidence remains required.
 
-## Actual public verification
+## Release follow-up ? November 1, 12:22?12:29 UTC
+
+This section supersedes earlier pending-publication/tablet/security statements below. Verdict remains **CONDITIONAL for final submission**: public functionality and the tablet correction are verified; exact Render deployment identity and the actual Loom link remain outstanding.
+
+**Publication:** approved commit `c87bc89cfdfb39529f249fbddb2891b170d15a4e` pushed normally after a clean preflight and compatible remote ancestry. Remote main matched that SHA. [CI run 41306283796](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing/actions/runs/41306283796) completed successfully: backend and frontend jobs, including five real Linux Gunicorn checks. No backend code/configuration changed in this release. This follow-up documentation is a separate local-only change, not authorization for another push.
+
+**Deployment identity:** the account owner reported manually deploying the frontend. Public entry JS changed from `index-Iy9gx5Wb.js` to `index-CbIwstpG.js`; CSS changed from `index-BB94Aswg.css` to `index-xlgAQcoH.css`. The latter CSS is the corrected build asset and public tablet behavior confirms it is served. Exact frontend and backend Render commit SHAs have not been independently read from the dashboard; do not equate asset identity with an attested deployment SHA. The backend health body intentionally does not expose provider health or a release SHA.
+
+**Credential status:** account owner explicitly confirmed old keys were revoked during this session. This is owner-reported account evidence, not independently inspected provider records. One local server-side ORS smoke request at 12:22:54 UTC succeeded with three distinct driving-hgv routes in 6.471 seconds. No key values were printed or copied into evidence. Current-key success alone does not prove old-key revocation.
+
+### Fresh public checks and quota accounting
+
+The extended public acceptance harness reused the existing public-smoke assertions and added Axe, response measurements and viewport checks. At 12:24 UTC the actual journey passed, but the extension failed because Axe requires an explicit browser context. This was a harness error, not an application defect. After correcting context construction, the complete extended run passed at 12:25:28 UTC. Total: two real plans, two corridor calls and one separate local ORS discovery, with no uncontrolled searches. The first extension failure is not counted as a passing full audit.
+
+The successful run verified real Pelias autocomplete keyboard selection, destination search, exact CORS/OPTIONS and rejection of an unknown origin, HTTPS redirect, real truck routes, 25-mile chainage, ETA-specific wind and precipitation intervals, full weather coverage, recommendation explanation, map controls and 49 independent forecast frames. Routes remained 52,488 / 57,424.1 / 57,705.9 metres and 3,520.3 / 4,044.6 / 4,192.3 seconds. Corridor: 35 cells, no missing frames, +0 November 1 13:25 UTC through +48 November 3 13:25 UTC. No console/runtime/network failures or credential-bearing browser requests were recorded. Repetitive 10/25/50 submitted spacing and hazardous ranking cases remain deterministic backend/browser tests, not additional public provider calls.
+
+### Measurements and accessibility
+
+| Measurement | Actual result | Scope |
+|---|---|---|
+| First browser health, then repeat | 4,992 ms / 534 ms | Navigation-inclusive; cold state not established |
+| Isolated warm health | 253 ms | One HTTPS request; no SLA inference |
+| Plan response | 73,662 decoded bytes; 6,542 ms first / 1,141 ms repeat | Browser response-end timing, not provider-only time |
+| Corridor response | 154,813 decoded bytes; 6,431 ms first / 1,761 ms repeat | Same caveat; repeat benefits may include caching |
+| Slider displayed-label updates | 7?17 ms across ten keyboard actions | DOM/automation timing; NOT GPU frame latency |
+| Public map mount to ready | 652 ms | Post-deploy browser, replayed captured responses, software WebGL; not full tile completion |
+| Thirty route selections | One map canvas retained | Bounded lifecycle check; not a heap/listener leak proof |
+| Public Axe | Zero WCAG A/AA violations at 1440x900, 1280x800, 768x1024, 390x844 | Both live pre-deploy and replay post-deploy states |
+| Tablet slider | 132 px before; 382 px after | Public CSS regression verified |
+
+Post-deploy verification deliberately intercepted only plan/corridor endpoints with captured real responses. It made **zero new provider calls** and is labeled replay evidence, not a new live forecast. Home/End reached 0/48; touchscreen midpoint selected hour 24 at all four widths; recommendation stayed unchanged. Visible keyboard focus and readable separated slider labels were inspected. No horizontal overflow was detected. Desktop/laptop map inspector and small supporting text remain dense; no new release-blocking layout defect was established. Axe cannot establish screen-reader usability or every focus path.
+
+Source review confirms one mount effect creates the map/listeners; cleanup removes map, popup and markers; slider work cancels pending animation frames. Rendered source/feature-state changes are covered by deterministic Playwright. Actual production GPU latency, heap stability and exact listener counts remain unmeasured. No performance rewrite or warning-threshold increase was made.
+
+### Security and regressions
+
+All six post-deploy JS/CSS assets (entry, lazy map, MapLibre, worker, both styles) were fetched and hashed. No configured local ORS/Django secret or focused credential pattern was found; no localhost HTTP endpoint string was found. Scan also covered 146 tracked files and 253 reachable history blobs. Only placeholder `.env.example` files are tracked. These are scoped checks, not a guarantee against every possible credential format. Public malformed plan returned structured HTTP 400 and an unknown path returned 404 without DEBUG traceback signatures. Headers include HSTS max-age 3600, nosniff and DENY. Source/tests verify signed context expiry 1,800 seconds, encoded 128 KiB, decoded 96 KiB, maximum 6,000 coordinates and compression rejection. Actual environment values were not exposed or read from Render.
+
+Fresh local results: **225 backend tests, 25 frontend tests, 20 browser tests passed; zero failures**. The two affected browser tests also passed separately before publication. Ruff, Ruff formatting, ESLint, Prettier, TypeScript, Django system checks, frozen Python lock check, production build and Git whitespace check passed. The known large MapLibre chunk warning remains visible. CI independently passed the same suites plus five Linux Gunicorn checks.
+
+Evidence: [live receipt](evidence/release-verification/report.json), [explicit replay receipt](evidence/release-verification/replay-report.json), [public asset hashes](evidence/release-verification/postdeploy-assets.json), [scoped secret scan](evidence/release-verification/postdeploy-secrets.json), [post-deploy tablet screenshot](screenshots/release-verification/768.png). The screenshot directory includes all four requested sizes. Raw signed context and provider credentials are not included.
+
+### Remaining delivery actions
+
+1. Record frontend and backend **Live** deployment SHAs from Render Events. Confirm frontend `c87bc89`; backend may remain on its prior SHA because this release changed no backend code. Do not redeploy backend solely to match commit labels. If a replacement ORS key was not installed there, set it securely and restart/deploy backend, then perform one bounded live journey.
+2. Existing frontend Static Site ? Manual Deploy ? Deploy latest commit was performed by the owner and corrected assets were verified. If Render is still pending, wait for Live and confirm SHA; keep auto-deploy off and plans unchanged. Frontend environment stays `VITE_API_BASE_URL=https://weather-aware-truck-routing-ddv8.onrender.com/api/v1`; backend CORS stays exactly `https://spotter-weather-routing-jm1n.onrender.com`.
+3. Record and review the actual 7?9 minute Loom using WALKTHROUGH.md, hide secret-bearing tabs, verify audio/link access and add the real link. E01?E13 have implementation/public evidence with the qualifications above; E14 remains incomplete. Publish this documentation only after further approval.
+
+---
+
+## Earlier actual public verification
 
 Public smoke ran at 12:08:01 UTC and 12:09:44 UTC. Both reached the supplied HTTPS URLs and passed. Each submitted one plan and one corridor request. The second run was needed to preserve screenshots after deterministic Playwright cleanup removed the first run's output. No uncontrolled corridor search or load testing occurred.
 

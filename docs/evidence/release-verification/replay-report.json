@@ -1,0 +1,41 @@
+{
+  "kind": "public frontend with explicitly replayed captured live responses; zero provider calls",
+  "at": "2026-11-01T12:27:12.872Z",
+  "viewports": [
+    {
+      "width": 1440,
+      "track_width": 740,
+      "touch_value": "24",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "track_width": 580,
+      "touch_value": "24",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "track_width": 382,
+      "touch_value": "24",
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "track_width": 330,
+      "touch_value": "24",
+      "violations": [],
+      "overflow": false
+    }
+  ],
+  "map_mount_to_ready_ms": 652,
+  "canvas_after_30_selections": 1,
+  "assets": [
+    "https://spotter-weather-routing-jm1n.onrender.com/assets/index-CbIwstpG.js",
+    "https://spotter-weather-routing-jm1n.onrender.com/assets/index-xlgAQcoH.css",
+    "https://spotter-weather-routing-jm1n.onrender.com/assets/maplibre-gl--S9olhOP.css"
+  ]
+}

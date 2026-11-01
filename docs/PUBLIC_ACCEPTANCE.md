@@ -34,7 +34,7 @@ Do not run this in routine CI. Do not loop it. If a live provider fails or retur
 backend/.venv/Scripts/python.exe scripts/check_secrets.py --assets frontend/dist
 ```
 
-Outputs are ` .cache/public-smoke/report.json`, `desktop.png`, `mobile.png` and `mobile-forecast.png`, ignored by Git. The report omits authorization headers, query values, signed corridor context and raw provider payloads. Do not publish failed-console screenshots or terminal history until reviewed for sensitive information. Set `PUBLIC_SMOKE_OUTPUT` to choose another reviewed output directory.
+Outputs are `.cache/public-smoke/report.json`, `desktop.png`, `mobile.png` and `mobile-forecast.png`, ignored by Git. The report omits authorization headers, query values, signed corridor context and raw provider payloads. Do not publish failed-console screenshots or terminal history until reviewed for sensitive information. Set `PUBLIC_SMOKE_OUTPUT` to choose another reviewed output directory.
 
 ## Human public review
 

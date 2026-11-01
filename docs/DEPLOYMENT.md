@@ -1,6 +1,6 @@
 # Free hosting and release instructions
 
-Status: GitHub publication is authorized and the reviewed main branch has been pushed. See RELEASE.md for exact commit/CI evidence. No cloud resources have been created and no hosted deployment has occurred. Public app URLs remain unverified; cloud creation still needs separate explicit approval.
+Status: the existing public frontend/backend have passed bounded public acceptance. Reviewed commit c87bc89 was pushed and CI passed; the owner manually deployed the frontend tablet correction and changed public assets/layout were verified. Exact Render deployment SHAs still require dashboard confirmation. See PRODUCTION_AUDIT.md for current evidence. The creation instructions below are reference setup instructions, not a request to create duplicate services.
 
 ## Cost and provider checks (November 1, 2026)
 
