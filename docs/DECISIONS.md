@@ -22,6 +22,10 @@ Status: architecture approved with targeted corrections; Milestone 1 implementat
 
 ## Critical unknowns and resolution gates
 
+November 1 migration correction (D16): default routing is now free OpenRouteService `driving-hgv` and geocoding HeiGIT Pelias, per explicit user authorization. HERE remains optional. The official public alternative-routing distance limit is 100 km; request target_count=3 and report actual distinct routes. ORS instruction steps reference geometry indices, carry distance/duration, and support within-step estimates after reconciling rounding to official totals. These are not live traffic-aware ETAs. Cargo pounds are never passed as gross vehicle weight. The former HERE entitlement gate no longer blocks implementation.
+
+Free-account use is bounded conservatively; API errors never trigger a paid endpoint or plan upgrade. Open-Meteo free usage is restricted to noncommercial use; this assessment prototype has no subscriptions/advertising. Commercial reuse requires a separate terms review. References: [ORS restrictions](https://openrouteservice.org/restrictions/), [ORS response semantics](https://giscience.github.io/openrouteservice/api-reference/endpoints/directions/requests-and-return-types), [HeiGIT account plans](https://account.heigit.org/info/plans), [Open-Meteo terms](https://open-meteo.com/en/terms).
+
 1. HERE credentials, truck routing entitlement, genuine alternatives, notices, flexible-polyline decoding and duration spans: prove with a small live integration before UI polish. If insufficient, report the shortfall; do not substitute fabricated routes.
 2. Open-Meteo hourly variable units, accumulation timestamps, batch ordering/limits, nulls and actual coverage: confirm with a recorded schema/provenance sample and explicit unit tests before risk integration.
 3. Free provider usage rights, attribution, allowed caching, quota and deployment service availability: verify current terms before deployment; do not assume assessment/noncommercial access permits every later use.

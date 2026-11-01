@@ -2,9 +2,9 @@
 
 Build Weather-Aware Truck Routing with React and Django. The authoritative specification is [docs/fs-assessment-spotter.pdf](docs/fs-assessment-spotter.pdf); it wins over preferences and planning assumptions. Read docs/ASSESSMENT.md, ARCHITECTURE.md, DECISIONS.md, and PLAN.md before implementation.
 
-- Current phase: implementation explicitly authorized on November 1, 2026. Implement Milestone 1 (foundation, provider proof, pure domain logic and verification). Do not push or deploy without further authorization.
+- Current phase: full assessment implementation authorized, November 1–4, 2026. Complete and verify successive local milestones. Default providers: free OpenRouteService driving-hgv, HeiGIT Pelias and Open-Meteo. Do not push, publish, deploy or create paid resources without further authorization.
 - Keep code small, explicit, understandable, and maintainable. Add abstractions only when a concrete need exists.
-- Keep HERE/Open-Meteo adapters separate from deterministic sampling, risk, aggregation, and ranking logic. No network calls in domain functions.
+- Keep ORS/Pelias/Open-Meteo adapters separate from deterministic sampling, risk, aggregation, and ranking logic. Retain optional HERE support without requiring its credentials. No network calls in domain functions.
 - Use TypeScript contracts, Python typed structures, explicit units, timezone-aware instants, and structured errors. Validate external data at adapter boundaries.
 - Never commit credentials, credential-bearing URLs, or .env files. Supply placeholder-only .env.example files during implementation. Keep provider keys on Django.
 - Never fabricate successful API responses or test results. Fixtures must be visibly identified in tests, documentation, and any demo mode; never present them as live observations.

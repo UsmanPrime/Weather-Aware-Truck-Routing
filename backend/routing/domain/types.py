@@ -56,6 +56,7 @@ class ForecastSeries:
 class Notice:
     code: str
     severity: str
+    message: str = ""
 
 
 @dataclass(frozen=True)
@@ -65,6 +66,7 @@ class RouteSpan:
     duration_s: float
     dynamic_speed_m_per_s: float | None
     notices: tuple[Notice, ...] = ()
+    end_offset: int | None = None
 
 
 @dataclass(frozen=True)
@@ -83,13 +85,20 @@ class ProviderRoute:
     id: str
     sections: tuple[RouteSection, ...]
     notices: tuple[Notice, ...]
+    provider: str = "here"
+    official_distance_m: float | None = None
+    official_duration_s: float | None = None
 
     @property
     def distance_m(self) -> float:
+        if self.official_distance_m is not None:
+            return self.official_distance_m
         return sum(section.distance_m for section in self.sections)
 
     @property
     def duration_s(self) -> float:
+        if self.official_duration_s is not None:
+            return self.official_duration_s
         return sum(section.duration_s for section in self.sections)
 
 

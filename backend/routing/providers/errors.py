@@ -11,6 +11,7 @@ class ProviderError(Exception):
     http_status: int = 502
     retryable: bool = False
     retry_after_s: int | None = None
+    upstream_status: int | None = None
 
     def __str__(self):
         return f"{self.provider}: {self.code}: {self.message}"
@@ -25,6 +26,8 @@ class ProviderError(Exception):
         }
         if self.retry_after_s is not None:
             result["retry_after_s"] = self.retry_after_s
+        if self.upstream_status is not None:
+            result["upstream_status"] = self.upstream_status
         return result
 
 

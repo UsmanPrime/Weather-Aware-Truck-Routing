@@ -12,7 +12,17 @@ MAX_RESPONSE_BYTES = 5 * 1024 * 1024
 
 
 class JsonTransport(Protocol):
-    def get_json(self, provider: str, endpoint: str, params: dict[str, str]) -> object: ...
+    def get_json(
+        self,
+        provider: str,
+        endpoint: str,
+        params: dict[str, str],
+        headers: dict[str, str] | None = None,
+    ) -> object: ...
+
+    def post_json(
+        self, provider: str, endpoint: str, body: dict, headers: dict[str, str]
+    ) -> object: ...
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -26,12 +36,32 @@ class HttpTransport:
         self.opener = build_opener(NoRedirect())
         self.last_response_bytes: int | None = None
 
-    def get_json(self, provider: str, endpoint: str, params: dict[str, str]) -> object:
+    def get_json(self, provider, endpoint, params, headers=None) -> object:
         # Endpoints are adapter constants, never supplied by an API client.
         request = Request(
             endpoint + "?" + urlencode(params),
-            headers={"Accept": "application/json", "User-Agent": "WeatherAwareRouting/0.1"},
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "WeatherAwareRouting/0.1",
+                **(headers or {}),
+            },
         )
+        return self._read(provider, request)
+
+    def post_json(self, provider, endpoint, body, headers) -> object:
+        request = Request(
+            endpoint,
+            data=json.dumps(body, allow_nan=False).encode(),
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": "WeatherAwareRouting/0.1",
+                **headers,
+            },
+        )
+        return self._read(provider, request)
+
+    def _read(self, provider: str, request: Request) -> object:
         try:
             with self.opener.open(request, timeout=self.timeout_s) as response:
                 content = response.read(MAX_RESPONSE_BYTES + 1)
@@ -62,6 +92,7 @@ class HttpTransport:
                 "Provider request failed.",
                 503 if status >= 500 else 502,
                 status >= 500,
+                upstream_status=status,
             ) from None
         except TimeoutError:
             raise ProviderError(

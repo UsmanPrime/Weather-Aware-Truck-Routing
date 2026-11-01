@@ -1,5 +1,13 @@
 # Milestone 1 implementation evidence
 
+## Subsequent phase 1 — ORS migration (November 1)
+
+The ORS key was found in the modified tracked template rather than .env; configuration was moved into ignored backend/.env and the template scrubbed before staging. No value was printed. Native GeoJSON driving-hgv and Pelias adapters now share normalized types with the retained optional HERE adapter. Structured timeout/quota errors, coordinate/step validation and exact-geometry deduplication are tested.
+
+Live Fort Worth–Dallas requests returned three distinct truck geometries twice: official lengths 52,488.0 / 57,424.1 / 57,705.9 m, durations 3,520.3 / 4,044.6 / 4,192.3 s. No route warnings. Step ranges cover each route; step distance rounding differs by at most 0.2 m and duration sums agree within floating-point precision. [Adapter smoke evidence](evidence/ors-smoke.json). A first adapter attempt failed content negotiation; sending `Accept: application/geo+json` corrected it. Five routing requests total during initial proof (two success, three failed); no broad corridor search needed. No traffic-aware ETA claim.
+
+Phase 1 deterministic tests: 165 passed; Django checks 0 issues. Lint/format verified before the phase commit. Caching and request-budget enforcement follow in the service pipeline.
+
 Assessment window: November 1–4, 2026. Milestone work and checks below performed November 1. This is an implementation status report, not a claim that the full assessment is complete. The approved architecture has been preserved with the user's targeted corrections.
 
 ## Implemented scope

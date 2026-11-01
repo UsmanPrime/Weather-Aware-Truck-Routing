@@ -2,6 +2,8 @@
 
 Approved design with targeted corrections; assumptions are numbered in DECISIONS.md. React and Django are mandatory; remaining stack choices come from the brief. Implementation status and evidence are tracked in IMPLEMENTATION.md.
 
+November 1 approved provider migration: replace HERE in the default data flow with OpenRouteService driving-hgv and HeiGIT Pelias. Keep the same domain/service boundaries and optional HERE adapter. ORS geometry is native GeoJSON; instruction steps provide indexed geometry spans with rounded distance/duration metadata. Checkpoint interpolation reconciles those spans to official section/route totals and is explicitly an estimate without live traffic. Public alternative queries are limited to 100 km; fewer returned alternatives must stay truthful.
+
 ## Boundaries and data flow
 
 ```mermaid

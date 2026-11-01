@@ -11,6 +11,7 @@ from django.core.management.base import BaseCommand, CommandError
 from routing.domain.forecast import forecast_at
 from routing.domain.types import Coordinate
 from routing.providers.errors import ProviderError
+from routing.providers.factory import routing_provider
 from routing.providers.here import HereRouting
 from routing.providers.http import HttpTransport
 from routing.providers.open_meteo import UNITS, OpenMeteo
@@ -26,7 +27,7 @@ class Command(BaseCommand):
     help = "Run real provider proofs and optionally save sanitized JSON evidence."
 
     def add_arguments(self, parser):
-        parser.add_argument("--provider", choices=["all", "here", "weather"], default="all")
+        parser.add_argument("--provider", choices=["all", "ors", "here", "weather"], default="all")
         parser.add_argument("--output")
 
     def handle(self, *args, **options):
@@ -40,7 +41,69 @@ class Command(BaseCommand):
             "results": {},
         }
         failed = False
-        if options["provider"] in ("all", "here"):
+        if options["provider"] in ("all", "ors"):
+            proofs = []
+            candidates = (
+                ("Fort Worth–Dallas", Coordinate(32.7555, -97.3308), Coordinate(32.7767, -96.7970)),
+                ("Austin–San Marcos", Coordinate(30.2672, -97.7431), Coordinate(29.8833, -97.9414)),
+                (
+                    "Nashville–Murfreesboro",
+                    Coordinate(36.1627, -86.7816),
+                    Coordinate(35.8456, -86.3903),
+                ),
+            )
+            for name, origin, destination in candidates:
+                try:
+                    start = monotonic()
+                    discovery = routing_provider().discover(origin, destination, departure)
+                    proofs.append(
+                        {
+                            "corridor": name,
+                            "status": "success",
+                            "profile": "driving-hgv",
+                            "returned_count": discovery.returned_count,
+                            "unique_geometry_count": len(discovery.routes),
+                            "duplicate_count": discovery.duplicate_count,
+                            "elapsed_s": round(monotonic() - start, 3),
+                            "routes": [
+                                {
+                                    "id": route.id,
+                                    "distance_m": route.distance_m,
+                                    "duration_s": route.duration_s,
+                                    "notices": [n.__dict__ for n in route.notices],
+                                    "sections": [
+                                        {
+                                            "geometry_points": len(s.geometry),
+                                            "step_count": len(s.spans),
+                                            "official_distance_m": s.distance_m,
+                                            "step_distance_sum_m": sum(t.length_m for t in s.spans),
+                                            "official_duration_s": s.duration_s,
+                                            "step_duration_sum_s": sum(
+                                                t.duration_s for t in s.spans
+                                            ),
+                                            "step_offsets": [
+                                                [t.offset, t.end_offset] for t in s.spans
+                                            ],
+                                        }
+                                        for s in route.sections
+                                    ],
+                                }
+                                for route in discovery.routes
+                            ],
+                            "timing": "instruction-step estimates; no live traffic claim",
+                        }
+                    )
+                    if len(discovery.routes) == 3:
+                        break
+                except ProviderError as exc:
+                    proofs.append(
+                        {"corridor": name, "status": "blocked", "error": exc.as_dict("smoke")}
+                    )
+                    failed = True
+                    if exc.code in ("missing_credentials", "access_denied", "rate_limited"):
+                        break
+            report["results"]["ors"] = proofs
+        if options["provider"] == "here":
             proofs = []
             adapter = HereRouting(os.environ.get("HERE_API_KEY", ""))
             for name, origin, destination in CORRIDORS:

@@ -1,0 +1,231 @@
+{
+  "data_kind": "live_provider_smoke",
+  "run_at": "2026-11-01T09:00:22.205677+00:00",
+  "departure_at": "2026-11-01T10:00:00+00:00",
+  "results": {
+    "ors": [
+      {
+        "corridor": "Fort Worth\u2013Dallas",
+        "status": "success",
+        "profile": "driving-hgv",
+        "returned_count": 3,
+        "unique_geometry_count": 3,
+        "duplicate_count": 0,
+        "elapsed_s": 5.266,
+        "routes": [
+          {
+            "id": "ors-042ad26fab74",
+            "distance_m": 52488.0,
+            "duration_s": 3520.3,
+            "notices": [],
+            "sections": [
+              {
+                "geometry_points": 374,
+                "step_count": 12,
+                "official_distance_m": 52488.0,
+                "step_distance_sum_m": 52488.1,
+                "official_duration_s": 3520.3,
+                "step_duration_sum_s": 3520.3,
+                "step_offsets": [
+                  [
+                    0,
+                    7
+                  ],
+                  [
+                    7,
+                    11
+                  ],
+                  [
+                    11,
+                    44
+                  ],
+                  [
+                    44,
+                    302
+                  ],
+                  [
+                    302,
+                    304
+                  ],
+                  [
+                    304,
+                    306
+                  ],
+                  [
+                    306,
+                    322
+                  ],
+                  [
+                    322,
+                    349
+                  ],
+                  [
+                    349,
+                    354
+                  ],
+                  [
+                    354,
+                    365
+                  ],
+                  [
+                    365,
+                    371
+                  ],
+                  [
+                    371,
+                    373
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ors-c6088fa74077",
+            "distance_m": 57424.1,
+            "duration_s": 4044.6,
+            "notices": [],
+            "sections": [
+              {
+                "geometry_points": 438,
+                "step_count": 15,
+                "official_distance_m": 57424.1,
+                "step_distance_sum_m": 57424.3,
+                "official_duration_s": 4044.6,
+                "step_duration_sum_s": 4044.6000000000004,
+                "step_offsets": [
+                  [
+                    0,
+                    4
+                  ],
+                  [
+                    4,
+                    98
+                  ],
+                  [
+                    98,
+                    133
+                  ],
+                  [
+                    133,
+                    137
+                  ],
+                  [
+                    137,
+                    139
+                  ],
+                  [
+                    139,
+                    145
+                  ],
+                  [
+                    145,
+                    366
+                  ],
+                  [
+                    366,
+                    368
+                  ],
+                  [
+                    368,
+                    370
+                  ],
+                  [
+                    370,
+                    386
+                  ],
+                  [
+                    386,
+                    413
+                  ],
+                  [
+                    413,
+                    418
+                  ],
+                  [
+                    418,
+                    429
+                  ],
+                  [
+                    429,
+                    435
+                  ],
+                  [
+                    435,
+                    437
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ors-5cd3944b1b2b",
+            "distance_m": 57705.9,
+            "duration_s": 4192.3,
+            "notices": [],
+            "sections": [
+              {
+                "geometry_points": 484,
+                "step_count": 12,
+                "official_distance_m": 57705.9,
+                "step_distance_sum_m": 57705.8,
+                "official_duration_s": 4192.3,
+                "step_duration_sum_s": 4192.3,
+                "step_offsets": [
+                  [
+                    0,
+                    4
+                  ],
+                  [
+                    4,
+                    130
+                  ],
+                  [
+                    130,
+                    284
+                  ],
+                  [
+                    284,
+                    294
+                  ],
+                  [
+                    294,
+                    318
+                  ],
+                  [
+                    318,
+                    415
+                  ],
+                  [
+                    415,
+                    422
+                  ],
+                  [
+                    422,
+                    440
+                  ],
+                  [
+                    440,
+                    464
+                  ],
+                  [
+                    464,
+                    475
+                  ],
+                  [
+                    475,
+                    481
+                  ],
+                  [
+                    481,
+                    483
+                  ]
+                ]
+              }
+            ]
+          }
+        ],
+        "timing": "instruction-step estimates; no live traffic claim"
+      }
+    ]
+  }
+}
