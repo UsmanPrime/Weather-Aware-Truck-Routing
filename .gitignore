@@ -12,6 +12,8 @@ dist/
 .vite/
 *.tsbuildinfo
 coverage/
+test-results/
+playwright-report/
 *.log
 *.sqlite3
 .DS_Store
