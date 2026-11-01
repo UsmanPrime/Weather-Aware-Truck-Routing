@@ -1,0 +1,210 @@
+{
+  "run_at": "2026-11-01T17:55:06.008Z",
+  "frontend": "https://spotter-weather-routing-jm1n.onrender.com",
+  "backend": "https://weather-aware-truck-routing-ddv8.onrender.com",
+  "mode": "public real-provider acceptance",
+  "checks": [
+    "frontend and first real browser health response",
+    "public HTTPS redirect, exact CORS, rejected origin and JSON preflight",
+    "live Pelias origin selection and destination lookup",
+    "10/25/50-mile controls; one actual 25-mile plan",
+    "real distinct truck routes, official totals, checkpoint chainage and ETA-aligned forecast intervals",
+    "route selection, checkpoint inspector and recommendation explanation",
+    "49 frames, 0/48 endpoints, forecast labels, fixed recommendation and no extra planning requests",
+    "desktop/mobile map controls, list alternative, timeline and no mobile horizontal overflow",
+    "credential patterns in entry assets and outgoing browser requests; exact local-secret bundle scan is separate"
+  ],
+  "warnings": [],
+  "errors": [],
+  "requests": {
+    "plans": 1,
+    "corridor": 1
+  },
+  "console_errors": [],
+  "network_errors": [],
+  "first_health_ms": 1084,
+  "first_health_status": 200,
+  "routes": [
+    {
+      "distance_m": 52488,
+      "duration_s": 3520.3,
+      "checkpoints": 3,
+      "coverage": 1,
+      "geometry_sha256": "77028daa994f017965da41824a7afbf9f45ddac479e91b6b3d4889340da44031",
+      "notices": 0
+    },
+    {
+      "distance_m": 57424.1,
+      "duration_s": 4044.6,
+      "checkpoints": 3,
+      "coverage": 1,
+      "geometry_sha256": "68690a7ea10fae7238138cb495f7cda1c7a13365cd6e0901801cd7c7a1f567f1",
+      "notices": 0
+    },
+    {
+      "distance_m": 57705.9,
+      "duration_s": 4192.3,
+      "checkpoints": 3,
+      "coverage": 1,
+      "geometry_sha256": "a4c9e898f270cb781b55ea8799da53fa25ce7ddc2204633e745e3f7bdcb563e0",
+      "notices": 0
+    }
+  ],
+  "forecast": {
+    "cells": 35,
+    "frames": 49,
+    "missing_frames": [],
+    "frame0": "2026-11-01T18:55:00Z",
+    "frame48": "2026-11-03T18:55:00Z",
+    "measurements_changed": true
+  },
+  "extended": {
+    "responseMetrics": [
+      {
+        "path": "/api/v1/plans",
+        "decoded_bytes": 73655,
+        "timing": {
+          "startTime": 1793555721660.9568,
+          "domainLookupStart": -1,
+          "domainLookupEnd": -1,
+          "connectStart": -1,
+          "secureConnectionStart": -1,
+          "connectEnd": -1,
+          "requestStart": 65.423,
+          "responseStart": 6164.977,
+          "responseEnd": 7172.549
+        }
+      },
+      {
+        "path": "/api/v1/corridor-forecasts",
+        "decoded_bytes": 153229,
+        "timing": {
+          "startTime": 1793555728483.511,
+          "domainLookupStart": -1,
+          "domainLookupEnd": -1,
+          "connectStart": -1,
+          "secureConnectionStart": -1,
+          "connectEnd": -1,
+          "requestStart": 136.598,
+          "responseStart": 5142.744,
+          "responseEnd": 5627.898
+        }
+      }
+    ],
+    "viewports": [
+      {
+        "width": 1440,
+        "violations": [],
+        "track_width": 740,
+        "overflow": false
+      },
+      {
+        "width": 1280,
+        "violations": [],
+        "track_width": 580,
+        "overflow": false
+      },
+      {
+        "width": 768,
+        "violations": [],
+        "track_width": 382,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "violations": [],
+        "track_width": 330,
+        "overflow": false
+      }
+    ],
+    "slider_dom_ms": [
+      115,
+      324,
+      320,
+      264,
+      451,
+      577,
+      456,
+      392,
+      378,
+      436
+    ],
+    "map_canvas_count": 1,
+    "resources": [
+      {
+        "url": "https://spotter-weather-routing-jm1n.onrender.com/assets/index-CbIwstpG.js",
+        "duration": 90.20000004768372,
+        "transferSize": 108602,
+        "decodedBodySize": 345346
+      },
+      {
+        "url": "https://spotter-weather-routing-jm1n.onrender.com/assets/index-xlgAQcoH.css",
+        "duration": 69.39999997615814,
+        "transferSize": 6623,
+        "decodedBodySize": 24570
+      },
+      {
+        "url": "https://spotter-weather-routing-jm1n.onrender.com/assets/RouteMap-B-IMkhXF.js",
+        "duration": 30.5,
+        "transferSize": 3793,
+        "decodedBodySize": 9040
+      },
+      {
+        "url": "https://spotter-weather-routing-jm1n.onrender.com/assets/maplibre-gl--S9olhOP.css",
+        "duration": 44.90000009536743,
+        "transferSize": 9929,
+        "decodedBodySize": 71505
+      },
+      {
+        "url": "https://spotter-weather-routing-jm1n.onrender.com/assets/maplibre-gl-D5C6S3GN.js",
+        "duration": 63.5,
+        "transferSize": 307233,
+        "decodedBodySize": 1104948
+      },
+      {
+        "url": "https://spotter-weather-routing-jm1n.onrender.com/assets/maplibre-gl-worker-Dro7GA4u.js",
+        "duration": -1445,
+        "transferSize": 151925,
+        "decodedBodySize": 517225
+      }
+    ],
+    "warm_health_ms": 317,
+    "security_headers": {
+      "status": 200,
+      "headers": {
+        "date": "Sun, 01 Nov 2026 17:56:27 GMT",
+        "content-type": "application/json",
+        "content-length": "19",
+        "connection": "keep-alive",
+        "allow": "GET, OPTIONS",
+        "content-encoding": "br",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "same-origin",
+        "rndr-id": "9b3dc023-847a-4374",
+        "server": "cloudflare",
+        "strict-transport-security": "max-age=3600",
+        "vary": "origin, Accept-Encoding",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-render-origin-server": "gunicorn",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a53cc6b76ee44129-ISB",
+        "alt-svc": "h3=\":443\"; ma=86400"
+      }
+    },
+    "invalid_request": {
+      "status": 400,
+      "traceback": false
+    },
+    "missing_path": {
+      "status": 404,
+      "traceback": false
+    }
+  },
+  "fit_hover": {
+    "cursor": "pointer",
+    "disabled": false,
+    "extra_provider_requests": false
+  },
+  "status": "passed"
+}

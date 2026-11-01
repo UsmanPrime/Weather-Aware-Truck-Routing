@@ -1,0 +1,114 @@
+{
+  "time": "2026-11-01T17:52:32.505Z",
+  "cursor": "wait",
+  "disabled": true,
+  "hoverRequests": [
+    "/fonts/Noto%20Sans%20Italic/0-255.pbf",
+    "/fonts/Noto%20Sans%20Regular/0-255.pbf"
+  ],
+  "errors": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overlay": {
+        "x": 407,
+        "y": 258,
+        "width": 280,
+        "height": 211.1875
+      },
+      "map": {
+        "x": 374,
+        "y": 187,
+        "width": 1032,
+        "height": 610
+      },
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "overlay": {
+        "x": 407,
+        "y": 258,
+        "width": 280,
+        "height": 211.1875
+      },
+      "map": {
+        "x": 374,
+        "y": 187,
+        "width": 872,
+        "height": 610
+      },
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "overlay": {
+        "x": 355,
+        "y": 267.09375,
+        "width": 280,
+        "height": 211.1875
+      },
+      "map": {
+        "x": 322,
+        "y": 196.09375,
+        "width": 680,
+        "height": 500
+      },
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overlay": {
+        "x": 355,
+        "y": 267.09375,
+        "width": 280,
+        "height": 211.1875
+      },
+      "map": {
+        "x": 322,
+        "y": 196.09375,
+        "width": 424,
+        "height": 500
+      },
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overlay": {
+        "x": 35,
+        "y": 387.28125,
+        "width": 250,
+        "height": 267.78125
+      },
+      "map": {
+        "x": 14,
+        "y": 322.28125,
+        "width": 362,
+        "height": 430
+      },
+      "overflow": false
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "overlay": {
+        "x": 35,
+        "y": 386.421875,
+        "width": 250,
+        "height": 267.78125
+      },
+      "map": {
+        "x": 14,
+        "y": 321.421875,
+        "width": 332,
+        "height": 430
+      },
+      "overflow": false
+    }
+  ]
+}

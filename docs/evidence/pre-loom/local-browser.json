@@ -1,0 +1,138 @@
+{
+  "kind": "local corrected source; replayed captured live responses; real basemap; no provider calls",
+  "at": "2026-11-01T18:00:47.962Z",
+  "viewports": [
+    {
+      "state": "after-empty",
+      "width": 1440,
+      "height": 900,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-empty",
+      "width": 1280,
+      "height": 800,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-empty",
+      "width": 1024,
+      "height": 768,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-empty",
+      "width": 768,
+      "height": 1024,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-empty",
+      "width": 390,
+      "height": 844,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-empty",
+      "width": 360,
+      "height": 800,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-results",
+      "width": 1440,
+      "height": 900,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-results",
+      "width": 1280,
+      "height": 800,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-results",
+      "width": 1024,
+      "height": 768,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-results",
+      "width": 768,
+      "height": 1024,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-results",
+      "width": 390,
+      "height": 844,
+      "violations": [],
+      "overflow": false
+    },
+    {
+      "state": "after-results",
+      "width": 360,
+      "height": 800,
+      "violations": [],
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "page_ready_ms": 3871,
+  "map_ready_ms": 1376.3999999761581,
+  "selection_metrics": {
+    "before": [
+      {
+        "name": "JSEventListeners",
+        "value": 253
+      },
+      {
+        "name": "Nodes",
+        "value": 4253
+      },
+      {
+        "name": "JSHeapUsedSize",
+        "value": 26620428
+      }
+    ],
+    "after": [
+      {
+        "name": "JSEventListeners",
+        "value": 253
+      },
+      {
+        "name": "Nodes",
+        "value": 4238
+      },
+      {
+        "name": "JSHeapUsedSize",
+        "value": 27873848
+      }
+    ],
+    "canvas_count": 1
+  },
+  "slider_ms": [
+    182.1082000000024,
+    233.7789000000048,
+    194.44029999999475,
+    313.5601000000024,
+    221.67580000000453,
+    227.35669999999664,
+    209.2708999999959,
+    77.35540000000037,
+    197.2297000000035,
+    187.9346000000005
+  ],
+  "fit_cursor": "pointer",
+  "replayed_api_calls": 3
+}

@@ -6,6 +6,8 @@ A React + Django assessment prototype that compares genuine truck routes using w
 
 **Loom:** not recorded; [7-8 minute outline](docs/WALKTHROUGH.md).
 
+**Latest local QA:** [Pre-Loom audit](docs/PRE_LOOM_QA.md). Map UI and backend security fixes are verified locally and await approved publication and deployment.
+
 **Repository:** [Weather-Aware-Truck-Routing](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing). GitHub publication is authorized; release evidence and CI status are tracked in [RELEASE.md](docs/RELEASE.md).
 
 ![Local app with genuine ORS routes and Open-Meteo forecasts](docs/screenshots/desktop.png)
