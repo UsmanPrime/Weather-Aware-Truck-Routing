@@ -47,3 +47,11 @@ Record actual URLs, commit, time, first-request behavior and pass/fail results i
 ## Local rehearsal
 
 `--allow-localhost` permits HTTP only for `localhost`/`127.0.0.1`; it explicitly skips public TLS/CORS assertions and labels the receipt local. A Vite preview using its local API proxy can use the preview origin for both variables. Rehearsal verifies the script and production bundle but is not hosted acceptance.
+
+## November 2 release gate
+
+The script now requires the corrected compact `.planning-hint`, absence of the old map card and absence of Fit routes before geometry. After the one real journey it verifies a normal Fit cursor, no new planning requests during hover, a tablet track wider than 300 px, and desktop/tablet/mobile screenshots. A single 270 KB invalid corridor request must return structured HTTP 413; it never calls a provider. Run only after both services are Live at the approved release commit. This extension is prepared, not evidence of hosted success.
+
+Existing checks cover exact CORS/HTTPS, real Pelias/ORS routes, distinct geometry, chainage/ETA/weather intervals, 49 frames, fixed recommendation, browser errors and outgoing credential patterns. Follow with visual inspection of the captured maps and all lazy JS chunks; the entry-asset pattern scan alone is not an exhaustive credential audit.
+
+Use the existing Render services, branch main: backend Web Service and frontend Static Site each have **Manual Deploy > Deploy latest commit**. Preserve all environment values, including the stable secret and API key. Wait for each Events entry to say Live; open it and compare its commit with the published GitHub SHA. Auto-deploy is off. Backend root/build/start: `backend`, `uv sync --frozen --no-dev`, `uv run --no-sync gunicorn config.wsgi:application --config gunicorn.conf.py`. Frontend root/build/output: `frontend`, `npm ci && npm run build`, `dist`. Do not reapply a blueprint or generate a new secret for this release.

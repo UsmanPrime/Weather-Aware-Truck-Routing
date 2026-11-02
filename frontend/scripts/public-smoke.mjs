@@ -122,6 +122,10 @@ try {
   await expect(
     page.getByRole('heading', { name: 'Plan your route' }),
   ).toBeVisible();
+  await expect(page.locator('.planning-hint')).toBeVisible();
+  await expect(page.locator('.map-empty')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Fit routes' })).toHaveCount(0);
+  check('compact empty guidance and no pre-route Fit control');
   check('frontend and first real browser health response');
   if (!local) {
     assert(
@@ -377,6 +381,20 @@ try {
   await expect(page.locator('.maplibregl-canvas')).toBeVisible();
   await page.getByRole('button', { name: 'Zoom in' }).click();
   await page.getByRole('button', { name: 'Fit routes' }).click();
+  const fit = page.getByRole('button', { name: 'Fit routes' });
+  await fit.hover();
+  await page.waitForTimeout(3000);
+  await expect(fit).toHaveCSS('cursor', 'pointer');
+  assert.equal(report.requests.plans, 1);
+  assert.equal(report.requests.corridor, 1);
+  await expect(page.locator('.planning-hint')).toHaveCount(0);
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.locator('.forecast-scrubber').scrollIntoViewIfNeeded();
+  assert((await page.locator('.scrubber-track').boundingBox()).width > 300);
+  await page.screenshot({ path: `${output}/tablet.png` });
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await page.locator('.map-shell').scrollIntoViewIfNeeded();
+  check('idle Fit hover and tablet forecast layout');
   const canvas = page.locator('.maplibregl-canvas');
   assert((await canvas.boundingBox()).height > 300);
   await page.screenshot({ path: `${output}/desktop.png` });
@@ -402,7 +420,16 @@ try {
   const scripts = await page
     .locator('script[src]')
     .evaluateAll((elements) => elements.map((element) => element.src));
-  for (const url of scripts) {
+  const loadedChunks = await page.evaluate(() =>
+    performance
+      .getEntriesByType('resource')
+      .map((entry) => entry.name)
+      .filter(
+        (url) =>
+          url.startsWith(location.origin + '/assets/') && url.endsWith('.js'),
+      ),
+  );
+  for (const url of new Set([...scripts, ...loadedChunks])) {
     const response = await page.request.get(url);
     assert(
       response.ok() && !credentialPattern.test(await response.text()),
@@ -410,7 +437,7 @@ try {
     );
   }
   check(
-    'credential patterns in entry assets and outgoing browser requests; exact local-secret bundle scan is separate',
+    'credential patterns in entry/loaded JS assets and outgoing browser requests; exact local-secret bundle scan is separate',
   );
   assert.equal(
     report.errors.length,
@@ -427,6 +454,13 @@ try {
     0,
     'Network failures observed; inspect sanitized report.',
   );
+  const oversized = await page.request.post(`${api}/corridor-forecasts`, {
+    data: JSON.stringify({ context: 'a'.repeat(270000) }),
+    headers: { 'Content-Type': 'application/json' },
+  });
+  assert.equal(oversized.status(), 413, 'Oversized body must return 413.');
+  assert.equal((await oversized.json()).error.code, 'http_413');
+  check('structured oversized-body HTTP 413; no provider call');
   report.status = 'passed';
 } catch (error) {
   report.status = 'failed';
