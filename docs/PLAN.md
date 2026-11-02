@@ -1,5 +1,7 @@
 # Four-day implementation and validation plan
 
+> Dated record: deployment status and test counts below describe the recorded run. Use the [documentation index](README.md) for current setup, architecture and operations.
+
 Current checkpoint: application implemented/tested; release configuration and local audit complete; reviewed main published with explicit authorization. Actual CI and Linux-startup evidence are in RELEASE.md. ORS driving-hgv/Pelias replace the original HERE spike in this approved sequence. Hosted verification and Loom recording remain delivery gates; cloud creation still requires separate approval.
 
 ## Precise sequence and day gates

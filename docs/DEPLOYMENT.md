@@ -1,44 +1,26 @@
-# Free hosting and release instructions
+# Render deployment
 
-Status: the existing public frontend/backend have passed bounded public acceptance. Reviewed commit c87bc89 was pushed and CI passed; the owner manually deployed the frontend tablet correction and changed public assets/layout were verified. The account owner confirmed both existing services show Live commit c87bc89, matching published full SHA c87bc89cfdfb39529f249fbddb2891b170d15a4e; authenticated dashboard records were not independently inspected. See PRODUCTION_AUDIT.md for current evidence. The creation instructions below are reference setup instructions, not a request to create duplicate services.
+The existing application uses a Python Web Service and a React Static Site:
 
-## Cost and provider checks (November 1, 2026)
+- Frontend: https://spotter-weather-routing-jm1n.onrender.com
+- Backend health: https://weather-aware-truck-routing-ddv8.onrender.com/api/v1/health
 
-Render documents free Python web services and free static sites. Free web services idle after 15 minutes, may take about a minute to wake, and receive a shared 750 instance-hours/month. Bandwidth and build minutes also have quotas. Without a payment method, exhausted quotas suspend services/builds rather than billing. Its published free-tier overview states no credit card is required. Keep the workspace without a payment method; choose only Free, disable automatic deploys/previews, and stop if the account requests a paid plan/card. No guarantee is made about account-specific eligibility. [Free-service policy](https://render.com/docs/free), [Render overview](https://render.com/articles/platforms-with-a-real-free-tier-for-developers-in-2026).
+Public acceptance has been reported by the owner. Dated independently captured checks remain in [production audit](PRODUCTION_AUDIT.md) and [Pre-Loom QA](PRE_LOOM_QA.md). A GitHub commit, an older receipt and a Live Render deployment are separate facts; confirm deployment identity in each service's Events tab.
 
-HeiGIT's public account plan page was rendered in Chromium: Standard is €0, directions 2,000/day and 40/minute, geocoding 3,000/day and 100/minute. Alternative routes are limited to 100 km and three targets. The app uses only the configured free API host, with no paid failover. [Plans](https://account.heigit.org/info/plans), [restrictions](https://openrouteservice.org/restrictions/).
+## Existing service settings
 
-Open-Meteo's free endpoint is for noncommercial use with published limits of 10,000/day, 5,000/hour and 600/minute. This prototype has no advertisements, subscriptions or sales. Commercial/promotional reuse needs a separate terms review. Multi-location use is budgeted by coordinate, conservatively. [Terms](https://open-meteo.com/en/terms). OpenFreeMap provides the public map style without an API key; preserve its built-in attribution.
-
-## Prepared service configuration
-
-[render.yaml](../render.yaml) declares one **Free** Python service and one static site, with automatic deployments/previews off. It creates no database, disk, Redis, worker or other service. The backend uses one Gunicorn process/four threads and a shared in-process bounded cache; adding processes requires reconsidering budget coordination.
-
-| Setting | Django web service | React static site |
+| Setting | Django Web Service | React Static Site |
 |---|---|---|
-| Root directory | `backend` | `frontend` |
+| Branch / root | main / `backend` | main / `frontend` |
 | Runtime | Python 3.13.17; uv 0.13.5 | Node 24.11.0 |
 | Build | `uv sync --frozen --no-dev` | `npm ci && npm run build` |
-| Start | `uv run --no-sync gunicorn config.wsgi:application --config gunicorn.conf.py` | Static CDN; no start command |
-| Output / health | `/api/v1/health` | `dist` |
-| Compute | Explicit `free` | Static site; no compute plan |
+| Start | `uv run --no-sync gunicorn config.wsgi:application --config gunicorn.conf.py` | No start command |
+| Health / output | `/api/v1/health` | `dist` |
+| Hosting | Free instance, one worker/four threads | Static CDN |
 
-Django serves JSON only, with no admin, database or static assets. There is no migrate/collectstatic step. Frontend assets/MapLibre worker are bundled by Vite and served by the static site. Gunicorn targets Linux; Windows development uses Django runserver. The Windows run verifies Django behavior and build output, not a deployed Linux Gunicorn process.
+[render.yaml](../render.yaml) is the configuration reference. Automatic deployments/previews are off. Do not create duplicate services or reapply generated secrets for a normal release. There is no database, migration or collectstatic step.
 
-## Manual release sequence after approval
-
-1. Review the local commit(s), passing checks and secret scan. Obtain approval to push `main`, then push to the configured GitHub origin. Do not infer push approval from this document.
-2. In a payment-method-free Render workspace, create the Python web service from the repo with the table's settings and Free selected. Keep auto-deploy off. Alternatively review/apply the prepared blueprint after approval; first deployment still publishes the application.
-3. Set `DJANGO_DEBUG=false`, generate a stable `DJANGO_SECRET_KEY` in Render, and copy ORS_API_KEY directly from the untracked local environment into the backend secret field. Never place secrets in YAML, frontend variables, screenshots or build commands. Set the ORS URLs and provider exactly as in the template.
-4. Note the actual backend hostname. Render supplies `RENDER_EXTERNAL_HOSTNAME`; settings add that hostname to ALLOWED_HOSTS and trust Render's HTTPS proxy. Custom domains require explicit `DJANGO_ALLOWED_HOSTS` entries. Confirm public HTTPS health returns `{"status":"ok"}`.
-5. Create the static site with the table's settings and set `VITE_API_BASE_URL=https://ACTUAL-BACKEND.onrender.com/api/v1`. This variable is public and contains no key. Configure the SPA rewrite and headers from the blueprint.
-6. Set backend `CORS_ALLOWED_ORIGINS=https://ACTUAL-FRONTEND.onrender.com` (no trailing slash), then manually restart/redeploy the backend as needed. Only exact listed origins receive CORS permission. Cookies/credentialed CORS are disabled.
-7. Visit the actual frontend. Run the Fort Worth–Dallas example, confirm three distinct truck routes, checkpoint details and forecast frames 0 and 48. Check API errors, attribution, desktop/mobile layout and browser console. Record actual URLs, timestamps and any cold-start delay before adding the demo link to README.
-8. Record the 5–10 minute Loom video using [WALKTHROUGH.md](WALKTHROUGH.md); add the real link after checking its accessibility. Never label the outline as a recorded video.
-
-## Exact manual environment settings
-
-Create no resources until separately approved. In Render choose **New > Web Service**, connect GitHub (grant access to this repository only if possible), select `UsmanPrime/Weather-Aware-Truck-Routing`, branch `main`, root `backend`, Python runtime and **Free** instance. Use the build/start/health settings in the table above and turn auto-deploy off. Do not use a generic Django template that adds a database.
+## Environment
 
 Backend environment:
 
@@ -55,24 +37,25 @@ Backend environment:
 | `CORS_ALLOWED_ORIGINS` | Initially blank until the actual frontend exists, then its exact `https://` origin without a trailing slash. |
 | `DJANGO_ALLOWED_HOSTS` | Optional for Render's generated hostname, which is added from `RENDER_EXTERNAL_HOSTNAME`; add actual custom hostnames explicitly if used. |
 
-Render supplies `PORT` and `RENDER_EXTERNAL_HOSTNAME`; do not invent or override their values. No DATABASE_URL, Redis, HERE key, frontend provider secret or payment method is required.
+Render supplies `PORT` and `RENDER_EXTERNAL_HOSTNAME`; do not override them. Production frontend settings: `NODE_VERSION=24.11.0` and `VITE_API_BASE_URL=https://weather-aware-truck-routing-ddv8.onrender.com/api/v1`. Backend CORS: `https://spotter-weather-routing-jm1n.onrender.com` exactly, without trailing slash. No provider secret belongs on the frontend.
 
-Once the backend is healthy, choose **New > Static Site**, connect the same repository/main, root `frontend`, build `npm ci && npm run build`, publish `dist`, and turn auto-deploy off. Static sites have no paid compute instance; do not change the runtime to a Node web service. Set `NODE_VERSION=24.11.0` and `VITE_API_BASE_URL` to the **actual backend HTTPS origin plus `/api/v1`**. Changing this Vite value requires a frontend rebuild. Add rewrite `/*` to `/index.html` and the four response headers from render.yaml. Set backend CORS to the actual new frontend origin and restart/redeploy the backend manually.
+Keep the existing stable Django secret and server-side ORS key. Set `DJANGO_DEBUG=false`. Store replacements directly in Render secret fields; never in Git, screenshots or build commands. Custom hostnames require explicit allowed-host/CORS entries.
 
-Verify the real backend `/api/v1/health` returns JSON status ok over HTTPS. Then run [PUBLIC_ACCEPTANCE.md](PUBLIC_ACCEPTANCE.md) with both actual origins. Record URLs only after the public checks pass; no sample hostname in these instructions is a live deployment.
+## Manual release
 
-## Strongest local deployment proof
+1. Run [verification](TESTING.md), review the diff and obtain push/deployment authorization. Fetch and check remote ancestry before a normal push; never overwrite remote work.
+2. In each affected existing service, choose **Manual Deploy > Deploy latest commit** (or select the reviewed commit). Backend dependency/configuration changes require a backend deployment; Vite source or public environment changes require a frontend rebuild.
+3. Wait for **Live**, open the deployment event and compare the SHA with the approved GitHub commit for each service. Pushing does not trigger these services automatically.
+4. Verify HTTPS health and run [one bounded public acceptance](PUBLIC_ACCEPTANCE.md). Inspect desktop/tablet/mobile captures, actual route/weather details, CORS and console. Record new results with their time/commit; do not relabel an older receipt.
 
-`python scripts/production_smoke.py` runs on Linux from any working directory with the locked backend environment. It starts the actual Gunicorn configuration, checks health/security headers, HTTP-to-HTTPS redirect, allowed/rejected CORS origins and a JSON POST preflight, then stops its process. It uses a freshly generated local secret and no provider requests. This check is included in Linux GitHub Actions. It does not prove actual Render TLS/proxy configuration; public acceptance still needs real service URLs.
+For initial setup in a new account, use the table and blueprint only after resource-creation approval. Choose Free Python compute and a Static Site, preserve the SPA rewrite `/*` to `/index.html` and headers from the blueprint. No database, disk, worker, paid tier or payment method is needed by the application. Stop if account-specific setup requires a paid resource/card. Free-tier policies can change; check [Render's policy](https://render.com/docs/free) before creating resources.
 
-## Limits and operational behavior
+## Operational limits
 
-Conservative local budgets: routing 10/minute and 100/day (two units reserved for a possible truck-primary fallback), geocoding 20/minute and 200/day, weather 150 coordinates/minute and 3,000/day. Per-client API throttles further constrain plans/corridors/geocoding. Cache TTLs are 5 minutes for ORS geometry, 24 hours for places and 15 minutes for weather series. Retrieval timestamps remain visible. No expired-weather fallback is used. Provider failures yield structured errors/unknowns rather than fixtures or zero weather.
+Free services have quotas and cold starts; the frontend permits a 90-second request timeout and displays failures/retry guidance. Do not add keep-alive polling. Health reports process availability, not provider entitlement.
 
-Budgets/cache reset with process restarts and are not distributed enforcement. Keep one process/service and do not scale this prototype. Provider account limits remain the final backstop; the app cannot charge or upgrade plans. Monitor the free dashboard during the assessment and pause the service before exceeding hosting usage. Do not add paid capacity or a keep-alive ping service.
+In-process budgets: ORS 10/minute and 100/day (two reserved units per discovery); Pelias 20/minute and 200/day; weather 150 coordinates/minute and 3,000/day. Cache TTLs: routes 300 seconds, places 86,400 seconds, weather 900 seconds. API throttles further constrain requests. Budgets/cache reset on restart and are not distributed enforcement; keep one backend process. Provider accounts remain the quota backstop.
 
-Cold-start loading pages can precede Django. The client handles unreadable/error responses truthfully; retry after the backend wakes. Stable secrets keep signed contexts valid across restarts until their 30-minute expiry; weather/cache may need fetching again. Health checks indicate process health, not provider entitlement or quota availability.
+Production trusts Render's forwarded HTTPS header only when its hostname environment is present. CORS allows exact configured origins without credentials. HSTS is host-only for one hour; `check --deploy` deliberately reports W005/W021 because subdomain coverage and preload are not enabled. Do not broaden that policy merely to silence warnings.
 
-Before release run `DJANGO_DEBUG=false` with a generated secret and `python manage.py check --deploy`. Local tests cover HTTPS redirects, security headers, exact-origin CORS and request-size/error behavior. Public TLS, actual CORS hostnames, Linux process startup and Render account eligibility still require hosted verification.
-
-The production check exits 0 with two intentional HSTS warnings: W005 (subdomain coverage) and W021 (preload). They are not silenced. Until the actual hostname and all subordinate hosts are verified, the configuration limits HSTS to that host for one hour and does not opt into preload. Decide whether to enable broader/longer HSTS after hosted verification, rather than changing policy merely to remove warnings. The client allows up to 90 seconds for a cold first request and retains explicit failure/retry states.
+Linux [Gunicorn smoke](../scripts/production_smoke.py) verifies loopback health, proxy headers and CORS with an ephemeral secret and no providers. Actual hosted HTTPS and deployment SHAs still need public/dashboard verification. Preserve Open-Meteo noncommercial usage terms and all map/provider attribution.

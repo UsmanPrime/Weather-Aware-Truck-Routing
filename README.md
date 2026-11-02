@@ -1,43 +1,52 @@
-# Routecast: Weather-Aware Truck Routing
+# Routecast
 
-A React + Django assessment prototype that compares genuine truck routes using weather expected at road-distance checkpoints. Built for the [Spotter specification](docs/fs-assessment-spotter.pdf), November 1-4, 2026.
+Routecast compares truck routes using the weather expected when the truck reaches each road-distance checkpoint. It combines genuine routing alternatives, cargo-sensitive weather rules and an independent corridor forecast to make route tradeoffs and missing data visible. Built with React and Django for the Spotter full-stack assessment.
 
-**Hosted demo:** [Public application](https://spotter-weather-routing-jm1n.onrender.com). A bounded real public journey passed November 1, 2026; see [production audit](docs/PRODUCTION_AUDIT.md) for verified scope, local-only fixes and remaining checks.
+[Live application](https://spotter-weather-routing-jm1n.onrender.com) ? [GitHub repository](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing) ? [Technical documentation](docs/README.md)
 
-**Loom:** not recorded; [7-8 minute outline](docs/WALKTHROUGH.md).
+![Routecast with genuine truck routes and captured Open-Meteo forecasts](docs/screenshots/pre-loom/after-results-1440.png)
 
-**Latest local QA:** [Pre-Loom audit](docs/PRE_LOOM_QA.md). Map UI and backend security fixes are verified locally and await approved publication and deployment.
+Screenshot: corrected local application rendering captured live responses with real basemap tiles; this is replay evidence, not a fresh hosted forecast. [Capture details](docs/PRE_LOOM_QA.md).
 
-**Repository:** [Weather-Aware-Truck-Routing](https://github.com/UsmanPrime/Weather-Aware-Truck-Routing). GitHub publication is authorized; release evidence and CI status are tracked in [RELEASE.md](docs/RELEASE.md).
+## Capabilities
 
-![Local app with genuine ORS routes and Open-Meteo forecasts](docs/screenshots/desktop.png)
+- Genuine OpenRouteService **driving-hgv** alternatives, with official distance/duration and instruction timing. Fewer available routes are reported honestly.
+- Checkpoints every **10, 25 or 50 miles** along road geometry, with arrival-specific wind, rain and snowfall forecasts.
+- Load-sensitive risk, distance-weighted exposure and an explained recommendation; incomplete forecasts remain unknown.
+- Interactive route/checkpoint selection, weather inspection, accessible lists and explicit departure timezone.
+- **49 preloaded corridor frames**, from departure through +48 hours. Scrubbing changes corridor weather without changing the ETA-based recommendation.
 
-[Mobile journey](docs/screenshots/mobile.png) | [Mobile forecast controls](docs/screenshots/mobile-forecast.png). These are actual local Chromium captures using live providers, not fixture illustrations. [Timestamped browser evidence](docs/evidence/live-browser.json).
+## Architecture
 
-## Features
+React 19, TypeScript, Vite and Tailwind CSS provide the interface. MapLibre GL JS renders OpenFreeMap tiles. Django REST Framework validates requests and coordinates server-side ORS/Pelias and Open-Meteo adapters. Pure Python modules handle sampling, weather classification and ranking. There is no database, queue or account system.
 
-- OpenRouteService **driving-hgv** alternatives with actual geometry, official distance/duration and instruction-step timing. Three genuine alternatives verified on Fort Worth-Dallas; fewer available alternatives stay explicit.
-- Road-distance checkpoints at 10/25/50 miles, including origin/destination once, with estimated arrivals and arrival-aligned Open-Meteo wind/rain/snow forecasts.
-- Exact assessment thresholds, strict cargo-load overrides, conservative interval exposure and deterministic lexicographic recommendations. No Travel and missing data are explicit.
-- Persistent MapLibre/OpenFreeMap map, synchronized route/checkpoint selection, accessible list alternative, keyboard autocomplete and explicit IANA timezone handling.
-- Independent 0-48-hour corridor forecast: 49 preloaded frames, bounded discrete cells, risk/wind/rain/snow views, unknown styling, actual valid times and source/retrieval metadata. Slider updates reuse geometry and do not rerank routes.
-- Bounded provider usage, caching, structured failures, input/body/context limits, exact-origin CORS and production server configuration. No database, queue, accounts, paid APIs or hidden browser keys.
+```text
+React planner -> Django API -> truck routes -> checkpoints and ETAs
+                                      -> arrival forecasts -> risk and ranking
+React forecast slider <- bounded corridor forecast <- Open-Meteo
+```
 
-## Run locally
+[Architecture and contracts](docs/ARCHITECTURE.md) ? [Evaluation methodology](docs/METHODOLOGY.md)
 
-Prerequisites: Python 3.13, [uv](https://docs.astral.sh/uv/), Node 24 LTS and npm. PowerShell users can use `npm.cmd` if execution policy blocks `npm`.
+## How evaluation works
 
-From the repository root:
+Official instruction distances and durations are distributed along their road geometry. Open-Meteo wind uses the nearest hourly instant within 30 minutes; rain and snowfall use the preceding-hour accumulation containing the checkpoint ETA. Rain and showers are distinct liquid components; snowfall is new-snow depth.
+
+The worst applicable hazard determines checkpoint risk, including the assessment's strict cargo-weight wind overrides. Each road interval receives the worse endpoint classification. Complete eligible routes rank lexicographically by **Severe miles, High miles, distance-weighted average risk, then travel time**. No Travel disqualifies a route; missing data prevents a definitive assessment. The corridor forecast is evaluated independently.
+
+## Local development
+
+Requires Python 3.13, [uv](https://docs.astral.sh/uv/) and Node 24 with npm. From the repository root:
 
 ```powershell
 python scripts/init_env.py
 cd backend
 uv sync --locked
-# Set ORS_API_KEY in the ignored backend/.env if not already configured.
+# Set ORS_API_KEY in the ignored backend/.env.
 uv run --env-file .env python manage.py runserver 127.0.0.1:8000
 ```
 
-The initializer preserves existing credentials and creates a stable local Django secret without printing it. In another terminal:
+The initializer preserves existing values and generates a local Django secret without printing it. In another terminal, from the repository root:
 
 ```powershell
 cd frontend
@@ -45,35 +54,38 @@ npm ci
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173`; Vite proxies `/api` to Django. No migrations or database installation are required. Use "Try Fort Worth to Dallas" for a verified alternative-routing corridor; it fills inputs only, and generates real data when submitted.
+Open http://127.0.0.1:5173. Vite proxies `/api` to Django. No migrations are required. The Fort Worth-Dallas example fills inputs; generating routes calls real providers.
 
 ## Environment
 
-| Variable | Location / purpose |
+| Variable | Purpose |
 |---|---|
-| `ROUTING_PROVIDER=ors` | Backend; default free truck provider. Optional legacy HERE adapter is retained but not needed. |
-| `ORS_API_KEY` | Backend secret only, in ignored .env or hosting secret store. |
+| `ORS_API_KEY` | Backend secret, supplied through ignored `.env` or hosting environment |
+| `ROUTING_PROVIDER` | `ors` by default; optional legacy HERE adapter remains available |
 | `ORS_BASE_URL` | `https://api.heigit.org/openrouteservice` |
 | `ORS_GEOCODING_BASE_URL` | `https://api.heigit.org/pelias/v1` |
-| `DJANGO_DEBUG` | true locally; false when hosted. |
-| `DJANGO_SECRET_KEY` | Stable server secret; mandatory with debug disabled and used for expiring corridor signatures. |
-| `DJANGO_ALLOWED_HOSTS` | Comma-separated hosts. Render's supplied hostname is added automatically. |
-| `CORS_ALLOWED_ORIGINS` | Exact HTTPS frontend origins when hosted; empty for the local proxy. |
-| `VITE_API_BASE_URL` | Public frontend setting; defaults to `/api/v1`. Hosted value is the actual backend HTTPS URL plus `/api/v1`. Never put credentials in Vite variables. |
+| `DJANGO_DEBUG` | `true` locally; `false` in production |
+| `DJANGO_SECRET_KEY` | Stable backend secret for signed corridor context |
+| `DJANGO_ALLOWED_HOSTS` | Allowed hosts; Render adds its supplied hostname |
+| `CORS_ALLOWED_ORIGINS` | Exact frontend origins; blank for local Vite proxy |
+| `VITE_API_BASE_URL` | Public API URL; defaults to `/api/v1` locally |
 
-## Verify
+See the placeholder-only [backend template](backend/.env.example), [frontend template](frontend/.env.example) and [deployment settings](docs/DEPLOYMENT.md). Provider credentials never belong in Vite variables.
 
-Backend (from `backend`):
+## Tests and checks
+
+From `backend`:
 
 ```powershell
 uv run --env-file .env pytest
-uv run --env-file .env python manage.py check
 uv run ruff check . ../scripts
 uv run ruff format --check . ../scripts
-uv run python ../scripts/check_secrets.py
+uv run --env-file .env python manage.py check
+uv lock --check --offline
+uv run python ../scripts/check_secrets.py --assets ../frontend/dist
 ```
 
-Frontend (from `frontend`):
+From `frontend` (build before the asset scan above):
 
 ```powershell
 npm run lint
@@ -83,39 +95,25 @@ npm test
 npm run build
 npx playwright install chromium
 npm run test:e2e
+npm audit --omit=dev
 ```
 
-Pytest blocks live sockets. Deterministic browser tests explicitly intercept synthetic API data and an empty basemap; they still render actual MapLibre layers and inspect rendered geometry/state. Live-provider checks are separate:
+[Testing guide](docs/TESTING.md) explains deterministic fixtures, Linux Gunicorn checks and opt-in provider/public verification. Routine tests make no provider calls.
 
-```powershell
-# From backend; bounded real requests, never run automatically in CI.
-uv run --env-file .env python manage.py provider_smoke --provider ors --output ../docs/evidence/ors-smoke-local.json
-uv run --env-file .env python manage.py journey_smoke --output ../docs/evidence/live-plan-local.json
-uv run --env-file .env python manage.py corridor_smoke --plan-file ../docs/evidence/live-plan-local.json --output ../docs/evidence/live-corridor-local.json
-```
+## Deployment
 
-With local servers running, `node scripts/live-browser.mjs` from `frontend` performs an opt-in real browser journey and refreshes screenshots/evidence. It makes actual provider requests; keep runs modest. Verified counts and limitations are in [IMPLEMENTATION](docs/IMPLEMENTATION.md) and the [final requirement audit](docs/FINAL_AUDIT.md). CI runs on published commits; actual outcomes and the initial Linux lockfile repair are recorded in [RELEASE](docs/RELEASE.md).
+The application uses an existing Render Python Web Service and Static Site. [Deployment instructions](docs/DEPLOYMENT.md) cover build/start commands, secrets, CORS and manual releases. [render.yaml](render.yaml) declares Free backend compute with automatic deployments and previews off. Pushing GitHub does not deploy these services automatically.
 
-## How decisions are calculated
+## Limitations
 
-Provider instructions map geometry indices to distance/time. Each step is reconciled to official section/route totals; checkpoints are interpolated along the road shape. Times are estimates, not live traffic predictions, and exclude driver breaks. Missing instruction timing produces an explicit section-level approximation.
+This assessment prototype is not certified truck dispatch or severe-weather navigation. Cargo weight is not gross vehicle weight; physical truck dimensions and legal restrictions are not configured. ETAs exclude live traffic, breaks and driver-hours rules. Forecasts and interval exposure are estimates.
 
-Forecasts use UTC instants. Wind selects the nearest hourly timestamp within 30 minutes, with ties earlier and no extrapolation. Rain plus showers are separate liquid components of the preceding-hour accumulation; snowfall is new snow depth, not water equivalent. All risk calculations use unrounded values.
+Public alternatives are limited to 100 km and cannot be guaranteed for arbitrary journeys. Departure is limited to six days; later arrivals or +48-hour frames can exceed coverage and remain unknown. Corridor sampling is bounded at 96 cells, signed context at 6,000 coordinates; polar/dateline corridors are rejected. WebGL is needed for the map; route/checkpoint lists remain usable without it. Free services have quotas and cold starts; process-local caches/budgets reset on restart.
 
-The worst hazard determines checkpoint risk, after cargo-sensitive wind overrides. Each interval receives the higher endpoint risk; exposure uses its actual road distance. Eligible routes rank by **Severe miles, then High miles, then distance-weighted average risk, then travel time**. The 0-4 index is ordinal, not a probability. No Travel routes are ineligible; incomplete weather and missing alternatives make the result incomplete or provisional. [Exact rules and boundary interpretations](docs/ASSESSMENT.md).
+## Providers and permissions
 
-The corridor grid is independent of checkpoint sampling. Frame +0 is departure time and +48 is 48 hours later. Missing cells remain unknown. Map cells do not blend density into a false severity category.
+Routing/geocoding: openrouteservice.org and Pelias by HeiGIT, using OpenStreetMap data. Forecasts: [Open-Meteo](https://open-meteo.com/) under CC BY 4.0 and its noncommercial free-service terms. Basemap: OpenFreeMap / OpenMapTiles / OpenStreetMap; attribution remains visible.
 
-## Architecture and limitations
+No project software license has been selected. The owner should also confirm permission to redistribute the [original assessment PDF](docs/fs-assessment-spotter.pdf); its presence does not establish redistribution rights.
 
-`backend/routing/providers` normalizes external data; pure `domain` modules handle geometry, forecast lookup, risk, exposure and ranking; `services` coordinates cache/budgets and APIs. React owns presentation/selection, while Django retains all credentials/business decisions. [Architecture](docs/ARCHITECTURE.md) | [decisions](docs/DECISIONS.md) | [assessment traceability](docs/ASSESSMENT.md).
-
-This is an assessment prototype, **not certified real-world truck dispatch or severe-weather navigation**. Cargo weight affects the specified weather rules; physical truck dimensions, tare/gross weight and legal restrictions are not configured. Forecasts and sampled exposure are uncertain. Public ORS alternatives are limited to 100 km; longer trips may yield one truck route. Departure is limited to the next six days; later arrivals/heatmap frames can exceed actual coverage and remain unknown. Corridor sampling is capped at 96 cells, context at 6,000 coordinates, and the corridor layer explicitly rejects polar/antimeridian trips. Rendering needs WebGL; the route/list remains usable when it fails.
-
-Free services have quotas, no SLA and possible cold starts. Cache/budgets are per-process and reset on restart. The current software-renderer samples do not establish the original 50 ms slider target. Remaining development-dependency advisories and hosted-verification gaps are recorded, not concealed.
-
-## Hosting and acknowledgments
-
-[Exact free Render deployment steps](docs/DEPLOYMENT.md) and [render.yaml](render.yaml) are prepared with auto-deploys off. GitHub pushes are authorized; **cloud creation/deployment still requires separate approval. Do not add a payment method or choose paid resources.** Use the [bounded public acceptance procedure](docs/PUBLIC_ACCEPTANCE.md) after actual URLs exist. Hosting eligibility, HTTPS/CORS and public performance still need verification. Two HSTS scope/preload warnings are intentionally documented pending hostname verification.
-
-Routing: openrouteservice.org by HeiGIT, based on copyright OpenStreetMap contributors. Geocoding: HeiGIT Pelias. Forecasts: [Open-Meteo](https://open-meteo.com/) (CC BY 4.0; free endpoint subject to noncommercial usage terms). Basemap: OpenFreeMap / OpenMapTiles / OpenStreetMap, with attribution retained in the map. Commercial reuse needs a fresh provider-terms review.
+The Loom recording is pending. The [walkthrough outline](docs/WALKTHROUGH.md) is not a recorded video.

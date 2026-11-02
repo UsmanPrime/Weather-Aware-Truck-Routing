@@ -1,5 +1,7 @@
 # Final assessment audit
 
+> Dated record: deployment status and test counts below describe the recorded run. Use the [documentation index](README.md) for current setup, architecture and operations.
+
 Audit date: November 1, 2026. Authority: both pages of [the assessment PDF](fs-assessment-spotter.pdf). This is a critical local submission audit, not a claim of completed public delivery. No numerical assessment score or hiring outcome is inferred.
 
 ## Requirement coverage

@@ -1,5 +1,7 @@
 # GitHub release and hosting handoff
 
+> Dated record: deployment status and test counts below describe the recorded run. Use the [documentation index](README.md) for current setup, architecture and operations.
+
 GitHub publication was explicitly authorized. Cloud-resource creation, deployment, paid services and payment methods remain unauthorized. No hosted app URL or recorded Loom exists yet.
 
 ## Published history and verification

@@ -1,5 +1,7 @@
 # Production audit — November 1, 2026
 
+> Dated record: deployment status and test counts below describe the recorded run. Use the [documentation index](README.md) for current setup, architecture and operations.
+
 Verdict: CONDITIONAL. The actual public demonstration passed; this report does not represent completion of every requested adversarial/performance investigation.
 
 Frontend: https://spotter-weather-routing-jm1n.onrender.com

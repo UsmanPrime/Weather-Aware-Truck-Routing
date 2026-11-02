@@ -1,5 +1,7 @@
 # Implementation and verification record
 
+> Dated record: deployment status and test counts below describe the recorded run. Use the [documentation index](README.md) for current setup, architecture and operations.
+
 ## Current submission state
 
 Release continuation: GitHub publication was explicitly authorized and the reviewed main pushed normally to the previously empty public repository. Release preflight repeated 225 backend, 25 frontend and 20 browser tests successfully. First remote CI passed backend but exposed missing optional bundled lock metadata during npm ci; a normal fix commit 3b0bd5a preserves all package versions. Real local Linux Gunicorn startup now passes five checks; public acceptance tooling has been rehearsed against the production bundle and real providers. See RELEASE.md for actual CI evidence. No cloud resources or hosted URLs exist; hosting still requires separate approval. Earlier phase statements below are historical.

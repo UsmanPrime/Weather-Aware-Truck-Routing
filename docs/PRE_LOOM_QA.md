@@ -1,5 +1,7 @@
 # Pre-Loom QA - November 1, 2026
 
+> Dated record: deployment status and test counts below describe the recorded run. Use the [documentation index](README.md) for current setup, architecture and operations.
+
 Decision: **local fixes verified; public release still required before recording the final Loom**. No push or deployment was performed. This audit is evidence of the specific checks below, not certification of dispatch safety or exhaustive browser/security coverage.
 
 ## Baselines and evidence provenance
