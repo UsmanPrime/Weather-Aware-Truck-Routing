@@ -13,7 +13,7 @@ Compare genuine truck-route alternatives using the forecast at each checkpoint's
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
 ![MapLibre](https://img.shields.io/badge/MapLibre%20GL-6-396CB2)
 
-**[🌐 Live application](https://spotter-weather-routing-jm1n.onrender.com/)** · **[📚 Technical docs](docs/README.md)** · **[🏗 Architecture](docs/ARCHITECTURE.md)** · **[🧮 Methodology](docs/METHODOLOGY.md)**
+**[🌐 Live application](https://spotter-weather-routing-jm1n.onrender.com/)** · **[🎥 Loom walkthrough](https://www.loom.com/share/4a1e612e342d42c49437a2e5b26c9be0)** · **[📚 Technical docs](docs/README.md)** · **[🏗 Architecture](docs/ARCHITECTURE.md)** · **[🧮 Methodology](docs/METHODOLOGY.md)**
 
 ![Routecast showing truck route alternatives with arrival-time weather forecasts](docs/screenshots/pre-loom/after-results-1440.png)
 
@@ -44,6 +44,7 @@ Compare genuine truck-route alternatives using the forecast at each checkpoint's
 | | |
 |---|---|
 | **Application** | https://spotter-weather-routing-jm1n.onrender.com/ |
+| **Loom walkthrough** | https://www.loom.com/share/4a1e612e342d42c49437a2e5b26c9be0 |
 | **Hosting** | Render (free tier) — static frontend plus Python web service |
 
 > **Note:** free-tier services sleep when idle. The first request after a quiet period can take up to a minute while the backend wakes. Provider quotas also apply, so heavy use can return honest error states.
@@ -216,7 +217,7 @@ This is an assessment prototype, **not** certified truck dispatch or severe-weat
 | [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Render services and releases |
 | [FINAL_AUDIT.md](docs/FINAL_AUDIT.md) | Dated evidence and known limitations |
 
-The original [assessment PDF](docs/fs-assessment-spotter.pdf) is the authoritative specification. The [walkthrough outline](docs/WALKTHROUGH.md) is a script only; the Loom recording is still pending.
+The original [assessment PDF](docs/fs-assessment-spotter.pdf) is the authoritative specification. The [walkthrough outline](docs/WALKTHROUGH.md) is the script; the [Loom recording](https://www.loom.com/share/4a1e612e342d42c49437a2e5b26c9be0) is the author's own explanation of the project.
 
 ## Data providers and attribution
 
